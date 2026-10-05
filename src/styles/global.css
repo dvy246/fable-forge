@@ -1685,6 +1685,218 @@ select:focus-visible {
   clip-path: inset(50%);
 }
 
+/* Sticky Scroll Storytelling */
+.scroll-story {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 2.75rem;
+  align-items: start;
+}
+
+.scroll-story-sticky {
+  position: sticky;
+  top: 6.5rem;
+  align-self: start;
+  height: fit-content;
+  z-index: 10;
+}
+
+.scroll-story-visual {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.28);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-story-visual.pulse {
+  animation: storyVisualPulse 0.5s ease-out;
+}
+
+@keyframes storyVisualPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+    border-color: var(--gold-bright);
+    box-shadow: 0 0 24px color-mix(in srgb, var(--gold) 25%, transparent);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.visual-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  margin: 0 auto 0.75rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--gold) 12%, transparent);
+  border: 1px solid var(--line);
+  color: var(--gold-bright);
+  transition: transform 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.visual-icon svg {
+  display: block;
+}
+
+.scroll-story-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  margin-bottom: 0.35rem;
+}
+
+.scroll-section-label {
+  font-family: var(--display);
+  font-size: 1.12rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0 0 1rem;
+  line-height: 1.25;
+  min-height: 2.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+
+.scroll-story-nav {
+  margin-top: 0.5rem;
+}
+
+.scroll-story-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  position: relative;
+  padding: 0.35rem 0;
+}
+
+.scroll-story-dots::before {
+  content: "";
+  position: absolute;
+  top: 0.75rem;
+  bottom: 0.75rem;
+  width: 2px;
+  background: var(--line);
+  z-index: 0;
+}
+
+.scroll-dot {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.scroll-dot-pip {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: var(--dim);
+  border: 1px solid var(--line);
+  transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.scroll-dot:hover .scroll-dot-pip,
+.scroll-dot:focus-visible .scroll-dot-pip {
+  background: var(--gold-bright);
+  transform: scale(1.3);
+}
+
+.scroll-dot.active .scroll-dot-pip {
+  background: var(--gold);
+  border-color: var(--gold-bright);
+  transform: scale(1.45);
+  box-shadow: 0 0 10px rgba(var(--gold-rgb), 0.5);
+}
+
+.scroll-dot::after {
+  content: attr(title);
+  position: absolute;
+  left: calc(100% + 0.6rem);
+  background: var(--panel-soft);
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.72rem;
+  color: var(--ink);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-dot:hover::after,
+.scroll-dot:focus-visible::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scroll-story-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  min-width: 0;
+}
+
+.scroll-story-content > .scroll-section.page-section {
+  padding-top: 0;
+}
+
+.scroll-section {
+  opacity: 0.72;
+  transition: opacity 0.3s ease;
+  scroll-margin-top: 6.5rem;
+}
+
+.scroll-section.in-view {
+  opacity: 1;
+}
+
+.scroll-section h2 {
+  scroll-margin-top: 6.5rem;
+}
+
+@media (max-width: 54rem) {
+  .scroll-story {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .scroll-story-sticky {
+    display: none;
+  }
+
+  .scroll-section {
+    opacity: 1;
+    transition: none;
+  }
+}
+
 @media (max-width: 48rem) {
   .hero-home {
     grid-template-columns: minmax(0, 1.3fr) minmax(11rem, 0.7fr);
@@ -1944,4 +2156,23 @@ select:focus-visible {
   .wheel-modal {
     transition: none !important;
   }
+
+  .scroll-section {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .scroll-story-visual,
+  .scroll-story-visual.pulse {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .scroll-dot-pip {
+    transition: none !important;
+    transform: none !important;
+  }
 }
+

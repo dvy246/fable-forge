@@ -75,6 +75,24 @@ const sampleNames = race
     }, 12)
   : [];
 const faq = page.faq;
+const storySections = race
+  ? [
+      { id: 'styles-heading', label: 'Naming Styles' },
+      { id: 'how-heading', label: 'How Names Work' },
+      { id: 'sample-heading', label: 'Sample Names' },
+      { id: 'pronunciation-heading', label: 'Pronunciation Notes' },
+      { id: 'table-heading', label: 'Table Tips' },
+      { id: 'faq-heading', label: 'FAQ' },
+    ]
+  : [
+      { id: 'intro-heading', label: 'Tool Guide' },
+      ...(utility?.sections ?? []).map((section, index) => ({
+        id: `utility-section-${index}`,
+        label: section.heading,
+      })),
+      { id: 'faq-heading', label: 'FAQ' },
+    ];
+const initialSectionLabel = race ? 'Naming Style Options' : 'Tool Guide';
 ---
 <SiteLayout
   title={page.title}
@@ -100,98 +118,134 @@ const faq = page.faq;
     description={race ? 'Choose a naming style, shape the length, and keep a result that fits your character.' : 'Set a direction, roll ten original results, and keep the ones that fit your table.'}
   />
 
-  {race ? (
-    <article class="page-section seo-copy" data-seo-copy>
-      <section class="content-card" aria-labelledby="styles-heading">
-        <span class="eyebrow">Three original sound palettes</span>
-        <h2 id="styles-heading">Naming style options</h2>
-        <p>{race.intro[1]}</p>
-        {race.styles.map((style) => (
-          <section class="style-block">
-            <h3>{style.label}</h3>
-            <p>{style.summary}</p>
-            <ul class="style-examples" aria-label={`${style.label} example names`}>
-              {style.examples.map((name) => <li>{name}</li>)}
-            </ul>
-          </section>
-        ))}
-      </section>
-
-      <section class="page-section content-card" aria-labelledby="how-heading">
-        <span class="eyebrow">A guide to the sound</span>
-        <h2 id="how-heading">How {race.label} names work</h2>
-        {race.construction.map((paragraph) => <p>{paragraph}</p>)}
-      </section>
-
-      <section class="page-section content-card" aria-labelledby="sample-heading">
-        <span class="eyebrow">Pre-rendered examples</span>
-        <h2 id="sample-heading">Sample {race.label} names</h2>
-        <p>These twelve names are included in the page before JavaScript runs. Use them as written or treat them as sound prompts for a new name.</p>
-        <div class="sample-grid">
-          {sampleNames.map((sample, index) => (
-            <article class="sample-card">
-              <span class="microcopy">Example {String(index + 1).padStart(2, '0')}</span>
-              <strong class="result-name sample-name">{sample.name}</strong>
-              <p class="result-flavor">{sample.flavor}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section class="page-section content-card" aria-labelledby="pronunciation-heading">
-        <span class="eyebrow">Say each name aloud</span>
-        <h2 id="pronunciation-heading">Pronunciation notes</h2>
-        <p>Use these guides as a first reading, then choose the pronunciation that feels natural in your setting.</p>
-        <ul class="pronunciation-list">
-          {race.pronunciation.map((item) => <li><strong>{item.name}</strong>, {item.guide}. {item.note}</li>)}
-        </ul>
-      </section>
-
-      <section class="page-section content-card" aria-labelledby="table-heading">
-        <span class="eyebrow">Bring it to the table</span>
-        <h2 id="table-heading">Using {race.label.toLocaleLowerCase()} names in play</h2>
-        {race.tableTips.map((paragraph) => <p>{paragraph}</p>)}
-      </section>
-
-      <section class="page-section" aria-labelledby="faq-heading">
-        <div class="section-topline">
-          <div>
-            <span class="eyebrow">A few quick answers</span>
-            <h2 id="faq-heading" class="section-heading">Frequently asked questions</h2>
+  <article class="page-section seo-copy" data-seo-copy>
+    <div class="scroll-story">
+      <aside class="scroll-story-sticky">
+        <div class="scroll-story-visual">
+          <div class="visual-icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
+              <path d="M6 2v20" />
+              <path d="M10 7h6" />
+              <path d="M10 11h6" />
+              <path d="M10 15h4" />
+            </svg>
           </div>
+          <span class="scroll-story-badge">Guide</span>
+          <h3 id="scroll-section-label" class="scroll-section-label">{initialSectionLabel}</h3>
+          <nav class="scroll-story-nav" aria-label="Section navigation">
+            <div class="scroll-story-dots">
+              {storySections.map((sec, idx) => (
+                <a
+                  href={`#${sec.id}`}
+                  class={`scroll-dot${idx === 0 ? ' active' : ''}`}
+                  data-target-label={sec.label}
+                  aria-label={`Jump to ${sec.label}`}
+                  title={sec.label}
+                >
+                  <span class="scroll-dot-pip"></span>
+                </a>
+              ))}
+            </div>
+          </nav>
         </div>
-        <div class="faq-grid">
-          {faq.map((item) => <article class="faq-item"><h3>{item.question}</h3><p>{item.answer}</p></article>)}
-        </div>
-      </section>
-    </article>
-  ) : (
-    <article class="page-section seo-copy" data-seo-copy>
-      <section class="content-card" aria-labelledby="intro-heading">
-        <span class="eyebrow">Make it useful at your table</span>
-        <h2 id="intro-heading">How to use the {utility!.label.toLocaleLowerCase()} tool</h2>
-        {utility!.intro.slice(1).map((paragraph) => <p>{paragraph}</p>)}
-      </section>
-      {utility!.sections.map((section, index) => (
-        <section class="page-section content-card" aria-labelledby={`utility-section-${index}`}>
-          <span class="eyebrow">A practical prompt</span>
-          <h2 id={`utility-section-${index}`}>{section.heading}</h2>
-          {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-        </section>
-      ))}
-      <section class="page-section" aria-labelledby="faq-heading">
-        <div class="section-topline">
-          <div>
-            <span class="eyebrow">A few quick answers</span>
-            <h2 id="faq-heading" class="section-heading">Frequently asked questions</h2>
-          </div>
-        </div>
-        <div class="faq-grid">
-          {faq.map((item) => <article class="faq-item"><h3>{item.question}</h3><p>{item.answer}</p></article>)}
-        </div>
-      </section>
-    </article>
-  )}
+      </aside>
+      <div class="scroll-story-content">
+        {race ? (
+          <>
+            <section class="content-card scroll-section in-view" aria-labelledby="styles-heading" data-section-label="Naming Styles">
+              <span class="eyebrow">Three original sound palettes</span>
+              <h2 id="styles-heading">Naming style options</h2>
+              <p>{race.intro[1]}</p>
+              {race.styles.map((style) => (
+                <section class="style-block">
+                  <h3>{style.label}</h3>
+                  <p>{style.summary}</p>
+                  <ul class="style-examples" aria-label={`${style.label} example names`}>
+                    {style.examples.map((name) => <li>{name}</li>)}
+                  </ul>
+                </section>
+              ))}
+            </section>
+
+            <section class="page-section content-card scroll-section" aria-labelledby="how-heading" data-section-label="How Names Work">
+              <span class="eyebrow">A guide to the sound</span>
+              <h2 id="how-heading">How {race.label} names work</h2>
+              {race.construction.map((paragraph) => <p>{paragraph}</p>)}
+            </section>
+
+            <section class="page-section content-card scroll-section" aria-labelledby="sample-heading" data-section-label="Sample Names">
+              <span class="eyebrow">Pre-rendered examples</span>
+              <h2 id="sample-heading">Sample {race.label} names</h2>
+              <p>These twelve names are included in the page before JavaScript runs. Use them as written or treat them as sound prompts for a new name.</p>
+              <div class="sample-grid">
+                {sampleNames.map((sample, index) => (
+                  <article class="sample-card">
+                    <span class="microcopy">Example {String(index + 1).padStart(2, '0')}</span>
+                    <strong class="result-name sample-name">{sample.name}</strong>
+                    <p class="result-flavor">{sample.flavor}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section class="page-section content-card scroll-section" aria-labelledby="pronunciation-heading" data-section-label="Pronunciation Notes">
+              <span class="eyebrow">Say each name aloud</span>
+              <h2 id="pronunciation-heading">Pronunciation notes</h2>
+              <p>Use these guides as a first reading, then choose the pronunciation that feels natural in your setting.</p>
+              <ul class="pronunciation-list">
+                {race.pronunciation.map((item) => <li><strong>{item.name}</strong>, {item.guide}. {item.note}</li>)}
+              </ul>
+            </section>
+
+            <section class="page-section content-card scroll-section" aria-labelledby="table-heading" data-section-label="Table Tips">
+              <span class="eyebrow">Bring it to the table</span>
+              <h2 id="table-heading">Using {race.label.toLocaleLowerCase()} names in play</h2>
+              {race.tableTips.map((paragraph) => <p>{paragraph}</p>)}
+            </section>
+
+            <section class="page-section scroll-section" aria-labelledby="faq-heading" data-section-label="FAQ">
+              <div class="section-topline">
+                <div>
+                  <span class="eyebrow">A few quick answers</span>
+                  <h2 id="faq-heading" class="section-heading">Frequently asked questions</h2>
+                </div>
+              </div>
+              <div class="faq-grid">
+                {faq.map((item) => <article class="faq-item"><h3>{item.question}</h3><p>{item.answer}</p></article>)}
+              </div>
+            </section>
+          </>
+        ) : (
+          <>
+            <section class="content-card scroll-section in-view" aria-labelledby="intro-heading" data-section-label="Tool Guide">
+              <span class="eyebrow">Make it useful at your table</span>
+              <h2 id="intro-heading">How to use the {utility!.label.toLocaleLowerCase()} tool</h2>
+              {utility!.intro.slice(1).map((paragraph) => <p>{paragraph}</p>)}
+            </section>
+            {utility!.sections.map((section, index) => (
+              <section class="page-section content-card scroll-section" aria-labelledby={`utility-section-${index}`} data-section-label={section.heading}>
+                <span class="eyebrow">A practical prompt</span>
+                <h2 id={`utility-section-${index}`}>{section.heading}</h2>
+                {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+              </section>
+            ))}
+            <section class="page-section scroll-section" aria-labelledby="faq-heading" data-section-label="FAQ">
+              <div class="section-topline">
+                <div>
+                  <span class="eyebrow">A few quick answers</span>
+                  <h2 id="faq-heading" class="section-heading">Frequently asked questions</h2>
+                </div>
+              </div>
+              <div class="faq-grid">
+                {faq.map((item) => <article class="faq-item"><h3>{item.question}</h3><p>{item.answer}</p></article>)}
+              </div>
+            </section>
+          </>
+        )}
+      </div>
+    </div>
+  </article>
 
   <section class="page-section" aria-labelledby="related-heading">
     <div class="section-topline">
@@ -204,3 +258,92 @@ const faq = page.faq;
   </section>
   <div class="ad-slot" aria-hidden="true"></div>
 </SiteLayout>
+
+<script>
+  (() => {
+    const story = document.querySelector('.scroll-story');
+    if (!story) return;
+
+    const labelEl = document.getElementById('scroll-section-label');
+    const visualEl = story.querySelector('.scroll-story-visual');
+    const sections = Array.from(story.querySelectorAll('.scroll-section'));
+    const dots = Array.from(story.querySelectorAll('.scroll-dot'));
+    if (!sections.length) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let activeSection = null;
+    let pulseTimer = null;
+    let isClickScrolling = false;
+    let scrollTimeout = null;
+
+    function activateSection(target) {
+      if (!target || target === activeSection) return;
+      activeSection = target;
+
+      sections.forEach((sec) => {
+        if (sec === target) {
+          sec.classList.add('in-view');
+        } else {
+          sec.classList.remove('in-view');
+        }
+      });
+
+      const label = target.dataset.sectionLabel;
+      if (label && labelEl) {
+        labelEl.textContent = label;
+      }
+
+      dots.forEach((dot) => {
+        if (dot.dataset.targetLabel === label) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+
+      if (visualEl && !prefersReducedMotion) {
+        visualEl.classList.remove('pulse');
+        void visualEl.offsetWidth;
+        visualEl.classList.add('pulse');
+        clearTimeout(pulseTimer);
+        pulseTimer = setTimeout(() => {
+          visualEl.classList.remove('pulse');
+        }, 600);
+      }
+    }
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const targetLabel = dot.dataset.targetLabel;
+        const targetSec = sections.find((s) => s.dataset.sectionLabel === targetLabel);
+        if (targetSec) {
+          isClickScrolling = true;
+          activateSection(targetSec);
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => {
+            isClickScrolling = false;
+          }, 800);
+        }
+      });
+    });
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (isClickScrolling) return;
+          const intersecting = entries.filter((e) => e.isIntersecting);
+          if (intersecting.length > 0) {
+            intersecting.sort((a, b) => Math.abs(a.boundingClientRect.top) - Math.abs(b.boundingClientRect.top));
+            activateSection(intersecting[0].target);
+          }
+        },
+        {
+          rootMargin: '-20% 0px -55% 0px',
+          threshold: 0,
+        }
+      );
+
+      sections.forEach((sec) => observer.observe(sec));
+    }
+  })();
+</script>
