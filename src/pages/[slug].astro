@@ -132,7 +132,7 @@ const initialSectionLabel = race ? 'Naming Style Options' : 'Tool Guide';
             </svg>
           </div>
           <span class="scroll-story-badge">Guide</span>
-          <h3 id="scroll-section-label" class="scroll-section-label">{initialSectionLabel}</h3>
+          <h3 id="scroll-section-label" class="scroll-section-label" aria-live="polite" aria-atomic="true">{initialSectionLabel}</h3>
           <nav class="scroll-story-nav" aria-label="Section navigation">
             <div class="scroll-story-dots">
               {storySections.map((sec, idx) => (
@@ -140,8 +140,9 @@ const initialSectionLabel = race ? 'Naming Style Options' : 'Tool Guide';
                   href={`#${sec.id}`}
                   class={`scroll-dot${idx === 0 ? ' active' : ''}`}
                   data-target-label={sec.label}
+                  data-tooltip={sec.label}
                   aria-label={`Jump to ${sec.label}`}
-                  title={sec.label}
+                  aria-current={idx === 0 ? 'true' : undefined}
                 >
                   <span class="scroll-dot-pip"></span>
                 </a>
@@ -296,8 +297,10 @@ const initialSectionLabel = race ? 'Naming Style Options' : 'Tool Guide';
       dots.forEach((dot) => {
         if (dot.dataset.targetLabel === label) {
           dot.classList.add('active');
+          dot.setAttribute('aria-current', 'true');
         } else {
           dot.classList.remove('active');
+          dot.removeAttribute('aria-current');
         }
       });
 

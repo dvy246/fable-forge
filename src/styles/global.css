@@ -1831,7 +1831,7 @@ select:focus-visible {
 }
 
 .scroll-dot::after {
-  content: attr(title);
+  content: attr(data-tooltip);
   position: absolute;
   left: calc(100% + 0.6rem);
   background: var(--panel-soft);
