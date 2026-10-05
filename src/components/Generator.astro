@@ -148,10 +148,13 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
       </div>
       <div class="result-grid" data-results aria-live="polite">
         {initialResults.map((result, index) => (
-          <article class="result-card" data-result data-name={result.name} data-flavor={result.flavor} data-locked="false">
+          <article class="result-card" data-result data-name={result.name} data-flavor={result.flavor} data-locked="false" aria-pressed="false">
             <div class="result-heading">
               <span class="microcopy">Result {String(index + 1).padStart(2, '0')}</span>
-              <button class="tool-button" type="button" data-action="lock" aria-pressed="false" aria-label={`Lock ${result.name}`}>Lock</button>
+              <button class="tool-button" type="button" data-action="lock" aria-pressed="false" aria-label={`Lock ${result.name}`}>
+                <svg class="lock-shield-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>Lock</span>
+              </button>
             </div>
             <strong class="result-name">{result.name}</strong>
             <p class="result-flavor">{result.flavor}</p>
@@ -176,6 +179,7 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
       </section>
     </div>
   </div>
+  <div class="copy-toast" data-copy-toast role="status" aria-live="polite">Copied to clipboard!</div>
 </section>
 
 <script>
@@ -188,6 +192,8 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
     const toolType = root.dataset.toolType ?? 'race';
     const resultGrid = root.querySelector('[data-results]');
     const status = root.querySelector('[data-status]');
+    const copyToast = root.querySelector('[data-copy-toast]');
+    let toastTimeout = null;
     const raceSelect = root.querySelector('[data-race]');
     const styleSelect = root.querySelector('[data-style]');
     const genderSelect = root.querySelector('[data-gender]');
@@ -266,6 +272,16 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
       if (status) status.textContent = message;
     };
 
+    const showToast = (message) => {
+      if (!copyToast) return;
+      copyToast.textContent = message;
+      copyToast.classList.add('visible');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        copyToast.classList.remove('visible');
+      }, 2000);
+    };
+
     const drawFavorites = () => {
       if (!favoritesList) return;
       favoritesList.replaceChildren();
@@ -299,6 +315,7 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
         card.dataset.name = result.name;
         card.dataset.flavor = result.flavor;
         card.dataset.locked = String(result.locked);
+        card.setAttribute('aria-pressed', String(result.locked));
 
         const heading = document.createElement('div');
         heading.className = 'result-heading';
@@ -311,7 +328,23 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
         lock.dataset.action = 'lock';
         lock.setAttribute('aria-pressed', String(result.locked));
         lock.setAttribute('aria-label', `${result.locked ? 'Unlock' : 'Lock'} ${result.name}`);
-        lock.textContent = result.locked ? 'Locked' : 'Lock';
+        const lockIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        lockIcon.setAttribute('class', 'lock-shield-icon');
+        lockIcon.setAttribute('width', '12');
+        lockIcon.setAttribute('height', '12');
+        lockIcon.setAttribute('viewBox', '0 0 24 24');
+        lockIcon.setAttribute('fill', result.locked ? 'currentColor' : 'none');
+        lockIcon.setAttribute('stroke', 'currentColor');
+        lockIcon.setAttribute('stroke-width', '2');
+        lockIcon.setAttribute('stroke-linecap', 'round');
+        lockIcon.setAttribute('stroke-linejoin', 'round');
+        lockIcon.setAttribute('aria-hidden', 'true');
+        const lockPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        lockPath.setAttribute('d', 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z');
+        lockIcon.appendChild(lockPath);
+        const lockText = document.createElement('span');
+        lockText.textContent = result.locked ? 'Locked' : 'Lock';
+        lock.append(lockIcon, lockText);
         heading.append(number, lock);
 
         const name = document.createElement('strong');
@@ -370,7 +403,17 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
       const action = button.dataset.action;
 
       if (action === 'generate') {
-        generateNames(false);
+        if (button.classList.contains('dice-rolling')) return;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduceMotion) {
+          generateNames(false);
+          return;
+        }
+        button.classList.add('dice-rolling');
+        setTimeout(() => {
+          button.classList.remove('dice-rolling');
+          generateNames(false);
+        }, 400);
         return;
       }
       if (action === 'more') {
@@ -401,7 +444,18 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
 
       if (action === 'lock') {
         result.locked = !result.locked;
-        drawResults();
+        card.className = `result-card${result.locked ? ' is-locked' : ''}`;
+        card.dataset.locked = String(result.locked);
+        card.setAttribute('aria-pressed', String(result.locked));
+        const lockBtn = card.querySelector('[data-action="lock"]');
+        if (lockBtn) {
+          lockBtn.setAttribute('aria-pressed', String(result.locked));
+          lockBtn.setAttribute('aria-label', `${result.locked ? 'Unlock' : 'Lock'} ${result.name}`);
+          const icon = lockBtn.querySelector('svg');
+          if (icon) icon.setAttribute('fill', result.locked ? 'currentColor' : 'none');
+          const span = lockBtn.querySelector('span');
+          if (span) span.textContent = result.locked ? 'Locked' : 'Lock';
+        }
         setStatus(result.locked ? `${result.name} locked for the next roll.` : `${result.name} unlocked.`);
         return;
       }
@@ -410,9 +464,21 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
           setStatus('Unlock this result before rerolling it.');
           return;
         }
-        results[index] = { ...makeOne(randomSeed()), locked: false };
-        drawResults();
-        setStatus('One result rerolled.');
+        if (button.classList.contains('dice-rolling')) return;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduceMotion) {
+          results[index] = { ...makeOne(randomSeed()), locked: false };
+          drawResults();
+          setStatus('One result rerolled.');
+          return;
+        }
+        button.classList.add('dice-rolling');
+        setTimeout(() => {
+          button.classList.remove('dice-rolling');
+          results[index] = { ...makeOne(randomSeed()), locked: false };
+          drawResults();
+          setStatus('One result rerolled.');
+        }, 400);
         return;
       }
       if (action === 'favorite') {
@@ -422,10 +488,13 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
       if (action === 'copy') {
         try {
           await navigator.clipboard.writeText(result.name);
+          showToast(`${result.name} copied!`);
           setStatus(`${result.name} copied.`);
         } catch {
+          showToast('Clipboard unavailable.');
           setStatus('Clipboard access is unavailable in this browser.');
         }
+        return;
       }
     });
 

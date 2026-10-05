@@ -15,6 +15,7 @@
   --line: rgba(231, 187, 117, 0.2);
   --line-strong: rgba(231, 187, 117, 0.38);
   --gold: #d8a65b;
+  --gold-rgb: 216, 166, 91;
   --gold-bright: #f1cf8d;
   --ember: #bd6249;
   --ember-soft: rgba(189, 98, 73, 0.16);
@@ -43,6 +44,7 @@
   --line: rgba(147, 204, 202, 0.2);
   --line-strong: rgba(147, 204, 202, 0.38);
   --gold: #91c9c7;
+  --gold-rgb: 145, 201, 199;
   --gold-bright: #c9ece1;
   --ember: #df906d;
   --ember-soft: rgba(223, 144, 109, 0.16);
@@ -1016,6 +1018,20 @@ select:focus-visible {
   padding: 0.55rem 0.8rem;
 }
 
+/* Dice roll micro-animation */
+[data-action="generate"].dice-rolling,
+[data-action="reroll"].dice-rolling {
+  animation: dice-tumble 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes dice-tumble {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-8deg) scale(0.95); }
+  50% { transform: rotate(6deg) scale(1.05); }
+  75% { transform: rotate(-3deg) scale(0.98); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
 .pill-button,
 .tool-button {
   min-height: 2rem;
@@ -1112,9 +1128,76 @@ select:focus-visible {
   padding: 0.85rem;
 }
 
-.result-card.is-locked {
+.result-card {
+  animation: card-reveal 0.35s ease-out both;
+}
+
+.result-card:nth-child(2) { animation-delay: 0.04s; }
+.result-card:nth-child(3) { animation-delay: 0.08s; }
+.result-card:nth-child(4) { animation-delay: 0.12s; }
+.result-card:nth-child(5) { animation-delay: 0.16s; }
+.result-card:nth-child(6) { animation-delay: 0.20s; }
+.result-card:nth-child(7) { animation-delay: 0.24s; }
+.result-card:nth-child(8) { animation-delay: 0.28s; }
+.result-card:nth-child(9) { animation-delay: 0.32s; }
+.result-card:nth-child(10) { animation-delay: 0.36s; }
+
+@keyframes card-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-card[data-locked="true"],
+.result-card.is-locked,
+.result-card[aria-pressed="true"] {
   border-color: var(--gold);
-  background: var(--ember-soft);
+  box-shadow: 0 0 12px rgba(var(--gold-rgb), 0.15);
+  background: linear-gradient(
+    135deg,
+    var(--sheet) 0%,
+    color-mix(in srgb, var(--gold) 5%, var(--sheet)) 100%
+  );
+  color: var(--sheet-ink);
+}
+
+.result-card[data-locked="true"] .result-name,
+.result-card.is-locked .result-name,
+.result-card[aria-pressed="true"] .result-name {
+  color: var(--sheet-ink);
+}
+
+.result-card[data-locked="true"] .result-flavor,
+.result-card.is-locked .result-flavor,
+.result-card[aria-pressed="true"] .result-flavor,
+.result-card[data-locked="true"] .microcopy,
+.result-card.is-locked .microcopy,
+.result-card[aria-pressed="true"] .microcopy {
+  color: var(--sheet-muted);
+}
+
+.result-card[data-locked="true"] :is(.pill-button, .tool-button),
+.result-card.is-locked :is(.pill-button, .tool-button),
+.result-card[aria-pressed="true"] :is(.pill-button, .tool-button) {
+  border-color: var(--sheet-line);
+  color: var(--sheet-ink);
+}
+
+.lock-shield-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+  flex-shrink: 0;
+}
+
+.result-card[data-locked="true"] .lock-shield-icon,
+.result-card.is-locked .lock-shield-icon,
+.result-card[aria-pressed="true"] .lock-shield-icon {
+  fill: currentColor;
 }
 
 .result-name {
@@ -1144,6 +1227,28 @@ select:focus-visible {
   margin: 0.8rem 0 0;
   color: var(--success);
   font-size: 0.78rem;
+}
+
+.copy-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--success);
+  color: var(--bg);
+  padding: 0.6rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+  z-index: 100;
+}
+
+.copy-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 .favorite-box {
@@ -1638,5 +1743,17 @@ select:focus-visible {
   *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  [data-action="generate"].dice-rolling,
+  [data-action="reroll"].dice-rolling,
+  .result-card {
+    animation: none !important;
+  }
+
+  .copy-toast {
+    transition: none !important;
   }
 }
