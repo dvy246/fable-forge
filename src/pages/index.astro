@@ -4,8 +4,26 @@ import Generator from '../components/Generator.astro';
 import ToolCards from '../components/ToolCards.astro';
 import { raceProfiles } from '../data/races';
 import { utilityPages } from '../data/utilities';
-import { asGeneratorProfile, buildRaceName, buildSurname, buildUtilityResult } from '../lib/name-engine';
+import { asGeneratorProfile, buildRaceName, buildSurname, buildUtilityResult, makeSampleResults } from '../lib/name-engine';
 import { webApplicationSchema, webSiteSchema } from '../lib/seo';
+
+const generatedHeroSamples = raceProfiles.slice(0, 6).flatMap((profile, idx) => {
+  const genProfile = asGeneratorProfile(profile);
+  const style = profile.styles[idx % profile.styles.length];
+  return makeSampleResults(genProfile, {
+    race: profile.slug,
+    style: style.id,
+    placeStyle: 'cozy',
+    gender: idx % 2 === 0 ? 'female' : 'male',
+    length: 'medium',
+    fullName: true,
+  }, 2);
+});
+
+const heroSamples = [
+  { name: 'Thalindra Moonshadow', flavor: 'a star-touched wood elf sage' },
+  ...generatedHeroSamples,
+];
 
 const phaseTwoEnabled = import.meta.env.PUBLIC_BUILD_PHASE_2 !== 'false';
 const visibleUtilities = phaseTwoEnabled ? utilityPages : [];
@@ -58,33 +76,42 @@ const faq = [
   breadcrumbs={[{ label: 'Home', path: '/' }]}
   schema={schema}
 >
-  <section class="hero hero-home">
-    <div class="hero-copy-block">
-      <span class="hero-kicker"><span class="hero-kicker-mark" aria-hidden="true">✦</span> Original names for fantasy tables</span>
-      <h1>DnD Name <span>Generator</span></h1>
-      <p class="hero-copy">Build a name with a sound of its own. Choose an ancestry and style, then keep the names that belong in your world.</p>
-      <div class="hero-actions">
-        <a class="primary-button hero-start" href="#generator">Enter the name forge <span aria-hidden="true">↗</span></a>
-        <span class="hero-assurance"><span class="assurance-dot" aria-hidden="true"></span> Free to use · Private by design</span>
-      </div>
+  <section
+    class="hero hero-immersive hero-home"
+    aria-label="DnD Arena name generator"
+    data-samples={JSON.stringify(heroSamples)}
+  >
+    <div class="hero-particles" aria-hidden="true">
+      <span class="particle p1">&#9858;</span>
+      <span class="particle p2">&#10023;</span>
+      <span class="particle p3">&#9876;</span>
+      <span class="particle p4">&#9856;</span>
+      <span class="particle p5">&#10022;</span>
+      <span class="particle p6">&#9670;</span>
+      <span class="particle p7">&#9860;</span>
+      <span class="particle p8">&#10038;</span>
+      <span class="particle p9">&#9859;</span>
+      <span class="particle p10">&#10024;</span>
+      <span class="particle p11">&#9857;</span>
+      <span class="particle p12">&#9733;</span>
     </div>
-    <div class="hero-art" aria-hidden="true">
-      <div class="hero-medallion">
-        <svg class="hero-seal" viewBox="0 0 300 300" focusable="false">
-          <circle class="seal-ring seal-ring-outer" cx="150" cy="150" r="137" />
-          <circle class="seal-ring seal-ring-dash" cx="150" cy="150" r="119" />
-          <circle class="seal-ring seal-ring-inner" cx="150" cy="150" r="101" />
-          <path class="seal-compass" d="M150 33 166 126 259 150 166 174 150 267 134 174 41 150 134 126Z" />
-          <path class="seal-star" d="M150 76 159 137 220 150 159 163 150 224 141 163 80 150 141 137Z" />
-          <circle class="seal-center" cx="150" cy="150" r="21" />
-          <path class="seal-cross" d="M150 5v24m0 242v24M5 150h24m242 0h24" />
-        </svg>
-        <span class="hero-seal-center">✦</span>
+    <div class="hero-samples-pool" hidden aria-hidden="true">
+      {heroSamples.map((sample) => (
+        <span data-hero-sample data-name={sample.name} data-flavor={sample.flavor}></span>
+      ))}
+    </div>
+    <div class="hero-content">
+      <h1 class="hero-title">DnD Name Generator</h1>
+      <p class="hero-subtitle">
+        Craft authentic fantasy names for every ancestry, tavern, and quest
+      </p>
+      <div class="hero-preview" aria-live="polite">
+        <span class="preview-name" id="hero-cycling-name">{heroSamples[0].name}</span>
+        <span class="preview-flavor">{heroSamples[0].flavor}</span>
       </div>
-      <div class="hero-art-caption">
-        <span class="hero-art-kicker">MADE FOR THE TABLE</span>
-        <span class="hero-art-line">12 ancestry voices · one good story</span>
-      </div>
+      <a href="#generator" class="hero-cta" data-action="scroll-to-generator">
+        Forge Your Name
+      </a>
     </div>
   </section>
 
@@ -134,4 +161,32 @@ const faq = [
       ))}
     </div>
   </section>
+
+  <script is:inline>
+    // Hero name cycling (uses pre-rendered sample names)
+    const samples = [...document.querySelectorAll('[data-hero-sample]')];
+    const nameEl = document.getElementById('hero-cycling-name');
+    const flavorEl = nameEl?.nextElementSibling;
+    if (nameEl && samples.length) {
+      let i = 0;
+      setInterval(() => {
+        i = (i + 1) % samples.length;
+        const s = samples[i];
+        nameEl.textContent = s.dataset.name;
+        if (flavorEl) flavorEl.textContent = s.dataset.flavor;
+      }, 4000);
+    }
+
+    // Smooth scroll CTA
+    const cta = document.querySelector('[data-action="scroll-to-generator"]');
+    if (cta) {
+      cta.addEventListener('click', (e) => {
+        const target = document.getElementById('generator');
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+  </script>
 </SiteLayout>
