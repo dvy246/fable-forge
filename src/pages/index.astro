@@ -63,6 +63,14 @@ const faq = [
   { question: 'Does DnD Arena send generated names to a server?', answer: 'No. Name generation happens in the browser, and the names you create are not sent anywhere.' },
 ];
 const faqSchema = faqPageSchema(faq);
+const homeStorySections = [
+  { id: 'guide-craft', label: 'Engine & Craft' },
+  { id: 'guide-phonetics', label: 'Ancestral Roots' },
+  { id: 'guide-campaign', label: 'Campaign Tools' },
+  { id: 'guide-tabletop', label: 'Tabletop Advice' },
+  { id: 'guide-faq', label: 'Frequently Asked' },
+];
+const initialHomeSectionLabel = homeStorySections[0].label;
 const schema = [
   webSiteSchema(),
   webApplicationSchema('DnD Name Generator', description, path),
@@ -169,41 +177,110 @@ const schema = [
     description="Choose a sound tradition, then make it yours."
   />
 
-  <section class="page-section content-copy" aria-labelledby="method-heading">
-    <div class="content-card content-copy-guide">
-      <div class="section-topline">
-        <div>
+  <article class="page-section content-copy seo-copy" aria-label="Tabletop naming guide and campaign information">
+    <div class="scroll-story home-scroll-story">
+      <aside class="scroll-story-sticky">
+        <div class="scroll-story-visual">
+          <div class="visual-icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+            </svg>
+          </div>
+          <span class="scroll-story-badge">Tabletop Codex</span>
+          <h3 id="home-scroll-label" class="scroll-section-label" aria-live="polite" aria-atomic="true">
+            {initialHomeSectionLabel}
+          </h3>
+          <nav class="scroll-story-nav" aria-label="Codex section navigation">
+            <div class="scroll-story-dots">
+              {homeStorySections.map((sec, idx) => (
+                <a
+                  href={`#${sec.id}`}
+                  class={`scroll-dot${idx === 0 ? ' active' : ''}`}
+                  data-target-label={sec.label}
+                  data-tooltip={sec.label}
+                  aria-label={`Jump to ${sec.label}`}
+                  aria-current={idx === 0 ? 'true' : undefined}
+                >
+                  <span class="scroll-dot-pip"></span>
+                </a>
+              ))}
+            </div>
+          </nav>
+        </div>
+      </aside>
+
+      <div class="scroll-story-content">
+        <section
+          id="guide-craft"
+          class="content-card scroll-section in-view"
+          aria-labelledby="method-heading"
+          data-section-label="Engine & Craft"
+        >
           <span class="eyebrow">Tabletop naming guide</span>
           <h2 id="method-heading" class="section-heading">How the DnD Name Generator Works</h2>
-        </div>
-      </div>
+          <h3>An authentic fantasy name engine for tabletop campaigns</h3>
+          <p>DnD Arena is an original DnD name generator designed to craft authentic fantasy names for characters, settlements, taverns, and entire campaign worlds. Choosing a memorable moniker is often the very first creative decision a player or Dungeon Master makes, yet standard random name lists frequently spit out unpronounceable strings or tired fantasy cliches. A great character name does not just identify an adventurer on a character sheet; it anchors their cultural heritage, reflects their personal upbringing, and establishes their vocal presence at the gaming table from the moment initiative is rolled.</p>
+          <p>Our engine avoids generic black-box randomness by organizing handcrafted syllable tables into distinctive cultural sound palettes. Rather than scraping trademarked rulebooks or generating repetitive mashups, DnD Arena builds names organically from tailored prefixes, resonant medial syllables, and culturally coherent terminal roots. Every fantasy ancestry in the 5e multiverse features three dedicated sound traditions, allowing players to dial in subtle vocal nuances that match their character concept.</p>
+        </section>
 
-      <div class="guide-block">
-        <h3>An authentic fantasy name engine for tabletop campaigns</h3>
-        <p>DnD Arena is an original DnD name generator designed to craft authentic fantasy names for characters, settlements, taverns, and entire campaign worlds. Choosing a memorable moniker is often the very first creative decision a player or Dungeon Master makes, yet standard random name lists frequently spit out unpronounceable strings or tired fantasy cliches. A great character name does not just identify an adventurer on a character sheet; it anchors their cultural heritage, reflects their personal upbringing, and establishes their vocal presence at the gaming table from the moment initiative is rolled.</p>
-        <p>Our engine avoids generic black-box randomness by organizing handcrafted syllable tables into distinctive cultural sound palettes. Rather than scraping trademarked rulebooks or generating repetitive mashups, DnD Arena builds names organically from tailored prefixes, resonant medial syllables, and culturally coherent terminal roots. Every fantasy ancestry in the 5e multiverse features three dedicated sound traditions, allowing players to dial in subtle vocal nuances that match their character concept.</p>
-      </div>
+        <section
+          id="guide-phonetics"
+          class="content-card scroll-section"
+          aria-labelledby="phonetics-heading"
+          data-section-label="Ancestral Roots"
+        >
+          <span class="eyebrow">5e Multiverse Lore</span>
+          <h2 id="phonetics-heading" class="section-heading">Linguistic sound palettes across 5e ancestries</h2>
+          <p>For elven adventurers, the sound architecture prioritizes melodic resonance and fluid vocal transitions. Whether rolling for a high elf court diplomat with lyrical compound surnames like Moonshadow and Silvermere, a wood elf ranger with nature-bound family titles like Greenmantle and Fernstride, or an enigmatic drow scout from the deep stone halls, our elf name generator keeps the syllables balanced, elegant, and effortless to speak aloud.</p>
+          <p>Dwarven naming traditions emphasize resolute vocal weight, grounding warriors and smiths in ancient stonecraft. Our dwarf name generator utilizes firm consonant roots and steady trochaic meters, complemented by proud clan designations like Iron Ledger, Stonewake, and Boulderkin. Dragonborn characters draw upon striking draconic sibilants and noble clan honorifics that evoke dragonfire and oathbound duty, while tiefling characters explore both sharp infernal syllables and aspirational virtue names like Reverence, Hope, and Creed.</p>
+          <p>Orc and half-orc names balance resolute vocal power with grounded community traditions. Syllables range from commanding opening plosives suitable for seasoned clan leaders to warm hearth names tailored for overland caravaneers. Halflings and gnomes embrace brisk, cheerful cadences with cozy domestic or ingenious mechanical compound surnames, while our human fantasy name generator spans salt-port harbors, rugged highland valleys, and bustling trade crossroads.</p>
+        </section>
 
-      <div class="guide-block">
-        <h3>Linguistic sound palettes across 5e ancestries</h3>
-        <p>For elven adventurers, the sound architecture prioritizes melodic resonance and fluid vocal transitions. Whether rolling for a high elf court diplomat with lyrical compound surnames like Moonshadow and Silvermere, a wood elf ranger with nature-bound family titles like Greenmantle and Fernstride, or an enigmatic drow scout from the deep stone halls, our elf name generator keeps the syllables balanced, elegant, and effortless to speak aloud.</p>
-        <p>Dwarven naming traditions emphasize resolute vocal weight, grounding warriors and smiths in ancient stonecraft. Our dwarf name generator utilizes firm consonant roots and steady trochaic meters, complemented by proud clan designations like Iron Ledger, Stonewake, and Boulderkin. Dragonborn characters draw upon striking draconic sibilants and noble clan honorifics that evoke dragonfire and oathbound duty, while tiefling characters explore both sharp infernal syllables and aspirational virtue names like Reverence, Hope, and Creed.</p>
-        <p>Orc and half-orc names balance resolute vocal power with grounded community traditions. Syllables range from commanding opening plosives suitable for seasoned clan leaders to warm hearth names tailored for overland caravaneers. Halflings and gnomes embrace brisk, cheerful cadences with cozy domestic or ingenious mechanical compound surnames, while our human fantasy name generator spans salt-port harbors, rugged highland valleys, and bustling trade crossroads.</p>
-      </div>
+        <section
+          id="guide-campaign"
+          class="content-card scroll-section"
+          aria-labelledby="campaign-heading"
+          data-section-label="Campaign Tools"
+        >
+          <span class="eyebrow">Dungeon Master Utilities</span>
+          <h2 id="campaign-heading" class="section-heading">Worldbuilding and campaign utilities for Dungeon Masters</h2>
+          <p>Beyond individual heroes, DnD Arena provides specialized campaign utilities for Dungeon Masters building living worlds. When players unexpectedly turn left into an unplanned settlement, the fantasy town name generator immediately supplies topographic settlement names shaped by coastal geography, ancient river crossings, and highland watchtowers. The tavern name generator conjures memorable gathering spots, pairing evocative adjectives and historic patrons with atmospheric descriptive hooks.</p>
+          <p>For broader worldbuilding, our fantasy kingdom name generator, fantasy world name generator, and DnD NPC generator allow storytellers to populate political dynasties, celestial planes, and helpful tavern contacts in seconds. The DnD party name generator and DnD last name generator ensure adventuring fellowships and noble lineages carry memorable titles that feel earned rather than randomized.</p>
+        </section>
 
-      <div class="guide-block">
-        <h3>Worldbuilding and campaign utilities for Dungeon Masters</h3>
-        <p>Beyond individual heroes, DnD Arena provides specialized campaign utilities for Dungeon Masters building living worlds. When players unexpectedly turn left into an unplanned settlement, the fantasy town name generator immediately supplies topographic settlement names shaped by coastal geography, ancient river crossings, and highland watchtowers. The tavern name generator conjures memorable gathering spots, pairing evocative adjectives and historic patrons with atmospheric descriptive hooks.</p>
-        <p>For broader worldbuilding, our fantasy kingdom name generator, fantasy world name generator, and DnD NPC generator allow storytellers to populate political dynasties, celestial planes, and helpful tavern contacts in seconds. The DnD party name generator and DnD last name generator ensure adventuring fellowships and noble lineages carry memorable titles that feel earned rather than randomized.</p>
-      </div>
+        <section
+          id="guide-tabletop"
+          class="content-card scroll-section"
+          aria-labelledby="tabletop-heading"
+          data-section-label="Tabletop Advice"
+        >
+          <span class="eyebrow">Table Play Guidelines</span>
+          <h2 id="tabletop-heading" class="section-heading">Practical naming tips for live tabletop sessions</h2>
+          <p>To make the most of your generated names during live gameplay, consider how the name sounds aloud before writing it onto your character sheet. Say the full name three times in succession and test how easily other players can pronounce its nickname. Avoid selecting names with opening sounds identical to other active party members to prevent confusion during fast-paced combat rounds. Remember that every generated result is an adaptable creative foundation: alter a vowel, append an honorific title, or blend two family traditions together to seamlessly match your homebrew campaign setting.</p>
+          <p>Every roll on DnD Arena takes place directly in your browser. There are no account sign-ups, no tracking cookies, and no server requests logging your session notes. You can roll unlimited results, lock your favorite discoveries on your device, and export your curated shortlist to a clean text file for immediate prep.</p>
+        </section>
 
-      <div class="guide-block">
-        <h3>Practical naming tips for live tabletop sessions</h3>
-        <p>To make the most of your generated names during live gameplay, consider how the name sounds aloud before writing it onto your character sheet. Say the full name three times in succession and test how easily other players can pronounce its nickname. Avoid selecting names with opening sounds identical to other active party members to prevent confusion during fast-paced combat rounds. Remember that every generated result is an adaptable creative foundation: alter a vowel, append an honorific title, or blend two family traditions together to seamlessly match your homebrew campaign setting.</p>
-        <p>Every roll on DnD Arena takes place directly in your browser. There are no account sign-ups, no tracking cookies, and no server requests logging your session notes. You can roll unlimited results, lock your favorite discoveries on your device, and export your curated shortlist to a clean text file for immediate prep.</p>
+        <section
+          id="guide-faq"
+          class="content-card scroll-section"
+          aria-labelledby="faq-heading"
+          data-section-label="Frequently Asked"
+        >
+          <span class="eyebrow">Before the next roll</span>
+          <h2 id="faq-heading" class="section-heading">Frequently asked questions</h2>
+          <div class="faq-grid">
+            {faq.map((item) => (
+              <article class="faq-item">
+                <h3>{item.question}</h3>
+                <p>{item.answer}</p>
+              </article>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
-  </section>
+  </article>
 
   <section class="page-section" aria-labelledby="samples-heading">
     <div class="section-topline">
@@ -214,23 +291,6 @@ const schema = [
       </div>
     </div>
     <ToolCards items={relatedItems} showSamples={true} />
-  </section>
-
-  <section class="page-section" aria-labelledby="faq-heading">
-    <div class="section-topline">
-      <div>
-        <span class="eyebrow">Before the next roll</span>
-        <h2 id="faq-heading" class="section-heading">Frequently asked questions</h2>
-      </div>
-    </div>
-    <div class="faq-grid">
-      {faq.map((item) => (
-        <article class="faq-item">
-          <h3>{item.question}</h3>
-          <p>{item.answer}</p>
-        </article>
-      ))}
-    </div>
   </section>
 
   <script is:inline>
@@ -276,5 +336,95 @@ const schema = [
         }
       });
     }
+
+    // Sticky Scroll Storytelling on Homepage
+    (() => {
+      const story = document.querySelector('.home-scroll-story');
+      if (!story) return;
+
+      const labelEl = document.getElementById('home-scroll-label');
+      const visualEl = story.querySelector('.scroll-story-visual');
+      const sections = Array.from(story.querySelectorAll('.scroll-section'));
+      const dots = Array.from(story.querySelectorAll('.scroll-dot'));
+      if (!sections.length) return;
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let activeSection = null;
+      let pulseTimer = null;
+      let isClickScrolling = false;
+      let scrollTimeout = null;
+
+      function activateSection(target) {
+        if (!target || target === activeSection) return;
+        activeSection = target;
+
+        sections.forEach((sec) => {
+          if (sec === target) {
+            sec.classList.add('in-view');
+          } else {
+            sec.classList.remove('in-view');
+          }
+        });
+
+        const label = target.dataset.sectionLabel;
+        if (label && labelEl) {
+          labelEl.textContent = label;
+        }
+
+        dots.forEach((dot) => {
+          if (dot.dataset.targetLabel === label) {
+            dot.classList.add('active');
+            dot.setAttribute('aria-current', 'true');
+          } else {
+            dot.classList.remove('active');
+            dot.removeAttribute('aria-current');
+          }
+        });
+
+        if (visualEl && !prefersReducedMotion) {
+          visualEl.classList.remove('pulse');
+          void visualEl.offsetWidth;
+          visualEl.classList.add('pulse');
+          clearTimeout(pulseTimer);
+          pulseTimer = setTimeout(() => {
+            visualEl.classList.remove('pulse');
+          }, 600);
+        }
+      }
+
+      dots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+          const targetLabel = dot.dataset.targetLabel;
+          const targetSec = sections.find((s) => s.dataset.sectionLabel === targetLabel);
+          if (targetSec) {
+            isClickScrolling = true;
+            activateSection(targetSec);
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+              isClickScrolling = false;
+            }, 800);
+          }
+        });
+      });
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (isClickScrolling) return;
+            const intersecting = entries.filter((e) => e.isIntersecting);
+            if (intersecting.length > 0) {
+              intersecting.sort((a, b) => Math.abs(a.boundingClientRect.top) - Math.abs(b.boundingClientRect.top));
+              activateSection(intersecting[0].target);
+            }
+          },
+          {
+            rootMargin: '-20% 0px -55% 0px',
+            threshold: 0,
+          }
+        );
+
+        sections.forEach((sec) => observer.observe(sec));
+      }
+    })();
   </script>
 </SiteLayout>
