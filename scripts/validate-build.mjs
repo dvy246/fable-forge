@@ -20,6 +20,7 @@ const raceKeywords = {
   '/half-orc-name-generator/': 'half orc name generator',
   '/dwarf-name-generator/': 'dwarf name generator',
   '/human-name-generator/': 'human fantasy name generator',
+  '/kobold-name-generator/': 'kobold name generator',
 };
 const utilityKeywords = {
   '/character-name-generator/': 'dnd character name generator',
@@ -28,6 +29,8 @@ const utilityKeywords = {
   '/party-name-generator/': 'dnd party name generator',
   '/npc-name-generator/': 'dnd npc name generator',
   '/last-name-generator/': 'dnd last name generator',
+  '/kingdom-name-generator/': 'fantasy kingdom name generator',
+  '/world-name-generator/': 'fantasy world name generator',
 };
 const blogKeywords = {
   '/blog/how-to-name-your-dnd-character/': 'how to name your dnd character',

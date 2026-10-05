@@ -24,6 +24,16 @@ const placeStyles = {
     { value: 'hopeful', label: 'Hopeful' },
     { value: 'wry', label: 'Wry' },
   ],
+  kingdom: [
+    { value: 'ancient', label: 'Ancient dynasty' },
+    { value: 'verdant', label: 'Verdant realm' },
+    { value: 'iron', label: 'Iron imperium' },
+  ],
+  world: [
+    { value: 'mythic', label: 'Mythic prime' },
+    { value: 'elemental', label: 'Elemental sphere' },
+    { value: 'astral', label: 'Astral expanse' },
+  ],
 };
 const placeOptions = placeStyles[toolType] ?? [];
 const defaultOptions = {
@@ -37,7 +47,7 @@ const defaultOptions = {
 const initialResults = Array.from({ length: 10 }, (_, index) => {
   const seed = index + 5.31;
   if (toolType === 'surname') return buildSurname(initialProfile, initialStyle, seed);
-  if (['town', 'tavern', 'party', 'npc'].includes(toolType)) {
+  if (['town', 'tavern', 'party', 'npc', 'kingdom', 'world'].includes(toolType)) {
     return buildUtilityResult(toolType, initialProfile, defaultOptions, seed);
   }
   return buildRaceName(initialProfile, defaultOptions, seed);
@@ -402,7 +412,7 @@ const wheelSegments = profiles.map((profile, i) => {
       const options = currentOptions();
       if (!profile) return { name: 'Wayfarer', flavor: 'A new name is ready for your story.' };
       if (toolType === 'surname') return buildSurname(profile, options.style, seed);
-      if (['town', 'tavern', 'party', 'npc'].includes(toolType)) {
+      if (['town', 'tavern', 'party', 'npc', 'kingdom', 'world'].includes(toolType)) {
         return buildUtilityResult(toolType, profile, options, seed);
       }
       return buildRaceName(profile, options, seed);

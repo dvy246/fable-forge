@@ -10,6 +10,7 @@ import halfling from './halfling.js';
 import human from './human.js';
 import orc from './orc.js';
 import tiefling from './tiefling.js';
+import kobold from './kobold.js';
 
 export const raceProfiles = [
   elf,
@@ -24,6 +25,7 @@ export const raceProfiles = [
   halfOrc,
   dwarf,
   human,
+  kobold,
 ];
 
 export const raceBySlug = new Map(raceProfiles.map((profile) => [profile.slug, profile]));

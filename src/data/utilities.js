@@ -244,6 +244,90 @@ export const utilityPages = [
       { question: 'Can I use a surname without generating a first name?', answer: 'Yes. This page focuses on family and clan names, with an optional ancestry and style selector.' }
     ],
     related: ['character-name-generator', 'elf-name-generator', 'dwarf-name-generator', 'npc-name-generator']
+  },
+  {
+    slug: 'kingdom-name-generator',
+    label: 'Kingdom',
+    keyword: 'fantasy kingdom name generator',
+    title: 'Fantasy Kingdom Name Generator: Realm and Empire Names',
+    description: 'Generate original realm and empire names with the fantasy kingdom name generator. Choose ancient, verdant, or iron styles for your next tabletop campaign.',
+    toolType: 'kingdom',
+    intro: [
+      'Use this fantasy kingdom name generator to create memorable realm, empire, and dynasty names for your campaign setting. Each title comes with an evocative regional style and flavor line to inspire your worldbuilding.',
+      'Choose from ancient dynasties, verdant realms, or iron imperiums. The generated names are original prompts designed to evoke deep histories, royal lineages, and geographic borders without borrowing from existing fantasy settings.'
+    ],
+    sections: [
+      {
+        heading: 'Crowns, realms, and sovereign dynasties',
+        paragraphs: [
+          'A kingdom name anchors an entire region on your campaign map. Whether named after a founding monarch, a sacred mountain, or an ancient treaty, a resonant title immediately communicates the realm’s prestige and history to your players.',
+          'Consider pairing a formal state name with a shorter everyday moniker used by common folk. An empire known diplomatically as The Grand Dominion of Valoria might simply be called the Sun Reach by neighboring traders.'
+        ]
+      },
+      {
+        heading: 'Geographic identity and natural borders',
+        paragraphs: [
+          'Verdant and river-fed kingdoms often draw their titles from natural landmarks such as old-growth canopies, winding waterways, or fertile valleys. These names evoke a deep connection to the land and suggest sustainable agricultural power.',
+          'In contrast, realms forged along rugged highlands or iron-rich mountain chains favor austere, fortified names. A name like Kragmoor Imperium immediately conveys disciplined legions, stone keeps, and mineral wealth.'
+        ]
+      },
+      {
+        heading: 'Throne titles and political power',
+        paragraphs: [
+          'The suffix attached to a realm defines its political structure and scale. A dominion or imperium implies expansive territorial ambitions and centralized rule, while a march, bower, or reach suggests border provinces and defensive bastions.',
+          'Use these prefixes and roots as springboards for court politics, heraldic symbols, and border disputes. A sudden change in royal title can even signal a recent civil war or dynastic coup.'
+        ]
+      }
+    ],
+    faq: [
+      { question: 'Can I use these kingdom names for my fantasy maps?', answer: 'Yes. All generated names are original prompts ready for world maps, homebrew campaigns, novels, and tabletop settings.' },
+      { question: 'What styles are available for kingdom names?', answer: 'You can choose between ancient dynasties with deep lineages, verdant realms rooted in lush landscapes, and iron imperiums built on martial strength.' },
+      { question: 'Does this tool generate realm descriptions?', answer: 'It provides a kingdom name and an atmospheric flavor line. You can freely flesh out the realm’s government, rulers, and culture.' },
+      { question: 'Can I save my favorite kingdom names?', answer: 'Yes. You can star and save names to local storage in your browser, then export your list as a text file.' }
+    ],
+    related: ['world-name-generator', 'fantasy-town-name-generator', 'party-name-generator']
+  },
+  {
+    slug: 'world-name-generator',
+    label: 'World',
+    keyword: 'fantasy world name generator',
+    title: 'Fantasy World Name Generator: Setting and Plane Names',
+    description: 'Create original realm and setting names with the fantasy world name generator. Choose mythic, elemental, or astral sound styles for your fantasy campaign.',
+    toolType: 'world',
+    intro: [
+      'This fantasy world name generator helps Dungeon Masters and writers craft striking names for planets, cosmological spheres, and campaign settings. Roll through dozens of original options to find the perfect name for your universe.',
+      'Select between mythic primes, elemental spheres, and astral expanses. Every name is constructed from original sound roots that evoke vast scales, divine creation myths, and forgotten planar eras.'
+    ],
+    sections: [
+      {
+        heading: 'Naming the cosmos and primary realms',
+        paragraphs: [
+          'A world name sets the tone for an entire campaign before players ever roll their first dice. A mythic title like Solaria Prime suggests high fantasy and divine providence, while an ethereal name like Astraea Expanse hints at mystery and planar travel.',
+          'When introducing a setting name to your table, think about who coined it. Scholars and planar cartographers might use formal celestial titles, while terrestrial inhabitants might simply refer to their world as the Known Firmament.'
+        ]
+      },
+      {
+        heading: 'Planar cosmologies and elemental spheres',
+        paragraphs: [
+          'Elemental realms thrive on evocative, raw roots that suggest primordial turbulence. Spheres defined by fire, surging tides, or eternal storms require punchy, sensory sounds that reflect their untamed environments.',
+          'Connecting an elemental world name to its ruling titans or primordial forces makes planar travel immediately memorable. A realm named The Abyssal Crucible of Ignis warns travelers of intense heat and volatile terrain.'
+        ]
+      },
+      {
+        heading: 'Astral expanses and celestial horizons',
+        paragraphs: [
+          'Worlds drifting through the astral sea often borrow from celestial phenomena, star charts, and twilight themes. Smooth vowels and sibilant consonants convey the feeling of weightless void and silver tides.',
+          'Combine your world name with a signature cosmic feature, such as a shattered moon, a crystal sphere boundary, or twin suns, to give your players an unforgettable mental image.'
+        ]
+      }
+    ],
+    faq: [
+      { question: 'Are these world names suitable for D&D campaigns?', answer: 'Yes. They work seamlessly as material planes, outer spheres, crystal shells, or homebrew campaign worlds for D&D 5e and other TTRPGs.' },
+      { question: 'What naming styles can I select?', answer: 'You can generate mythic prime worlds, elemental spheres ruled by raw forces, or astral expanses drifting across celestial seas.' },
+      { question: 'Can I use generated world names in published fiction?', answer: 'Yes. All names and syllable sets are original creations of DnD Arena and can be freely used in games, stories, and published projects.' },
+      { question: 'How do I save generated world names?', answer: 'Click the star icon next to any name to save it to your local browser favorites, which can be downloaded as a text file at any time.' }
+    ],
+    related: ['kingdom-name-generator', 'fantasy-town-name-generator', 'party-name-generator']
   }
 ];
 

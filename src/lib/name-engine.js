@@ -102,6 +102,74 @@ export function buildUtilityResult(toolType, profile, options, seed) {
     return { name: `${pick(palette.first, seed, 17)} ${pick(palette.second, seed, 18)}`, flavor: palette.flavor };
   }
 
+  if (toolType === 'kingdom') {
+    const palettes = {
+      ancient: {
+        prefixes: ['High', 'Grand', 'Old', 'Solar', 'Golden', 'Archon', 'Crown', 'Sovereign'],
+        roots: ['Valoria', 'Eldoria', 'Sunspire', 'Aethelgard', 'Ilyria', 'Moravia', 'Corinth', 'Oakhaven'],
+        suffixes: ['Dominion', 'Empire', 'Kingdom', 'Realm', 'Dynasty', 'Throne', 'Reach', 'Crown'],
+        flavor: 'An ancient dynasty marked by long lineages and monumental stone.',
+      },
+      verdant: {
+        prefixes: ['Emerald', 'Green', 'Wild', 'Ever', 'River', 'Summer', 'Briar', 'Deep'],
+        roots: ['Sylvanor', 'Oakhaven', 'Elmsreach', 'Thornvale', 'Willowmere', 'Verdantia', 'Mistwood', 'Arboria'],
+        suffixes: ['Realm', 'March', 'Kingdom', 'Dominion', 'Canopy', 'Bower', 'Reach', 'Hold'],
+        flavor: 'A verdant realm intertwined with deep forests and fertile riverlands.',
+      },
+      iron: {
+        prefixes: ['Iron', 'Black', 'Steel', 'Stone', 'Frost', 'Drakon', 'Grim', 'Anvil'],
+        roots: ['Kragmoor', 'Ironspire', 'Drakengard', 'Barrowhold', 'Grimpeak', 'Cindergard', 'Vandor', 'Stoneglen'],
+        suffixes: ['Imperium', 'Dominion', 'Throne', 'March', 'Bastion', 'Bulwark', 'Empire', 'Sovereignty'],
+        flavor: 'An iron imperium forged in mountain passes, discipline, and fortified citadels.',
+      },
+    };
+    const palette = palettes[options.placeStyle] ?? palettes.ancient;
+    const format = Math.abs(Math.floor(seed * 31 + 7)) % 3;
+    let name;
+    if (format === 0) {
+      name = `${pick(palette.roots, seed, 22)} ${pick(palette.suffixes, seed, 23)}`;
+    } else if (format === 1) {
+      name = `The ${pick(palette.suffixes, seed, 24)} of ${pick(palette.roots, seed, 25)}`;
+    } else {
+      name = `The ${pick(palette.prefixes, seed, 26)} ${pick(palette.suffixes, seed, 27)} of ${pick(palette.roots, seed, 28)}`;
+    }
+    return { name, flavor: palette.flavor };
+  }
+
+  if (toolType === 'world') {
+    const palettes = {
+      mythic: {
+        prefixes: ['Prime', 'Eternal', 'Genesis', 'Old', 'First', 'Golden', 'Arcane', 'Boundless'],
+        roots: ['Aethelgard', 'Elysia', 'Solaria', 'Mythoria', 'Valeron', 'Aurelia', 'Chronos', 'Pangaea'],
+        suffixes: ['Prime', 'Sphere', 'Expanse', 'Realm', 'Firmament', 'Cosmos', 'Dominion', 'Haven'],
+        flavor: 'A mythic realm of ancient gods, legendary ages, and heroic destinies.',
+      },
+      elemental: {
+        prefixes: ['Cinder', 'Torrent', 'Aether', 'Abyssal', 'Storm', 'Terran', 'Frost', 'Radiant'],
+        roots: ['Ignis', 'Aquaris', 'Zephyria', 'Geos', 'Pyra', 'Maelstrom', 'Glacies', 'Vortex'],
+        suffixes: ['Sphere', 'Maelstrom', 'Domain', 'Crucible', 'Vortex', 'Reach', 'Core', 'Depths'],
+        flavor: 'An elemental sphere dominated by raw primordial forces and shifting energies.',
+      },
+      astral: {
+        prefixes: ['Astral', 'Cosmic', 'Starlight', 'Void', 'Nebular', 'Infinite', 'Celestial', 'Lunar'],
+        roots: ['Astraea', 'Vespera', 'Lunaria', 'Aethel', 'Celestia', 'Noctis', 'Stellaria', 'Orion'],
+        suffixes: ['Expanse', 'Void', 'Firmament', 'Sea', 'Horizon', 'Weave', 'Drift', 'Tide'],
+        flavor: 'An astral expanse where silver currents drift between planar islands.',
+      },
+    };
+    const palette = palettes[options.placeStyle] ?? palettes.mythic;
+    const format = Math.abs(Math.floor(seed * 29 + 11)) % 3;
+    let name;
+    if (format === 0) {
+      name = `${pick(palette.roots, seed, 31)} ${pick(palette.suffixes, seed, 32)}`;
+    } else if (format === 1) {
+      name = `The ${pick(palette.prefixes, seed, 33)} ${pick(palette.suffixes, seed, 34)} of ${pick(palette.roots, seed, 35)}`;
+    } else {
+      name = `The ${pick(palette.suffixes, seed, 36)} of ${pick(palette.roots, seed, 37)}`;
+    }
+    return { name, flavor: palette.flavor };
+  }
+
   const traits = ['keeps careful promises', 'collects maps with missing corners', 'never turns down a shared meal', 'speaks softly in a crisis', 'remembers every debt', 'asks one question too many', 'knows the old roads', 'laughs before the punchline', 'is always mending something', 'never gives the same answer twice'];
   const quirks = ['labels every key', 'counts steps when nervous', 'keeps a pocket full of string', 'hums the wrong tune', 'writes with a green pencil', 'names each travel cup', 'arrives with a spare button', 'folds notes into tiny boats', 'carries a smooth stone', 'polishes an already clean buckle'];
   const hooks = ['has a letter that was never opened', 'is looking for a missing cartographer', 'owes a favor to a quiet stranger', 'heard a familiar name in a distant port', 'found a mark on an old door', 'needs help choosing a new home', 'is guarding a small but urgent secret', 'offers a map with one blank road', 'is waiting for a traveler who is late', 'knows where a lost bell was last heard'];
