@@ -688,6 +688,7 @@ select:focus-visible {
   flex-direction: column;
   gap: 0.35rem;
   max-width: min(100%, 32rem);
+  min-height: 5.6rem;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
 }
 
@@ -696,19 +697,14 @@ select:focus-visible {
   font-weight: 700;
   color: var(--gold-bright);
   font-style: italic;
-  animation: name-fade 4s ease-in-out infinite;
+  transition: opacity 0.35s ease-in-out;
 }
 
 .preview-flavor {
   font-size: 0.9rem;
   color: var(--dim);
-}
-
-@keyframes name-fade {
-  0%, 100% { opacity: 1; }
-  45% { opacity: 1; }
-  50% { opacity: 0; }
-  55% { opacity: 1; }
+  min-height: 1.5rem;
+  transition: opacity 0.35s ease-in-out;
 }
 
 .hero-cta {

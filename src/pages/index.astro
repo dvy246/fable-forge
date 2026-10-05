@@ -79,7 +79,6 @@ const faq = [
   <section
     class="hero hero-immersive hero-home"
     aria-label="DnD Arena name generator"
-    data-samples={JSON.stringify(heroSamples)}
   >
     <div class="hero-particles" aria-hidden="true">
       <span class="particle p1">&#9858;</span>
@@ -163,18 +162,35 @@ const faq = [
   </section>
 
   <script is:inline>
-    // Hero name cycling (uses pre-rendered sample names)
+    // Hero name cycling with synchronized fade transitions
     const samples = [...document.querySelectorAll('[data-hero-sample]')];
     const nameEl = document.getElementById('hero-cycling-name');
     const flavorEl = nameEl?.nextElementSibling;
     if (nameEl && samples.length) {
       let i = 0;
-      setInterval(() => {
-        i = (i + 1) % samples.length;
-        const s = samples[i];
-        nameEl.textContent = s.dataset.name;
-        if (flavorEl) flavorEl.textContent = s.dataset.flavor;
-      }, 4000);
+      let timer = null;
+      const step = () => {
+        if (document.hidden) return;
+        nameEl.style.opacity = '0';
+        if (flavorEl) flavorEl.style.opacity = '0';
+        setTimeout(() => {
+          i = (i + 1) % samples.length;
+          const s = samples[i];
+          nameEl.textContent = s.dataset.name;
+          if (flavorEl) flavorEl.textContent = s.dataset.flavor;
+          nameEl.style.opacity = '1';
+          if (flavorEl) flavorEl.style.opacity = '1';
+        }, 350);
+      };
+
+      const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (!motionQuery.matches) {
+        timer = setInterval(step, 4000);
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) clearInterval(timer);
+          else timer = setInterval(step, 4000);
+        });
+      }
     }
 
     // Smooth scroll CTA
