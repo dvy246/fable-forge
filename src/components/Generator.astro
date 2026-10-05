@@ -148,7 +148,7 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
       </div>
       <div class="result-grid" data-results aria-live="polite">
         {initialResults.map((result, index) => (
-          <article class="result-card" data-result data-name={result.name} data-flavor={result.flavor} data-locked="false" aria-pressed="false">
+          <article class="result-card" data-result data-name={result.name} data-flavor={result.flavor} data-locked="false">
             <div class="result-heading">
               <span class="microcopy">Result {String(index + 1).padStart(2, '0')}</span>
               <button class="tool-button" type="button" data-action="lock" aria-pressed="false" aria-label={`Lock ${result.name}`}>
@@ -178,8 +178,8 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
         <ul class="favorite-list" data-favorites aria-label="Saved name favorites"></ul>
       </section>
     </div>
+    <div class="copy-toast" data-copy-toast role="status" aria-live="polite">Copied to clipboard!</div>
   </div>
-  <div class="copy-toast" data-copy-toast role="status" aria-live="polite">Copied to clipboard!</div>
 </section>
 
 <script>
@@ -192,7 +192,7 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
     const toolType = root.dataset.toolType ?? 'race';
     const resultGrid = root.querySelector('[data-results]');
     const status = root.querySelector('[data-status]');
-    const copyToast = root.querySelector('[data-copy-toast]');
+    const copyToast = root.querySelector('[data-copy-toast]') || document.querySelector('[data-copy-toast]');
     let toastTimeout = null;
     const raceSelect = root.querySelector('[data-race]');
     const styleSelect = root.querySelector('[data-style]');
@@ -315,7 +315,6 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
         card.dataset.name = result.name;
         card.dataset.flavor = result.flavor;
         card.dataset.locked = String(result.locked);
-        card.setAttribute('aria-pressed', String(result.locked));
 
         const heading = document.createElement('div');
         heading.className = 'result-heading';
@@ -446,7 +445,6 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
         result.locked = !result.locked;
         card.className = `result-card${result.locked ? ' is-locked' : ''}`;
         card.dataset.locked = String(result.locked);
-        card.setAttribute('aria-pressed', String(result.locked));
         const lockBtn = card.querySelector('[data-action="lock"]');
         if (lockBtn) {
           lockBtn.setAttribute('aria-pressed', String(result.locked));
@@ -465,19 +463,29 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
           return;
         }
         if (button.classList.contains('dice-rolling')) return;
+        const updateSingleCard = () => {
+          const fresh = { ...makeOne(randomSeed()), locked: false };
+          results[index] = fresh;
+          card.dataset.name = fresh.name;
+          card.dataset.flavor = fresh.flavor;
+          const nameEl = card.querySelector('.result-name');
+          if (nameEl) nameEl.textContent = fresh.name;
+          const flavorEl = card.querySelector('.result-flavor');
+          if (flavorEl) flavorEl.textContent = fresh.flavor;
+          const lockBtn = card.querySelector('[data-action="lock"]');
+          if (lockBtn) lockBtn.setAttribute('aria-label', `Lock ${fresh.name}`);
+          setStatus('One result rerolled.');
+        };
+
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (reduceMotion) {
-          results[index] = { ...makeOne(randomSeed()), locked: false };
-          drawResults();
-          setStatus('One result rerolled.');
+          updateSingleCard();
           return;
         }
         button.classList.add('dice-rolling');
         setTimeout(() => {
           button.classList.remove('dice-rolling');
-          results[index] = { ...makeOne(randomSeed()), locked: false };
-          drawResults();
-          setStatus('One result rerolled.');
+          updateSingleCard();
         }, 400);
         return;
       }
