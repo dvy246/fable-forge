@@ -82,37 +82,83 @@ const schema = [
     class="hero hero-immersive hero-home"
     aria-label="DnD Arena name generator"
   >
-    <div class="hero-particles" aria-hidden="true">
-      <span class="particle p1">&#9858;</span>
-      <span class="particle p2">&#10023;</span>
-      <span class="particle p3">&#9876;</span>
-      <span class="particle p4">&#9856;</span>
-      <span class="particle p5">&#10022;</span>
-      <span class="particle p6">&#9670;</span>
-      <span class="particle p7">&#9860;</span>
-      <span class="particle p8">&#10038;</span>
-      <span class="particle p9">&#9859;</span>
-      <span class="particle p10">&#10024;</span>
-      <span class="particle p11">&#9857;</span>
-      <span class="particle p12">&#9733;</span>
+    <div class="hero-backdrop" aria-hidden="true">
+      <div class="hero-ambient-glow"></div>
     </div>
+
     <div class="hero-samples-pool" hidden aria-hidden="true">
       {heroSamples.map((sample) => (
         <span data-hero-sample data-name={sample.name} data-flavor={sample.flavor}></span>
       ))}
     </div>
-    <div class="hero-content">
+
+    <!-- Left side: Narrative & CTA -->
+    <div class="hero-narrative">
+      <div class="hero-eyebrow-wrap">
+        <span class="hero-eyebrow">Tabletop RPG Generator</span>
+      </div>
       <h1 class="hero-title">DnD Name Generator</h1>
       <p class="hero-subtitle">
-        Craft authentic fantasy names for every ancestry, tavern, and quest
+        Generate authentic character, settlement, and campaign names with hand-crafted phonetic tables.
       </p>
-      <div class="hero-preview" aria-live="polite">
-        <span class="preview-name" id="hero-cycling-name">{heroSamples[0].name}</span>
-        <span class="preview-flavor">{heroSamples[0].flavor}</span>
+      <div class="hero-actions">
+        <a href="#generator" class="hero-cta" data-action="scroll-to-generator">
+          <span>Forge Your Name</span>
+          <span class="hero-cta-arrow" aria-hidden="true">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 3l5 5-5 5" />
+            </svg>
+          </span>
+        </a>
+        <div class="hero-trust">
+          <span class="hero-trust-indicator" aria-hidden="true"></span>
+          <span>Zero sign-up · Pure browser roll · Free forever</span>
+        </div>
       </div>
-      <a href="#generator" class="hero-cta" data-action="scroll-to-generator">
-        Forge Your Name
-      </a>
+    </div>
+
+    <!-- Right side: Bespoke Fantasy Artifact (Engraved obsidian & brass celestial plaque) -->
+    <div class="hero-artifact-wrap" aria-label="Interactive fantasy name preview medallion">
+      <div class="hero-artifact">
+        <div class="artifact-ambient-aura" aria-hidden="true"></div>
+        <div class="artifact-shell">
+          <!-- Concentric Astronomical & Cartographic Linework -->
+          <svg class="artifact-celestial-rings" viewBox="0 0 340 340" fill="none" aria-hidden="true">
+            <circle cx="170" cy="170" r="162" class="c-ring c-ring-outer" />
+            <circle cx="170" cy="170" r="152" class="c-ring c-ring-ticks" stroke-dasharray="2 6" />
+            <circle cx="170" cy="170" r="136" class="c-ring c-ring-mid" />
+            <circle cx="170" cy="170" r="118" class="c-ring c-ring-dashed" stroke-dasharray="6 10" />
+            <circle cx="170" cy="170" r="98" class="c-ring c-ring-inner" />
+            <path d="M170 8 L170 24 M170 316 L170 332 M8 170 L24 170 M316 170 L332 170" class="c-spoke" />
+            <path d="M55 55 L67 67 M273 273 L285 285 M55 285 L67 273 M273 55 L285 67" class="c-spoke-diag" />
+            <circle cx="170" cy="16" r="3" class="c-pip" />
+            <circle cx="170" cy="324" r="3" class="c-pip" />
+            <circle cx="16" cy="170" r="3" class="c-pip" />
+            <circle cx="324" cy="170" r="3" class="c-pip" />
+          </svg>
+
+          <!-- Recessed Core Tablet Plaque with Live Cycling Roll -->
+          <div class="artifact-tablet">
+            <div class="artifact-topline">
+              <span class="artifact-badge">
+                <span class="artifact-badge-gem" aria-hidden="true"></span>
+                <span>Live Roll</span>
+              </span>
+              <span class="artifact-sigil" aria-hidden="true">✦ ᚱ ✦</span>
+            </div>
+            
+            <div class="hero-preview" aria-live="polite">
+              <span class="preview-name" id="hero-cycling-name">{heroSamples[0].name}</span>
+              <span class="preview-flavor">{heroSamples[0].flavor}</span>
+            </div>
+
+            <div class="artifact-bottomline">
+              <span>Original Syllables</span>
+              <span>5e Tabletop</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
