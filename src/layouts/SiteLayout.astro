@@ -58,8 +58,8 @@ const allSchema = isIndexable ? [
     : []),
 ] : [];
 const showContactEmail = Boolean(contactEmail);
-const ancestryTools = showTools ? raceProfiles.filter((profile) => `/${profile.slug}/` !== path) : [];
-const campaignTools = showTools && phaseTwoEnabled ? utilityPages.filter((page) => `/${page.slug}/` !== path) : [];
+const ancestryTools = raceProfiles;
+const campaignTools = phaseTwoEnabled ? utilityPages : [];
 const socialImageAlt = imageType === 'hub'
   ? 'DnD Arena fantasy name generator, a moonlit storybook crest'
   : imageType === 'race'
@@ -109,9 +109,23 @@ const socialImageAlt = imageType === 'hub'
         }
         robots.content = 'noindex,follow';
       }
+      document.addEventListener('click', (event) => {
+        const menu = document.querySelector('.tools-menu');
+        if (menu && menu.hasAttribute('open') && !menu.contains(event.target)) {
+          menu.removeAttribute('open');
+        }
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          const menu = document.querySelector('.tools-menu');
+          if (menu && menu.hasAttribute('open')) {
+            menu.removeAttribute('open');
+          }
+        }
+      });
     </script>
   </head>
-  <body class={showTools ? 'has-tool-navigation' : undefined}>
+  <body class="has-tool-navigation">
     <header class="site-header">
       <div class="shell header-row">
         <a class="brand" href="/" aria-label="DnD Arena home">
@@ -122,34 +136,48 @@ const socialImageAlt = imageType === 'hub'
           </span>
         </a>
         <nav class="header-nav" aria-label="Primary navigation">
-          {showTools ? (
-            <details class="tools-menu">
-              <summary class="nav-link tools-menu-trigger">
-                <span>Tools</span>
-                <svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="m4 6 4 4 4-4" /></svg>
-              </summary>
-              <div class="tools-menu-panel">
-                <section class="tools-menu-group" aria-labelledby="tools-ancestry-heading">
-                  <h2 class="tools-menu-heading" id="tools-ancestry-heading">Character names</h2>
-                  <ul class="tools-menu-links tools-menu-links-ancestry">
-                    {ancestryTools.map((profile) => (
-                      <li><a class="tools-menu-link" href={`/${profile.slug}/`}>{profile.label} names</a></li>
-                    ))}
-                  </ul>
-                </section>
+          <details class="tools-menu">
+            <summary class="nav-link tools-menu-trigger">
+              <span>Tools</span>
+              <svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="m4 6 4 4 4-4" /></svg>
+            </summary>
+            <div class="tools-menu-panel">
+              <section class="tools-menu-group" aria-labelledby="tools-ancestry-heading">
+                <h2 class="tools-menu-heading" id="tools-ancestry-heading">Character ancestries</h2>
+                <ul class="tools-menu-links tools-menu-links-ancestry">
+                  {ancestryTools.map((profile) => (
+                    <li>
+                      <a
+                        class={`tools-menu-link${`/${profile.slug}/` === path ? ' is-active' : ''}`}
+                        href={`/${profile.slug}/`}
+                        aria-current={`/${profile.slug}/` === path ? 'page' : undefined}
+                      >
+                        {profile.label} names
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+              {campaignTools.length > 0 && (
                 <section class="tools-menu-group" aria-labelledby="tools-campaign-heading">
-                  <h2 class="tools-menu-heading" id="tools-campaign-heading">Campaign tools</h2>
+                  <h2 class="tools-menu-heading" id="tools-campaign-heading">Campaign utilities</h2>
                   <ul class="tools-menu-links">
                     {campaignTools.map((page) => (
-                      <li><a class="tools-menu-link" href={`/${page.slug}/`}>{page.label}</a></li>
+                      <li>
+                        <a
+                          class={`tools-menu-link${`/${page.slug}/` === path ? ' is-active' : ''}`}
+                          href={`/${page.slug}/`}
+                          aria-current={`/${page.slug}/` === path ? 'page' : undefined}
+                        >
+                          {page.label}
+                        </a>
+                      </li>
                     ))}
                   </ul>
                 </section>
-              </div>
-            </details>
-          ) : (
-            <a class="nav-link" href="/#generator">Generators</a>
-          )}
+              )}
+            </div>
+          </details>
           <a class="nav-link nav-link-secondary" href="/blog/">Guides</a>
           <a class="nav-link nav-link-secondary" href="/how-names-are-generated/">Our method</a>
           <a class="nav-link nav-link-secondary" href="/about/">About</a>

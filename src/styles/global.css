@@ -317,6 +317,13 @@ select:focus-visible {
   color: var(--ink);
 }
 
+.has-tool-navigation .tools-menu-link.is-active {
+  border-color: var(--gold);
+  background: color-mix(in srgb, var(--gold) 14%, var(--bg-raised));
+  color: var(--gold-bright);
+  font-weight: 600;
+}
+
 .header-cta {
   display: inline-flex;
   min-height: 2.8rem;
@@ -1696,14 +1703,6 @@ h3 {
   font-size: 0.66rem !important;
 }
 
-.ad-slot {
-  width: min(100%, 60.625rem);
-  height: 5.625rem;
-  margin: 2.2rem auto 0;
-  border: 1px dashed color-mix(in srgb, var(--line-strong) 70%, transparent);
-  border-radius: 0.65rem;
-}
-
 .site-footer {
   margin-top: 4rem;
   padding: 2rem 0 2.6rem;
@@ -2392,10 +2391,6 @@ h3 {
 
   .section-topline {
     align-items: flex-start;
-  }
-
-  .ad-slot {
-    height: 5.625rem;
   }
 }
 
