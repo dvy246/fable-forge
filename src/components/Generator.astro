@@ -542,6 +542,7 @@ const wheelSegments = profiles.map((profile, i) => {
     const openWheel = () => {
       if (!wheelOverlay) return;
       lastFocusedElement = document.activeElement;
+      document.body.style.overflow = 'hidden';
       wheelOverlay.removeAttribute('hidden');
       requestAnimationFrame(() => {
         wheelOverlay.classList.add('is-open');
@@ -555,6 +556,7 @@ const wheelSegments = profiles.map((profile, i) => {
 
     const closeWheel = () => {
       if (!wheelOverlay) return;
+      document.body.style.overflow = '';
       wheelOverlay.classList.remove('is-open');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduceMotion) {
@@ -639,7 +641,7 @@ const wheelSegments = profiles.map((profile, i) => {
     }
 
     document.addEventListener('keydown', (event) => {
-      if (!wheelOverlay || wheelOverlay.hasAttribute('hidden')) return;
+      if (!wheelOverlay || wheelOverlay.hasAttribute('hidden') || !wheelOverlay.classList.contains('is-open')) return;
       if (event.key === 'Escape') {
         event.preventDefault();
         if (isSpinning) {
@@ -656,7 +658,10 @@ const wheelSegments = profiles.map((profile, i) => {
         if (focusable.length === 0) return;
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
-        if (event.shiftKey && document.activeElement === first) {
+        if (!wheelOverlay.contains(document.activeElement)) {
+          event.preventDefault();
+          first.focus();
+        } else if (event.shiftKey && document.activeElement === first) {
           event.preventDefault();
           last.focus();
         } else if (!event.shiftKey && document.activeElement === last) {
