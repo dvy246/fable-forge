@@ -1,0 +1,26 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+const { title, description, path, heading, eyebrow, intro, sections, noindex = false } = Astro.props;
+---
+<SiteLayout
+  title={title}
+  description={description}
+  path={path}
+  pageType="article"
+  imageType="utility"
+  breadcrumbs={[{ label: 'Home', path: '/' }, { label: heading, path }]}
+  noindex={noindex}
+>
+  <article class="simple-page seo-copy" data-seo-copy>
+    <span class="eyebrow">{eyebrow}</span>
+    <h1>{heading}</h1>
+    <p>{intro}</p>
+    {sections.map((section) => (
+      <section>
+        <h2>{section.heading}</h2>
+        {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </section>
+    ))}
+  </article>
+</SiteLayout>

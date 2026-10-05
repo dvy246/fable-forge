@@ -1,0 +1,36 @@
+---
+import ContentPage from '../components/ContentPage.astro';
+
+const sections = [
+  {
+    heading: 'Built for the moment before a session',
+    paragraphs: [
+      'DnD Arena is built and maintained by an independent maker for people who need a name quickly, then want to get back to the story. The tools focus on one task at a time: choose a sound, make a short list, and keep the result that fits.',
+      'The site uses static pages and browser-side generation. It does not require an account, and it does not send the names you create to a server.'
+    ]
+  },
+  {
+    heading: 'Original sounds, open-ended stories',
+    paragraphs: [
+      'Each ancestry uses syllable tables written for DnD Arena. The examples are original combinations rather than copied lists. A style is a sound prompt, not a rule about a character’s background or personality.',
+      'The goal is a helpful starting point. Change a syllable, attach a family custom, or give a result a meaning your table invents.'
+    ]
+  },
+  {
+    heading: 'A growing set of focused tools',
+    paragraphs: [
+      'The first collection covers fantasy names by ancestry, family names, towns, taverns, parties, and quick non-player character prompts. Each tool has its own page so people can start with the task they came to do.',
+      'More tools belong here only when they can offer a clear use and original material of their own.'
+    ]
+  }
+];
+---
+<ContentPage
+  title="About DnD Arena: Original Fantasy Name Tools"
+  description="Learn who builds DnD Arena, why the original fantasy name tools exist, and how the project keeps campaign preparation quick, private, and easy to use."
+  path="/about/"
+  heading="About DnD Arena"
+  eyebrow="A small independent project"
+  intro="DnD Arena is a browser-based collection of original fantasy naming tools for tabletop stories, campaign notes, and creative writing."
+  sections={sections}
+/>

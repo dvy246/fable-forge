@@ -1,0 +1,18 @@
+---
+import ContentPage from '../components/ContentPage.astro';
+
+const email = import.meta.env.PUBLIC_CONTACT_EMAIL?.trim();
+const sections = email
+  ? [{ heading: 'Email', paragraphs: [`Write to ${email} about a broken page, an accessibility issue, or a question about the tools.`] }]
+  : [{ heading: 'Before launch', paragraphs: ['A contact email has not been configured yet. Set PUBLIC_CONTACT_EMAIL during the site build to publish the contact address and make this page indexable.'] }];
+---
+<ContentPage
+  title="Contact DnD Arena"
+  description="Contact DnD Arena about the fantasy name generators, a broken page, an accessibility issue, or a privacy question. An email address appears when configured."
+  path="/contact/"
+  heading="Contact"
+  eyebrow="Send a note"
+  intro="For a question about the tools, use the project email listed below when it is configured."
+  sections={sections}
+  noindex={!email}
+/>

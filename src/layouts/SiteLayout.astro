@@ -1,0 +1,227 @@
+---
+import '../styles/global.css';
+import { raceProfiles } from '../data/races';
+import { utilityPages } from '../data/utilities';
+
+const {
+  title,
+  description,
+  path,
+  pageType = 'article',
+  imageType = 'utility',
+  breadcrumbs = [],
+  schema = [],
+  noindex = false,
+  showTools = false,
+} = Astro.props;
+const configuredSiteValue = import.meta.env.PUBLIC_SITE_URL?.trim();
+const configuredSite = configuredSiteValue ? new URL(configuredSiteValue).origin : undefined;
+const phaseTwoEnabled = import.meta.env.PUBLIC_BUILD_PHASE_2 !== 'false';
+const contactEmail = import.meta.env.PUBLIC_CONTACT_EMAIL?.trim();
+const contactIsIndexable = path !== '/contact/' || Boolean(contactEmail);
+const isIndexable = !noindex && contactIsIndexable && path !== '/404/';
+const canonical = configuredSite && isIndexable ? `${configuredSite}${path}` : undefined;
+const imageFile = imageType === 'hub' ? 'hub.svg' : imageType === 'race' ? 'race.svg' : 'utility.svg';
+const socialImage = configuredSite ? `${configuredSite}/og/${imageFile}` : `/og/${imageFile}`;
+const origin = configuredSite ?? '';
+const hasApplicationSchema = schema.some((entry) => entry['@type'] === 'WebApplication');
+const applicationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: title.split(':')[0],
+  url: configuredSite ? `${configuredSite}${path}` : path,
+  description,
+  applicationCategory: 'GameApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'en',
+  offers: {
+    '@type': 'Offer',
+    price: 0,
+    priceCurrency: 'USD',
+  },
+};
+const allSchema = isIndexable ? [
+  ...schema,
+  ...(!hasApplicationSchema ? [applicationSchema] : []),
+  ...(breadcrumbs.length > 0
+    ? [{
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumbs.map((item, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: item.label,
+          item: configuredSite ? `${origin}${item.path}` : item.path,
+        })),
+      }]
+    : []),
+] : [];
+const showContactEmail = Boolean(contactEmail);
+const ancestryTools = showTools ? raceProfiles.filter((profile) => `/${profile.slug}/` !== path) : [];
+const campaignTools = showTools && phaseTwoEnabled ? utilityPages.filter((page) => `/${page.slug}/` !== path) : [];
+const socialImageAlt = imageType === 'hub'
+  ? 'DnD Arena fantasy name generator, a moonlit storybook crest'
+  : imageType === 'race'
+    ? 'DnD Arena ancestry name generator, a moonlit rune crest'
+    : 'DnD Arena campaign utility, a moonlit map and quill';
+---
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {isIndexable ? <meta name="robots" content="index,follow" /> : <meta name="robots" content="noindex,follow" />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content={pageType} />
+    <meta property="og:site_name" content="DnD Arena" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
+    {allSchema.map((entry) => <script type="application/ld+json" set:html={JSON.stringify(entry).replace(/</g, '\\u003c')} />)}
+    <script is:inline>
+      try {
+        const savedTheme = window.localStorage.getItem('dnd-arena-theme');
+        if (savedTheme === 'night' || savedTheme === 'dark') {
+          document.documentElement.dataset.theme = savedTheme;
+        }
+      } catch {
+        document.documentElement.dataset.theme = 'dark';
+      }
+      if (window.location.search) {
+        let robots = document.querySelector('meta[name="robots"]');
+        if (!robots) {
+          robots = document.createElement('meta');
+          robots.name = 'robots';
+          document.head.append(robots);
+        }
+        robots.content = 'noindex,follow';
+      }
+    </script>
+  </head>
+  <body class={showTools ? 'has-tool-navigation' : undefined}>
+    <header class="site-header">
+      <div class="shell header-row">
+        <a class="brand" href="/" aria-label="DnD Arena home">
+          <span class="brand-mark" aria-hidden="true">✦</span>
+          <span class="brand-copy">
+            <span class="brand-name">DnD Arena</span>
+            <span class="brand-tagline">A fantasy name studio</span>
+          </span>
+        </a>
+        <nav class="header-nav" aria-label="Primary navigation">
+          {showTools ? (
+            <details class="tools-menu">
+              <summary class="nav-link tools-menu-trigger">
+                <span>Tools</span>
+                <svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="m4 6 4 4 4-4" /></svg>
+              </summary>
+              <div class="tools-menu-panel">
+                <section class="tools-menu-group" aria-labelledby="tools-ancestry-heading">
+                  <h2 class="tools-menu-heading" id="tools-ancestry-heading">Character names</h2>
+                  <ul class="tools-menu-links tools-menu-links-ancestry">
+                    {ancestryTools.map((profile) => (
+                      <li><a class="tools-menu-link" href={`/${profile.slug}/`}>{profile.label} names</a></li>
+                    ))}
+                  </ul>
+                </section>
+                <section class="tools-menu-group" aria-labelledby="tools-campaign-heading">
+                  <h2 class="tools-menu-heading" id="tools-campaign-heading">Campaign tools</h2>
+                  <ul class="tools-menu-links">
+                    {campaignTools.map((page) => (
+                      <li><a class="tools-menu-link" href={`/${page.slug}/`}>{page.label}</a></li>
+                    ))}
+                  </ul>
+                </section>
+              </div>
+            </details>
+          ) : (
+            <a class="nav-link" href="/#generator">Generators</a>
+          )}
+          <a class="nav-link nav-link-secondary" href="/how-names-are-generated/">Our method</a>
+          <a class="nav-link nav-link-secondary" href="/about/">About</a>
+          <a class="header-cta" href="/#generator">Forge a name <span aria-hidden="true">↗</span></a>
+          <button class="theme-button" type="button" data-theme-switch aria-pressed="false" aria-label="Switch to night theme">
+            <svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="M12.8 10.3A5.2 5.2 0 0 1 5.7 3.2 5.3 5.3 0 1 0 12.8 10.3Z" /></svg>
+            <span data-theme-label>Night</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+    <main class="site-main">
+      <div class="shell">
+        {breadcrumbs.length > 0 && path !== '/' && (
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            {breadcrumbs.map((item, index) => (
+              <>
+                {index > 0 && <span aria-hidden="true">/</span>}
+                {index === breadcrumbs.length - 1
+                  ? <span aria-current="page">{item.label}</span>
+                  : <a href={item.path}>{item.label}</a>}
+              </>
+            ))}
+          </nav>
+        )}
+        <slot />
+      </div>
+    </main>
+    <footer class="site-footer">
+      <div class="shell">
+        <div class="footer-row">
+          <a class="brand" href="/" aria-label="DnD Arena home">
+            <span class="brand-mark" aria-hidden="true">✦</span>
+            <span class="brand-copy">
+              <span class="brand-name">DnD Arena</span>
+              <span class="brand-tagline">A fantasy name studio</span>
+            </span>
+          </a>
+          <nav class="footer-links" aria-label="Footer navigation">
+            <a href="/about/">About</a>
+            <a href="/how-names-are-generated/">How names are made</a>
+            <a href="/privacy/">Privacy</a>
+            <a href="/terms/">Terms</a>
+            {showContactEmail ? <a href={`mailto:${contactEmail}`}>Contact</a> : <a href="/contact/">Contact</a>}
+          </nav>
+        </div>
+        <p class="footer-note">Not affiliated with or endorsed by Wizards of the Coast. DnD Arena is an independent fantasy naming tool.</p>
+        <p class="footer-note">Names are made in your browser. Favorites stay on this device unless you export them.</p>
+      </div>
+    </footer>
+    <script is:inline>
+      const themeButton = document.querySelector('[data-theme-switch]');
+      const themeLabel = document.querySelector('[data-theme-label]');
+      const applyTheme = (theme) => {
+        document.documentElement.dataset.theme = theme;
+        const isNight = theme === 'night';
+        themeButton?.setAttribute('aria-pressed', String(isNight));
+        themeButton?.setAttribute('aria-label', isNight ? 'Switch to dark theme' : 'Switch to night theme');
+        if (themeLabel) themeLabel.textContent = isNight ? 'Dark' : 'Night';
+        try {
+          window.localStorage.setItem('dnd-arena-theme', theme);
+        } catch {
+          return;
+        }
+      };
+      if (themeButton) {
+        const initialTheme = document.documentElement.dataset.theme === 'night' ? 'night' : 'dark';
+        themeButton.setAttribute('aria-pressed', String(initialTheme === 'night'));
+        themeLabel && (themeLabel.textContent = initialTheme === 'night' ? 'Dark' : 'Night');
+        themeButton.addEventListener('click', () => {
+          const currentTheme = document.documentElement.dataset.theme;
+          applyTheme(currentTheme === 'night' ? 'dark' : 'night');
+        });
+      }
+    </script>
+  </body>
+</html>

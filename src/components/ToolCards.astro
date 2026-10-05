@@ -1,0 +1,15 @@
+---
+const { items, showSamples = false } = Astro.props;
+---
+<div class="tool-link-grid">
+  {items.map((item) => (
+    <a class="tool-card" href={`/${item.slug}/`}>
+      <div>
+        <span class="eyebrow">{item.eyebrow ?? 'Open generator'}</span>
+        <h3>{item.title}</h3>
+        <p>{item.description}</p>
+      </div>
+      {showSamples && item.samples && <p class="tool-card-samples">{item.samples.join(' · ')}</p>}
+    </a>
+  ))}
+</div>

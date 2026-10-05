@@ -1,0 +1,36 @@
+---
+import ContentPage from '../components/ContentPage.astro';
+
+const sections = [
+  {
+    heading: 'Use of the tools',
+    paragraphs: [
+      'You may use generated names and prompts in personal games, campaign notes, and creative projects. The generator is provided as a free convenience. Review any name before using it in a commercial work or publication.',
+      'The names are original combinations from this site’s own syllable tables. DnD Arena does not promise that every generated combination is unique across all websites, languages, or creative works.'
+    ]
+  },
+  {
+    heading: 'Your edits and exports',
+    paragraphs: [
+      'You are free to edit a result, save a favorite in your browser, or export favorites as a text file. Keep a backup of exported notes if they matter to your campaign.',
+      'Do not use the tools to submit unlawful content or to disrupt the site for other visitors.'
+    ]
+  },
+  {
+    heading: 'Independent project',
+    paragraphs: [
+      'DnD Arena is an independent fantasy naming tool. It is not affiliated with or endorsed by Wizards of the Coast. Game and product names belong to their respective owners.',
+      'The site may change as tools are improved. These terms should be reviewed before public launch and updated if the project’s ownership or data practices change.'
+    ]
+  }
+];
+---
+<ContentPage
+  title="Terms of Use: DnD Arena"
+  description="Read the terms for using DnD Arena, including original generated names, personal creative use, browser storage, and the limits of this independent tool."
+  path="/terms/"
+  heading="Terms of use"
+  eyebrow="Using DnD Arena"
+  intro="These terms explain the intended use of the free fantasy naming tools and the limits of generated results."
+  sections={sections}
+/>

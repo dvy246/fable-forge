@@ -1,0 +1,36 @@
+---
+import ContentPage from '../components/ContentPage.astro';
+
+const sections = [
+  {
+    heading: 'Names stay in the browser',
+    paragraphs: [
+      'Name generation happens on your device. The names you create are not sent to a server, and this project does not require an account to use its tools.',
+      'The site does not include analytics code, advertising scripts, or third-party generation APIs in this build.'
+    ]
+  },
+  {
+    heading: 'Local favorites and theme choice',
+    paragraphs: [
+      'If you save a favorite or choose a theme, the browser stores that preference in local storage on this device. Every read and write is guarded so the page remains usable if browser storage is blocked or unavailable.',
+      'Clearing site data in your browser removes saved favorites and the stored theme choice. You can export favorites as a plain text file before clearing them.'
+    ]
+  },
+  {
+    heading: 'Exports and contact',
+    paragraphs: [
+      'When you export favorites, your browser downloads a text file. DnD Arena does not receive a copy. If you send an email to the published contact address, your email provider handles that message under its own privacy terms.',
+      'This page describes the current static build. The site owner should update it if hosting, analytics, advertising, or other data collection is added later.'
+    ]
+  }
+];
+---
+<ContentPage
+  title="Privacy: DnD Arena Browser Tools"
+  description="Read how DnD Arena handles saved favorites, theme settings, browser storage, and generated names. Names stay on your device and are not sent to a server."
+  path="/privacy/"
+  heading="Privacy"
+  eyebrow="Plain-language privacy"
+  intro="DnD Arena is designed to generate names locally and keep saved favorites on the device where you use the site."
+  sections={sections}
+/>

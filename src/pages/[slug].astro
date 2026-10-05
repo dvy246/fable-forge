@@ -1,0 +1,206 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Generator from '../components/Generator.astro';
+import ToolCards from '../components/ToolCards.astro';
+import { raceProfiles, raceBySlug } from '../data/races';
+import { utilityPages, utilityBySlug } from '../data/utilities';
+import { asGeneratorProfile, makeSampleResults } from '../lib/name-engine';
+import { webApplicationSchema } from '../lib/seo';
+
+const phaseTwoEnabled = import.meta.env.PUBLIC_BUILD_PHASE_2 !== 'false';
+
+export function getStaticPaths() {
+  const includePhaseTwo = import.meta.env.PUBLIC_BUILD_PHASE_2 !== 'false';
+  const pages = includePhaseTwo ? [...raceProfiles, ...utilityPages] : raceProfiles;
+  return pages.map((page) => ({
+    params: { slug: page.slug },
+    props: { slug: page.slug },
+  }));
+}
+
+const { slug } = Astro.props;
+const race = raceBySlug.get(slug);
+const utility = utilityBySlug.get(slug);
+const page = race ?? utility;
+
+if (!page) throw new Error(`Missing generator data for ${slug}`);
+
+const path = `/${page.slug}/`;
+const heading = page.keyword
+  .split(' ')
+  .map((word) => word.toLowerCase() === 'dnd' ? 'DnD' : word.toLowerCase() === 'npc' ? 'NPC' : word.charAt(0).toUpperCase() + word.slice(1))
+  .join(' ');
+const imageType = race ? 'race' : 'utility';
+const schema = [webApplicationSchema(heading, page.description, path)];
+const breadcrumbs = [
+  { label: 'Home', path: '/' },
+  { label: race ? `${race.label} names` : utility?.label ?? 'Generator', path },
+];
+const relatedItems = race
+  ? [
+      ...race.relatedRaces.map((relatedSlug) => {
+        const item = raceBySlug.get(relatedSlug);
+        return item ? {
+          slug: item.slug,
+          title: `${item.label} names`,
+          description: item.intro[0],
+          eyebrow: 'Ancestry names',
+        } : null;
+      }).filter((item) => item !== null),
+      ...(phaseTwoEnabled ? race.relatedUtilities : []).map((relatedSlug) => {
+        const item = utilityBySlug.get(relatedSlug);
+        return item ? {
+          slug: item.slug,
+          title: item.label,
+          description: item.intro[0],
+          eyebrow: 'Campaign utility',
+        } : null;
+      }).filter((item) => item !== null),
+    ]
+  : (utility?.related ?? []).map((relatedSlug) => {
+      const raceItem = raceBySlug.get(relatedSlug);
+      if (raceItem) return { slug: raceItem.slug, title: `${raceItem.label} names`, description: raceItem.intro[0], eyebrow: 'Ancestry names' };
+      const utilityItem = utilityBySlug.get(relatedSlug);
+      if (utilityItem) return { slug: utilityItem.slug, title: utilityItem.label, description: utilityItem.intro[0], eyebrow: 'Campaign utility' };
+      return null;
+    }).filter((item) => item !== null);
+const sampleNames = race
+  ? makeSampleResults(asGeneratorProfile(race), {
+      race: race.slug,
+      style: race.styles[0].id,
+      placeStyle: 'harbor',
+      gender: 'neutral',
+      length: 'medium',
+      fullName: false,
+    }, 12)
+  : [];
+const faq = page.faq;
+---
+<SiteLayout
+  title={page.title}
+  description={page.description}
+  path={path}
+  pageType="article"
+  imageType={imageType}
+  breadcrumbs={breadcrumbs}
+  schema={schema}
+  showTools={true}
+>
+  <section class="hero">
+    <span class="eyebrow">{race ? `${race.label} name craft` : 'A campaign-ready utility'}</span>
+    <h1>{heading}</h1>
+    <p class="hero-copy">{page.intro[0]}</p>
+  </section>
+
+  <Generator
+    toolType={race ? 'race' : utility!.toolType}
+    profiles={race ? [race] : raceProfiles}
+    defaultRace={race?.slug}
+    heading={race ? 'The generator' : `Generate ${utility!.label.toLocaleLowerCase()}`}
+    description={race ? 'Choose a naming style, shape the length, and keep a result that fits your character.' : 'Set a direction, roll ten original results, and keep the ones that fit your table.'}
+  />
+
+  {race ? (
+    <article class="page-section seo-copy" data-seo-copy>
+      <section class="content-card" aria-labelledby="styles-heading">
+        <span class="eyebrow">Three original sound palettes</span>
+        <h2 id="styles-heading">Naming style options</h2>
+        <p>{race.intro[1]}</p>
+        {race.styles.map((style) => (
+          <section class="style-block">
+            <h3>{style.label}</h3>
+            <p>{style.summary}</p>
+            <ul class="style-examples" aria-label={`${style.label} example names`}>
+              {style.examples.map((name) => <li>{name}</li>)}
+            </ul>
+          </section>
+        ))}
+      </section>
+
+      <section class="page-section content-card" aria-labelledby="how-heading">
+        <span class="eyebrow">A guide to the sound</span>
+        <h2 id="how-heading">How {race.label} names work</h2>
+        {race.construction.map((paragraph) => <p>{paragraph}</p>)}
+      </section>
+
+      <section class="page-section content-card" aria-labelledby="sample-heading">
+        <span class="eyebrow">Pre-rendered examples</span>
+        <h2 id="sample-heading">Sample {race.label} names</h2>
+        <p>These twelve names are included in the page before JavaScript runs. Use them as written or treat them as sound prompts for a new name.</p>
+        <div class="sample-grid">
+          {sampleNames.map((sample, index) => (
+            <article class="sample-card">
+              <span class="microcopy">Example {String(index + 1).padStart(2, '0')}</span>
+              <strong class="result-name sample-name">{sample.name}</strong>
+              <p class="result-flavor">{sample.flavor}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="page-section content-card" aria-labelledby="pronunciation-heading">
+        <span class="eyebrow">Say each name aloud</span>
+        <h2 id="pronunciation-heading">Pronunciation notes</h2>
+        <p>Use these guides as a first reading, then choose the pronunciation that feels natural in your setting.</p>
+        <ul class="pronunciation-list">
+          {race.pronunciation.map((item) => <li><strong>{item.name}</strong>, {item.guide}. {item.note}</li>)}
+        </ul>
+      </section>
+
+      <section class="page-section content-card" aria-labelledby="table-heading">
+        <span class="eyebrow">Bring it to the table</span>
+        <h2 id="table-heading">Using {race.label.toLocaleLowerCase()} names in play</h2>
+        {race.tableTips.map((paragraph) => <p>{paragraph}</p>)}
+      </section>
+
+      <section class="page-section" aria-labelledby="faq-heading">
+        <div class="section-topline">
+          <div>
+            <span class="eyebrow">A few quick answers</span>
+            <h2 id="faq-heading" class="section-heading">Frequently asked questions</h2>
+          </div>
+        </div>
+        <div class="faq-grid">
+          {faq.map((item) => <article class="faq-item"><h3>{item.question}</h3><p>{item.answer}</p></article>)}
+        </div>
+      </section>
+    </article>
+  ) : (
+    <article class="page-section seo-copy" data-seo-copy>
+      <section class="content-card" aria-labelledby="intro-heading">
+        <span class="eyebrow">Make it useful at your table</span>
+        <h2 id="intro-heading">How to use the {utility!.label.toLocaleLowerCase()} tool</h2>
+        {utility!.intro.slice(1).map((paragraph) => <p>{paragraph}</p>)}
+      </section>
+      {utility!.sections.map((section, index) => (
+        <section class="page-section content-card" aria-labelledby={`utility-section-${index}`}>
+          <span class="eyebrow">A practical prompt</span>
+          <h2 id={`utility-section-${index}`}>{section.heading}</h2>
+          {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+        </section>
+      ))}
+      <section class="page-section" aria-labelledby="faq-heading">
+        <div class="section-topline">
+          <div>
+            <span class="eyebrow">A few quick answers</span>
+            <h2 id="faq-heading" class="section-heading">Frequently asked questions</h2>
+          </div>
+        </div>
+        <div class="faq-grid">
+          {faq.map((item) => <article class="faq-item"><h3>{item.question}</h3><p>{item.answer}</p></article>)}
+        </div>
+      </section>
+    </article>
+  )}
+
+  <section class="page-section" aria-labelledby="related-heading">
+    <div class="section-topline">
+      <div>
+        <span class="eyebrow">Keep exploring</span>
+        <h2 id="related-heading" class="section-heading">Related generators</h2>
+      </div>
+    </div>
+    <ToolCards items={relatedItems} />
+  </section>
+  <div class="ad-slot" aria-hidden="true"></div>
+</SiteLayout>

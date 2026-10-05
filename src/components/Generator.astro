@@ -1,0 +1,434 @@
+---
+import { asGeneratorProfile, buildRaceName, buildSurname, buildUtilityResult } from '../lib/name-engine';
+
+const { toolType, profiles, defaultRace, heading, description } = Astro.props;
+const generatorProfiles = profiles.map(asGeneratorProfile);
+const initialProfile = generatorProfiles.find((item) => item.slug === defaultRace) ?? generatorProfiles[0];
+const initialStyle = initialProfile.styles[0]?.id ?? '';
+const personTools = ['race', 'character', 'npc', 'surname'];
+const showPersonOptions = personTools.includes(toolType);
+const showRaceSelect = ['character', 'npc', 'surname'].includes(toolType);
+const placeStyles = {
+  town: [
+    { value: 'harbor', label: 'Harbor town' },
+    { value: 'highland', label: 'Hill country' },
+    { value: 'woodland', label: 'Woodland' },
+  ],
+  tavern: [
+    { value: 'cozy', label: 'Cozy hearth' },
+    { value: 'crossroads', label: 'Roadside stop' },
+    { value: 'candlelit', label: 'Candlelit mystery' },
+  ],
+  party: [
+    { value: 'bold', label: 'Bold' },
+    { value: 'hopeful', label: 'Hopeful' },
+    { value: 'wry', label: 'Wry' },
+  ],
+};
+const placeOptions = placeStyles[toolType] ?? [];
+const defaultOptions = {
+  race: initialProfile.slug,
+  style: initialStyle,
+  placeStyle: placeOptions[0]?.value ?? 'harbor',
+  gender: 'neutral',
+  length: 'medium',
+  fullName: false,
+};
+const initialResults = Array.from({ length: 10 }, (_, index) => {
+  const seed = index + 5.31;
+  if (toolType === 'surname') return buildSurname(initialProfile, initialStyle, seed);
+  if (['town', 'tavern', 'party', 'npc'].includes(toolType)) {
+    return buildUtilityResult(toolType, initialProfile, defaultOptions, seed);
+  }
+  return buildRaceName(initialProfile, defaultOptions, seed);
+});
+const serializedProfiles = JSON.stringify(generatorProfiles);
+---
+<section class="page-section" id="generator" aria-labelledby="generator-heading">
+  <div
+    class="tool-grid"
+    data-generator-root
+    data-tool-type={toolType}
+    data-default-race={initialProfile.slug}
+    data-config={serializedProfiles}
+  >
+    <div class="generator-card">
+      <div class="generator-heading">
+        <div>
+          <span class="eyebrow">The name forge</span>
+          <h2 id="generator-heading">{heading}</h2>
+          <p>{description}</p>
+        </div>
+        <span class="sigil" aria-hidden="true">FF</span>
+      </div>
+      <div class="control-grid">
+        {showRaceSelect && (
+          <div class="field">
+            <label for="generator-race">Ancestry</label>
+            <select id="generator-race" data-race>
+              {profiles.map((profile) => <option value={profile.slug} selected={profile.slug === initialProfile.slug}>{profile.label}</option>)}
+            </select>
+          </div>
+        )}
+        {showPersonOptions && (
+          <div class="field">
+            <label for="generator-gender">Name style</label>
+            <select id="generator-gender" data-gender>
+              <option value="neutral" selected>Neutral</option>
+              <option value="male">Masculine</option>
+              <option value="female">Feminine</option>
+            </select>
+          </div>
+        )}
+        {showPersonOptions && (
+          <div class="field">
+            <label for="generator-style">Sound tradition</label>
+            <select id="generator-style" data-style>
+              {initialProfile.styles.map((style, index) => <option value={style.id} selected={index === 0}>{style.label}</option>)}
+            </select>
+          </div>
+        )}
+        {showPersonOptions && toolType !== 'surname' && (
+          <div class="field">
+            <label for="generator-length">Name length</label>
+            <select id="generator-length" data-length>
+              <option value="short">Short</option>
+              <option value="medium" selected>Medium</option>
+              <option value="long">Long</option>
+            </select>
+          </div>
+        )}
+        {showPersonOptions && toolType !== 'surname' && (
+          <div class="field">
+            <label for="generator-format">Name format</label>
+            <select id="generator-format" data-full-name>
+              <option value="first" selected>First name only</option>
+              <option value="full">First plus family name</option>
+            </select>
+          </div>
+        )}
+        {!showPersonOptions && placeOptions.length > 0 && (
+          <div class="field">
+            <label for="generator-place-style">{toolType === 'party' ? 'Group mood' : 'Naming style'}</label>
+            <select id="generator-place-style" data-place-style>
+              {placeOptions.map((option, index) => <option value={option.value} selected={index === 0}>{option.label}</option>)}
+            </select>
+          </div>
+        )}
+        {toolType === 'surname' && (
+          <div class="field">
+            <label for="generator-length">Name length</label>
+            <select id="generator-length" data-length>
+              <option value="short">Short</option>
+              <option value="medium" selected>Medium</option>
+              <option value="long">Long</option>
+            </select>
+          </div>
+        )}
+      </div>
+      <div class="generator-actions">
+        <button class="primary-button" type="button" data-action="generate">Generate names <span aria-hidden="true">↗</span></button>
+        <button class="quiet-button" type="button" data-action="more">Generate more</button>
+      </div>
+      <p class="microcopy">Original syllable tables · Generated in your browser · No account</p>
+    </div>
+    <aside class="side-card" aria-label="How the generator works">
+      <span class="eyebrow">A small craft note</span>
+      <h3>Sound first. Story next.</h3>
+      <p>Each name joins original openings, middle beats, and endings. Pick the sound that fits, then give it meaning at your table.</p>
+      <p>Lock a result to keep it on the next roll. Favorites stay in this browser and can be exported as a text file.</p>
+    </aside>
+    <div class="result-section col-span-full">
+      <div class="section-topline">
+        <div>
+          <h2 class="section-heading">Your names</h2>
+          <p class="section-note">Lock the results you want to keep, then reroll the rest.</p>
+        </div>
+        <span class="microcopy">10 at a time</span>
+      </div>
+      <div class="result-grid" data-results aria-live="polite">
+        {initialResults.map((result, index) => (
+          <article class="result-card" data-result data-name={result.name} data-flavor={result.flavor} data-locked="false">
+            <div class="result-heading">
+              <span class="microcopy">Result {String(index + 1).padStart(2, '0')}</span>
+              <button class="tool-button" type="button" data-action="lock" aria-pressed="false" aria-label={`Lock ${result.name}`}>Lock</button>
+            </div>
+            <strong class="result-name">{result.name}</strong>
+            <p class="result-flavor">{result.flavor}</p>
+            <div class="result-tools">
+              <button class="pill-button" type="button" data-action="copy">Copy</button>
+              <button class="pill-button" type="button" data-action="favorite">Save</button>
+              <button class="pill-button" type="button" data-action="reroll">Reroll</button>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p class="result-status" data-status role="status" aria-live="polite"></p>
+      <section class="favorite-box" aria-labelledby="favorite-heading">
+        <div class="favorite-heading">
+          <div>
+            <h3 id="favorite-heading">Saved favorites</h3>
+            <p class="microcopy" data-favorite-empty>Favorites stay on this device.</p>
+          </div>
+          <button class="quiet-button" type="button" data-action="export">Export .txt</button>
+        </div>
+        <ul class="favorite-list" data-favorites aria-label="Saved name favorites"></ul>
+      </section>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { buildRaceName, buildSurname, buildUtilityResult, isGeneratedResult } from '../lib/name-engine';
+
+  const root = document.querySelector('[data-generator-root]');
+
+  if (root) {
+    const profiles = JSON.parse(root.dataset.config ?? '[]');
+    const toolType = root.dataset.toolType ?? 'race';
+    const resultGrid = root.querySelector('[data-results]');
+    const status = root.querySelector('[data-status]');
+    const raceSelect = root.querySelector('[data-race]');
+    const styleSelect = root.querySelector('[data-style]');
+    const genderSelect = root.querySelector('[data-gender]');
+    const lengthSelect = root.querySelector('[data-length]');
+    const fullNameSelect = root.querySelector('[data-full-name]');
+    const placeStyleSelect = root.querySelector('[data-place-style]');
+    const favoritesList = root.querySelector('[data-favorites]');
+    const favoritesEmpty = root.querySelector('[data-favorite-empty]');
+    const storageKey = 'dnd-arena-favorites';
+    const initialResults = Array.from(root.querySelectorAll('[data-result]')).map((card) => ({
+      name: card.dataset.name ?? '',
+      flavor: card.dataset.flavor ?? '',
+      locked: false,
+    }));
+    let results = initialResults;
+
+    const readFavorites = () => {
+      try {
+        const stored = window.localStorage.getItem(storageKey);
+        if (!stored) return [];
+        const parsed = JSON.parse(stored);
+        return Array.isArray(parsed) ? parsed.filter(isGeneratedResult) : [];
+      } catch {
+        return [];
+      }
+    };
+
+    let favorites = readFavorites();
+
+    const writeFavorites = () => {
+      try {
+        window.localStorage.setItem(storageKey, JSON.stringify(favorites));
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
+    const randomSeed = () => Math.random() * 100000;
+
+    const currentProfile = () => {
+      const wanted = raceSelect?.value ?? root.dataset.defaultRace ?? profiles[0]?.slug;
+      return profiles.find((profile) => profile.slug === wanted) ?? profiles[0];
+    };
+
+    const currentOptions = () => ({
+      race: raceSelect?.value ?? root.dataset.defaultRace ?? profiles[0]?.slug ?? '',
+      style: styleSelect?.value ?? currentProfile()?.styles[0]?.id ?? '',
+      placeStyle: placeStyleSelect?.value ?? 'harbor',
+      gender: genderSelect?.value ?? 'neutral',
+      length: lengthSelect?.value ?? 'medium',
+      fullName: fullNameSelect?.value === 'full',
+    });
+
+    const makeOne = (seed) => {
+      const profile = currentProfile();
+      const options = currentOptions();
+      if (!profile) return { name: 'Wayfarer', flavor: 'A new name is ready for your story.' };
+      if (toolType === 'surname') return buildSurname(profile, options.style, seed);
+      if (['town', 'tavern', 'party', 'npc'].includes(toolType)) {
+        return buildUtilityResult(toolType, profile, options, seed);
+      }
+      return buildRaceName(profile, options, seed);
+    };
+
+    const saveFavorite = (item) => {
+      if (!favorites.some((favorite) => favorite.name === item.name && favorite.flavor === item.flavor)) {
+        favorites = [...favorites, { name: item.name, flavor: item.flavor }];
+      }
+      const saved = writeFavorites();
+      drawFavorites();
+      setStatus(saved ? `${item.name} saved to favorites.` : 'Storage is unavailable, so this favorite could not be saved.');
+    };
+
+    const setStatus = (message) => {
+      if (status) status.textContent = message;
+    };
+
+    const drawFavorites = () => {
+      if (!favoritesList) return;
+      favoritesList.replaceChildren();
+      if (favoritesEmpty) favoritesEmpty.textContent = favorites.length ? `${favorites.length} saved on this device.` : 'Favorites stay on this device.';
+      favorites.forEach((favorite) => {
+        const item = document.createElement('li');
+        const label = document.createElement('span');
+        label.textContent = favorite.name;
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.textContent = '×';
+        remove.setAttribute('aria-label', `Remove ${favorite.name} from favorites`);
+        remove.addEventListener('click', () => {
+          favorites = favorites.filter((saved) => saved.name !== favorite.name || saved.flavor !== favorite.flavor);
+          const saved = writeFavorites();
+          drawFavorites();
+          setStatus(saved ? `${favorite.name} removed from favorites.` : 'Storage is unavailable.');
+        });
+        item.append(label, remove);
+        favoritesList.append(item);
+      });
+    };
+
+    const drawResults = () => {
+      if (!resultGrid) return;
+      resultGrid.replaceChildren();
+      results.forEach((result, index) => {
+        const card = document.createElement('article');
+        card.className = `result-card${result.locked ? ' is-locked' : ''}`;
+        card.dataset.result = '';
+        card.dataset.name = result.name;
+        card.dataset.flavor = result.flavor;
+        card.dataset.locked = String(result.locked);
+
+        const heading = document.createElement('div');
+        heading.className = 'result-heading';
+        const number = document.createElement('span');
+        number.className = 'microcopy';
+        number.textContent = `Result ${String(index + 1).padStart(2, '0')}`;
+        const lock = document.createElement('button');
+        lock.className = 'tool-button';
+        lock.type = 'button';
+        lock.dataset.action = 'lock';
+        lock.setAttribute('aria-pressed', String(result.locked));
+        lock.setAttribute('aria-label', `${result.locked ? 'Unlock' : 'Lock'} ${result.name}`);
+        lock.textContent = result.locked ? 'Locked' : 'Lock';
+        heading.append(number, lock);
+
+        const name = document.createElement('strong');
+        name.className = 'result-name';
+        name.textContent = result.name;
+        const flavor = document.createElement('p');
+        flavor.className = 'result-flavor';
+        flavor.textContent = result.flavor;
+        const tools = document.createElement('div');
+        tools.className = 'result-tools';
+        for (const [action, label] of [['copy', 'Copy'], ['favorite', 'Save'], ['reroll', 'Reroll']]) {
+          const button = document.createElement('button');
+          button.className = 'pill-button';
+          button.type = 'button';
+          button.dataset.action = action;
+          button.textContent = label;
+          tools.append(button);
+        }
+        card.append(heading, name, flavor, tools);
+        resultGrid.append(card);
+      });
+    };
+
+    const updateStyleOptions = () => {
+      if (!styleSelect) return;
+      const profile = currentProfile();
+      if (!profile) return;
+      const previous = styleSelect.value;
+      styleSelect.replaceChildren();
+      profile.styles.forEach((style) => {
+        const option = document.createElement('option');
+        option.value = style.id;
+        option.textContent = style.label;
+        styleSelect.append(option);
+      });
+      styleSelect.value = profile.styles.some((style) => style.id === previous) ? previous : profile.styles[0]?.id ?? '';
+    };
+
+    const generateNames = (append) => {
+      const fresh = Array.from({ length: 10 }, () => ({ ...makeOne(randomSeed()), locked: false }));
+      results = append ? [...results, ...fresh] : results.map((item) => item.locked ? item : { ...makeOne(randomSeed()), locked: false });
+      if (append) drawResults();
+      else drawResults();
+      setStatus(append ? 'Ten more names added.' : 'Unlocked names rerolled.');
+    };
+
+    root.addEventListener('change', (event) => {
+      if (event.target === raceSelect) updateStyleOptions();
+    });
+
+    root.addEventListener('click', async (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      const button = target.closest('[data-action]');
+      if (!button) return;
+      const action = button.dataset.action;
+
+      if (action === 'generate') {
+        generateNames(false);
+        return;
+      }
+      if (action === 'more') {
+        generateNames(true);
+        return;
+      }
+      if (action === 'export') {
+        if (!favorites.length) {
+          setStatus('Save a favorite before exporting.');
+          return;
+        }
+        const text = favorites.map((favorite) => `${favorite.name}: ${favorite.flavor}`).join('\n');
+        const file = new Blob([text], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(file);
+        link.download = 'dnd-arena-favorites.txt';
+        link.click();
+        URL.revokeObjectURL(link.href);
+        setStatus('Favorites exported as a text file.');
+        return;
+      }
+
+      const card = button.closest('[data-result]');
+      if (!card) return;
+      const index = Array.from(resultGrid?.querySelectorAll('[data-result]') ?? []).indexOf(card);
+      const result = results[index];
+      if (!result) return;
+
+      if (action === 'lock') {
+        result.locked = !result.locked;
+        drawResults();
+        setStatus(result.locked ? `${result.name} locked for the next roll.` : `${result.name} unlocked.`);
+        return;
+      }
+      if (action === 'reroll') {
+        if (result.locked) {
+          setStatus('Unlock this result before rerolling it.');
+          return;
+        }
+        results[index] = { ...makeOne(randomSeed()), locked: false };
+        drawResults();
+        setStatus('One result rerolled.');
+        return;
+      }
+      if (action === 'favorite') {
+        saveFavorite(result);
+        return;
+      }
+      if (action === 'copy') {
+        try {
+          await navigator.clipboard.writeText(result.name);
+          setStatus(`${result.name} copied.`);
+        } catch {
+          setStatus('Clipboard access is unavailable in this browser.');
+        }
+      }
+    });
+
+    drawFavorites();
+  }
+</script>

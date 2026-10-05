@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="50" y1="20" x2="1140" y2="610" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#151B20"/>
+      <stop offset="1" stop-color="#0A0D10"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="matrix(330 240 -200 275 900 300)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A37B45" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#A37B45" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h1200v630H0z"/>
+  <path fill="url(#glow)" d="M0 0h1200v630H0z"/>
+  <path d="M880 136 1037 300 880 464 723 300l157-164Z" stroke="#C8A875" stroke-opacity=".25" stroke-width="2"/>
+  <path d="m880 192 103 108-103 108-103-108 103-108Z" stroke="#C8A875" stroke-opacity=".48"/>
+  <path d="m880 265 9 26 26 9-26 9-9 26-9-26-26-9 26-9 9-26Z" fill="#D8BD8B"/>
+  <path d="M112 505h976" stroke="#C8A875" stroke-opacity=".45"/>
+  <text x="112" y="230" fill="#D8BD8B" font-family="Georgia,serif" font-size="22" letter-spacing="5">THREE ORIGINAL SOUND PALETTES</text>
+  <text x="108" y="328" fill="#F2EEE5" font-family="Georgia,serif" font-size="76" letter-spacing="-2">Names with a lineage</text>
+  <text x="112" y="389" fill="#B5B2AA" font-family="Arial,sans-serif" font-size="27">Shape a fantasy name with syllables built for its ancestry.</text>
+  <text x="112" y="552" fill="#92948F" font-family="Arial,sans-serif" font-size="17" letter-spacing="2">FABLE FORGE · ORIGINAL DATA · LOCAL GENERATION</text>
+</svg>

@@ -1,0 +1,43 @@
+---
+import ContentPage from '../components/ContentPage.astro';
+
+const sections = [
+  {
+    heading: 'Original syllable tables',
+    paragraphs: [
+      'Each ancestry and naming style has its own opening syllables, middle sounds, endings, family names, and short flavor prompts. These tables were written for this project. The site does not copy name lists, setting lore, or passages from game books or other generators.',
+      'Style labels describe a possible sound or social setting. They are prompts for a home campaign, not official culture names or mandatory rules.'
+    ]
+  },
+  {
+    heading: 'Join sounds, then check the result',
+    paragraphs: [
+      'The generator chooses an opening, adds a middle beat based on the selected length, and finishes with an ending that fits the chosen name style. The optional gender setting changes only a small set of endings. The neutral option remains available, and no option decides a character’s identity.',
+      'A final check keeps names within a practical length and reduces repeated consonants. The result is designed to be spoken aloud and remembered after a single introduction.'
+    ]
+  },
+  {
+    heading: 'Why the examples are in the page',
+    paragraphs: [
+      'Race pages include twelve sample names in their HTML before the interactive script runs. That gives visitors useful examples immediately and lets search crawlers read real page content without needing to operate the generator.',
+      'The browser script enhances the page with fresh results, copy controls, locked names, local favorites, and a text export. It does not request names from an API.'
+    ]
+  },
+  {
+    heading: 'Make the sound your own',
+    paragraphs: [
+      'A generated name is a prompt, not a finished piece of setting lore. Adjust an ending, shorten the result, combine it with a family name, or invent a pronunciation that suits your world.',
+      'If a name is difficult for your group to say, choose another result. Clear and memorable is more useful at the table than complicated for its own sake.'
+    ]
+  }
+];
+---
+<ContentPage
+  title="How Names Are Generated: DnD Arena Method"
+  description="DnD Arena builds original fantasy names from syllable tables and style choices. Every fragment is written here, not copied from books or other name lists."
+  path="/how-names-are-generated/"
+  heading="How names are generated"
+  eyebrow="The naming method"
+  intro="Every result begins with original sound fragments and stays editable, so the final name can belong to your story rather than a preset setting."
+  sections={sections}
+/>

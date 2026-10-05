@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="48" y1="16" x2="1148" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#171B1D"/>
+      <stop offset="1" stop-color="#090D10"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="matrix(350 258 -208 282 884 300)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8E643E" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#8E643E" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h1200v630H0z"/>
+  <path fill="url(#glow)" d="M0 0h1200v630H0z"/>
+  <path d="M796 169c0-10 8-18 18-18h162c10 0 18 8 18 18v236c0 10-8 18-18 18H814c-10 0-18-8-18-18V169Z" stroke="#C8A875" stroke-opacity=".45"/>
+  <path d="M829 216h132M829 250h94M829 284h111M829 318h73" stroke="#C8A875" stroke-opacity=".3" stroke-width="2"/>
+  <path d="m899 354 56-83" stroke="#D8BD8B" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="956" cy="268" r="6" fill="#D8BD8B"/>
+  <path d="M112 505h976" stroke="#C8A875" stroke-opacity=".45"/>
+  <text x="112" y="230" fill="#D8BD8B" font-family="Georgia,serif" font-size="22" letter-spacing="5">SMALL TOOLS FOR BIG STORIES</text>
+  <text x="108" y="328" fill="#F2EEE5" font-family="Georgia,serif" font-size="76" letter-spacing="-2">Build a living world</text>
+  <text x="112" y="389" fill="#B5B2AA" font-family="Arial,sans-serif" font-size="27">Make a place, a tavern, a party name, or a useful NPC.</text>
+  <text x="112" y="552" fill="#92948F" font-family="Arial,sans-serif" font-size="17" letter-spacing="2">FABLE FORGE · ORIGINAL DATA · LOCAL GENERATION</text>
+</svg>

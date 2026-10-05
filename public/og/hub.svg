@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="30" x2="1120" y2="610" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111A20"/>
+      <stop offset="1" stop-color="#090D11"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="matrix(378 260 -234 340 882 302)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A37B45" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#A37B45" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="rule" x1="112" y1="0" x2="1090" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C8A875" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#C8A875"/>
+      <stop offset="1" stop-color="#C8A875" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h1200v630H0z"/>
+  <path fill="url(#glow)" d="M0 0h1200v630H0z"/>
+  <circle cx="940" cy="300" r="172" stroke="#C8A875" stroke-opacity=".18"/>
+  <circle cx="940" cy="300" r="132" stroke="#C8A875" stroke-opacity=".24"/>
+  <circle cx="940" cy="300" r="85" stroke="#C8A875" stroke-opacity=".3"/>
+  <path d="M940 166v268M806 300h268M845 205l190 190m0-190L845 395" stroke="#C8A875" stroke-opacity=".3"/>
+  <path d="m940 265 9 26 26 9-26 9-9 26-9-26-26-9 26-9 9-26Z" fill="#D8BD8B"/>
+  <path d="M110 505h980" stroke="url(#rule)"/>
+  <text x="112" y="230" fill="#D8BD8B" font-family="Georgia,serif" font-size="22" letter-spacing="5">A MOONLIT NAME FORGE</text>
+  <text x="108" y="328" fill="#F2EEE5" font-family="Georgia,serif" font-size="76" letter-spacing="-2">DnD Arena</text>
+  <text x="112" y="389" fill="#B5B2AA" font-family="Arial,sans-serif" font-size="27">Original fantasy names, made for your next adventure.</text>
+  <text x="112" y="552" fill="#92948F" font-family="Arial,sans-serif" font-size="17" letter-spacing="2">FREE · PRIVATE · BUILT IN YOUR BROWSER</text>
+</svg>

@@ -1,0 +1,137 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Generator from '../components/Generator.astro';
+import ToolCards from '../components/ToolCards.astro';
+import { raceProfiles } from '../data/races';
+import { utilityPages } from '../data/utilities';
+import { asGeneratorProfile, buildRaceName, buildSurname, buildUtilityResult } from '../lib/name-engine';
+import { webApplicationSchema, webSiteSchema } from '../lib/seo';
+
+const phaseTwoEnabled = import.meta.env.PUBLIC_BUILD_PHASE_2 !== 'false';
+const visibleUtilities = phaseTwoEnabled ? utilityPages : [];
+const title = 'DnD Name Generator: Original Fantasy Names';
+const description = 'Create original DnD names with the DnD name generator. Choose a fantasy ancestry, sound style, and length, then copy or save a favorite for your next session.';
+const path = '/';
+const schema = [
+  webSiteSchema(),
+  webApplicationSchema('DnD Name Generator', description, path),
+];
+const relatedItems = [
+  ...raceProfiles.map((profile) => ({
+    slug: profile.slug,
+    title: `${profile.label} name generator`,
+    description: profile.intro[0],
+    samples: profile.styles.map((style) => style.examples[0]),
+    eyebrow: 'Ancestry names',
+  })),
+  ...visibleUtilities.map((page) => {
+    const profile = asGeneratorProfile(raceProfiles[0]);
+    const options = { race: profile.slug, style: profile.styles[0].id, placeStyle: 'cozy', gender: 'neutral', length: 'medium', fullName: false };
+    const samples = Array.from({ length: 3 }, (_, index) => {
+      const seed = index + 17.73;
+      if (page.toolType === 'surname') return buildSurname(profile, options.style, seed).name;
+      if (page.toolType === 'character') return buildRaceName(profile, options, seed).name;
+      return buildUtilityResult(page.toolType, profile, options, seed).name;
+    });
+    return {
+      slug: page.slug,
+      title: page.label,
+      description: page.intro[0],
+      samples,
+      eyebrow: 'Campaign utility',
+    };
+  }),
+];
+const faq = [
+  { question: 'Are the names copied from official DnD books?', answer: 'No. DnD Arena joins original syllable tables written for this site. Names and flavor lines are created in your browser.' },
+  { question: 'Can I save names for a later session?', answer: 'Yes. Save favorites in this browser, then export the list as a plain text file for your notes.' },
+  { question: 'How do I make a result sound more like my setting?', answer: 'Choose a style, say the name aloud, and change a syllable or family name until it fits your world.' },
+  { question: 'Does DnD Arena send generated names to a server?', answer: 'No. Name generation happens in the browser, and the names you create are not sent anywhere.' },
+];
+---
+<SiteLayout
+  title={title}
+  description={description}
+  path={path}
+  pageType="website"
+  imageType="hub"
+  breadcrumbs={[{ label: 'Home', path: '/' }]}
+  schema={schema}
+>
+  <section class="hero hero-home">
+    <div class="hero-copy-block">
+      <span class="hero-kicker"><span class="hero-kicker-mark" aria-hidden="true">✦</span> Original names for fantasy tables</span>
+      <h1>DnD Name <span>Generator</span></h1>
+      <p class="hero-copy">Build a name with a sound of its own. Choose an ancestry and style, then keep the names that belong in your world.</p>
+      <div class="hero-actions">
+        <a class="primary-button hero-start" href="#generator">Enter the name forge <span aria-hidden="true">↗</span></a>
+        <span class="hero-assurance"><span class="assurance-dot" aria-hidden="true"></span> Free to use · Private by design</span>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="hero-medallion">
+        <svg class="hero-seal" viewBox="0 0 300 300" focusable="false">
+          <circle class="seal-ring seal-ring-outer" cx="150" cy="150" r="137" />
+          <circle class="seal-ring seal-ring-dash" cx="150" cy="150" r="119" />
+          <circle class="seal-ring seal-ring-inner" cx="150" cy="150" r="101" />
+          <path class="seal-compass" d="M150 33 166 126 259 150 166 174 150 267 134 174 41 150 134 126Z" />
+          <path class="seal-star" d="M150 76 159 137 220 150 159 163 150 224 141 163 80 150 141 137Z" />
+          <circle class="seal-center" cx="150" cy="150" r="21" />
+          <path class="seal-cross" d="M150 5v24m0 242v24M5 150h24m242 0h24" />
+        </svg>
+        <span class="hero-seal-center">✦</span>
+      </div>
+      <div class="hero-art-caption">
+        <span class="hero-art-kicker">MADE FOR THE TABLE</span>
+        <span class="hero-art-line">12 ancestry voices · one good story</span>
+      </div>
+    </div>
+  </section>
+
+  <Generator
+    toolType="character"
+    profiles={raceProfiles}
+    heading="Shape a character name"
+    description="Choose a sound tradition, then make it yours."
+  />
+
+  <div class="ad-slot" aria-hidden="true"></div>
+
+  <section class="page-section content-copy" aria-labelledby="method-heading">
+    <div class="content-card">
+      <span class="eyebrow">A little craft, not a black box</span>
+      <h2 id="method-heading">How the names are generated</h2>
+      <p>DnD Arena builds names from original opening, middle, and ending syllables. Each ancestry has its own sound tables, with separate styles that change the rhythm and family-name options. The rules keep vowels clear, limit difficult consonant clusters, and let you choose a shorter or longer form.</p>
+      <p>Nothing is copied from game books or other name lists. The generated result is a starting point, not a fixed piece of lore. Change a syllable, add a family custom, or give a name an entirely new meaning in your campaign.</p>
+      <p>The tool works in your browser. Copy names, lock the ones you want to keep, save favorites on this device, and export your shortlist as a text file.</p>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="samples-heading">
+    <div class="section-topline">
+      <div>
+        <span class="eyebrow">Choose a path</span>
+        <h2 id="samples-heading" class="section-heading">Every tool has its own page</h2>
+        <p class="section-note">Browse the ancestry generators or jump straight to a campaign utility.</p>
+      </div>
+    </div>
+    <ToolCards items={relatedItems} showSamples={true} />
+  </section>
+
+  <section class="page-section" aria-labelledby="faq-heading">
+    <div class="section-topline">
+      <div>
+        <span class="eyebrow">Before the next roll</span>
+        <h2 id="faq-heading" class="section-heading">Frequently asked questions</h2>
+      </div>
+    </div>
+    <div class="faq-grid">
+      {faq.map((item) => (
+        <article class="faq-item">
+          <h3>{item.question}</h3>
+          <p>{item.answer}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</SiteLayout>
