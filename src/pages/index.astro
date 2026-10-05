@@ -5,7 +5,7 @@ import ToolCards from '../components/ToolCards.astro';
 import { raceProfiles } from '../data/races';
 import { utilityPages } from '../data/utilities';
 import { asGeneratorProfile, buildRaceName, buildSurname, buildUtilityResult, makeSampleResults } from '../lib/name-engine';
-import { webApplicationSchema, webSiteSchema } from '../lib/seo';
+import { webApplicationSchema, webSiteSchema, faqPageSchema } from '../lib/seo';
 
 const generatedHeroSamples = raceProfiles.slice(0, 6).flatMap((profile, idx) => {
   const genProfile = asGeneratorProfile(profile);
@@ -30,10 +30,6 @@ const visibleUtilities = phaseTwoEnabled ? utilityPages : [];
 const title = 'DnD Name Generator: Original Fantasy Names';
 const description = 'Create original DnD names with the DnD name generator. Choose a fantasy ancestry, sound style, and length, then copy or save a favorite for your next session.';
 const path = '/';
-const schema = [
-  webSiteSchema(),
-  webApplicationSchema('DnD Name Generator', description, path),
-];
 const relatedItems = [
   ...raceProfiles.map((profile) => ({
     slug: profile.slug,
@@ -65,6 +61,12 @@ const faq = [
   { question: 'Can I save names for a later session?', answer: 'Yes. Save favorites in this browser, then export the list as a plain text file for your notes.' },
   { question: 'How do I make a result sound more like my setting?', answer: 'Choose a style, say the name aloud, and change a syllable or family name until it fits your world.' },
   { question: 'Does DnD Arena send generated names to a server?', answer: 'No. Name generation happens in the browser, and the names you create are not sent anywhere.' },
+];
+const faqSchema = faqPageSchema(faq);
+const schema = [
+  webSiteSchema(),
+  webApplicationSchema('DnD Name Generator', description, path),
+  ...(faqSchema ? [faqSchema] : []),
 ];
 ---
 <SiteLayout

@@ -186,6 +186,29 @@ async function verifyPage(pagePath, keyword) {
     if (!breadcrumb || !Array.isArray(breadcrumb.itemListElement) || breadcrumb.itemListElement.length === 0) fail(`${pagePath}: BreadcrumbList JSON-LD is missing or empty.`);
     if (pagePath === '/' && !entries.some((entry) => entry['@type'] === 'WebSite')) fail('/ : WebSite JSON-LD is required on the hub.');
     if (pagePath !== '/' && entries.some((entry) => entry['@type'] === 'WebSite')) fail(`${pagePath}: WebSite JSON-LD belongs on the hub only.`);
+
+    const hasFaqContent = pagePath === '/' || Object.hasOwn(raceKeywords, pagePath) || Object.hasOwn(utilityKeywords, pagePath) || Object.hasOwn(blogKeywords, pagePath);
+    if (hasFaqContent) {
+      const faqPage = entries.find((entry) => entry['@type'] === 'FAQPage');
+      if (!faqPage) {
+        fail(`${pagePath}: FAQPage JSON-LD is missing.`);
+      } else {
+        if (!Array.isArray(faqPage.mainEntity) || faqPage.mainEntity.length === 0) {
+          fail(`${pagePath}: FAQPage mainEntity must be a non-empty array.`);
+        } else {
+          for (const [index, item] of faqPage.mainEntity.entries()) {
+            if (item['@type'] !== 'Question' || !item.name) {
+              fail(`${pagePath}: FAQPage mainEntity[${index}] must be a Question with a name.`);
+            }
+            if (item.acceptedAnswer?.['@type'] !== 'Answer' || !item.acceptedAnswer?.text) {
+              fail(`${pagePath}: FAQPage mainEntity[${index}] must have an acceptedAnswer of type Answer with text.`);
+            }
+          }
+        }
+      }
+    } else if (entries.some((entry) => entry['@type'] === 'FAQPage')) {
+      fail(`${pagePath}: FAQPage JSON-LD should only be present on pages with FAQ content.`);
+    }
   } else if (entries.length > 0) {
     fail(`${pagePath}: noindex pages must not emit structured data.`);
   }
@@ -212,7 +235,11 @@ async function verifyPage(pagePath, keyword) {
   if (Object.hasOwn(raceKeywords, pagePath)) {
     const bodyStart = html.indexOf('data-seo-copy');
     const bodyContentStart = bodyStart === -1 ? -1 : html.indexOf('>', bodyStart) + 1;
-    const relatedStart = bodyContentStart === -1 ? -1 : html.indexOf('<section class="page-section" aria-labelledby="related-heading">', bodyContentStart);
+    const relatedStart = bodyContentStart === -1 ? -1 : (
+      html.indexOf('<section class="page-section related-guides"', bodyContentStart) !== -1
+        ? html.indexOf('<section class="page-section related-guides"', bodyContentStart)
+        : html.indexOf('<section class="page-section" aria-labelledby="related-heading">', bodyContentStart)
+    );
     const body = bodyContentStart >= 0 && relatedStart >= 0 ? html.slice(bodyContentStart, relatedStart) : '';
     const words = stripHtml(body).match(/[A-Za-z0-9]+(?:['’][A-Za-z0-9]+)*/g) ?? [];
     if (words.length < 400) fail(`${pagePath}: race content must contain at least 400 words (found ${words.length}).`);
@@ -270,6 +297,11 @@ async function verifyPage(pagePath, keyword) {
   if (Object.hasOwn(raceKeywords, pagePath) && phaseTwoEnabled) {
     const utilityLinks = new Set(links.map((href) => new URL(href, 'https://local.invalid').pathname).filter((href) => Object.hasOwn(utilityKeywords, href)));
     if (utilityLinks.size < 2) fail(`${pagePath}: must link to at least two relevant utilities in the Phase 2 build.`);
+  }
+
+  if (Object.hasOwn(raceKeywords, pagePath) || (phaseTwoEnabled && Object.hasOwn(utilityKeywords, pagePath))) {
+    const guideCards = [...html.matchAll(/<a\b[^>]*\bclass=["'][^"']*\bguide-card\b[^"']*["'][^>]*>/gi)];
+    if (guideCards.length < 1) fail(`${pagePath}: generator page must link to at least one related naming guide.`);
   }
 }
 

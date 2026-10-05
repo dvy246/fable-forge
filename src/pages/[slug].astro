@@ -4,8 +4,9 @@ import Generator from '../components/Generator.astro';
 import ToolCards from '../components/ToolCards.astro';
 import { raceProfiles, raceBySlug } from '../data/races';
 import { utilityPages, utilityBySlug } from '../data/utilities';
+import { blogPosts } from '../data/blog-posts';
 import { asGeneratorProfile, makeSampleResults } from '../lib/name-engine';
-import { webApplicationSchema } from '../lib/seo';
+import { webApplicationSchema, faqPageSchema } from '../lib/seo';
 
 const phaseTwoEnabled = import.meta.env.PUBLIC_BUILD_PHASE_2 !== 'false';
 
@@ -31,7 +32,11 @@ const heading = page.keyword
   .map((word) => word.toLowerCase() === 'dnd' ? 'DnD' : word.toLowerCase() === 'npc' ? 'NPC' : word.charAt(0).toUpperCase() + word.slice(1))
   .join(' ');
 const imageType = race ? 'race' : 'utility';
-const schema = [webApplicationSchema(heading, page.description, path)];
+const faqSchema = page.faq ? faqPageSchema(page.faq) : null;
+const schema = [
+  webApplicationSchema(heading, page.description, path),
+  ...(faqSchema ? [faqSchema] : []),
+];
 const breadcrumbs = [
   { label: 'Home', path: '/' },
   { label: race ? `${race.label} names` : utility?.label ?? 'Generator', path },
@@ -93,6 +98,23 @@ const storySections = race
       { id: 'faq-heading', label: 'FAQ' },
     ];
 const initialSectionLabel = race ? 'Naming Style Options' : 'Tool Guide';
+
+const directGuideMatches = blogPosts.filter((post) =>
+  post.relatedTools?.includes(page.slug) ||
+  post.relatedRaces?.includes(page.slug) ||
+  (['kingdom-name-generator', 'world-name-generator'].includes(page.slug) && post.category === 'Worldbuilding')
+);
+const generalGuide = blogPosts.find((post) => post.slug === 'how-to-name-your-dnd-character');
+const secondaryGuide = blogPosts.find((post) => post.slug === 'fantasy-town-naming-guide');
+
+const matchedGuides = [...directGuideMatches];
+if (generalGuide && !matchedGuides.some((g) => g.slug === generalGuide.slug)) {
+  matchedGuides.push(generalGuide);
+}
+if (secondaryGuide && !matchedGuides.some((g) => g.slug === secondaryGuide.slug)) {
+  matchedGuides.push(secondaryGuide);
+}
+const relatedGuides = matchedGuides.slice(0, 2);
 ---
 <SiteLayout
   title={page.title}
@@ -247,6 +269,26 @@ const initialSectionLabel = race ? 'Naming Style Options' : 'Tool Guide';
       </div>
     </div>
   </article>
+
+  {relatedGuides.length > 0 && (
+    <section class="page-section related-guides" aria-labelledby="guides-heading">
+      <div class="section-topline">
+        <div>
+          <span class="eyebrow">Tabletop naming craft</span>
+          <h2 id="guides-heading" class="section-heading">Naming guides for your campaign</h2>
+        </div>
+      </div>
+      <div class="guide-grid">
+        {relatedGuides.map((guide) => (
+          <a href={`/blog/${guide.slug}/`} class="guide-card">
+            <span class="guide-category">{guide.category}</span>
+            <h3>{guide.title}</h3>
+            <p>{guide.description}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 
   <section class="page-section" aria-labelledby="related-heading">
     <div class="section-topline">

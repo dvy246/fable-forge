@@ -4,7 +4,7 @@ import ToolCards from '../../components/ToolCards.astro';
 import { blogPosts, blogBySlug } from '../../data/blog-posts';
 import { raceBySlug } from '../../data/races';
 import { utilityBySlug } from '../../data/utilities';
-import { articleSchema } from '../../lib/seo';
+import { articleSchema, faqPageSchema } from '../../lib/seo';
 
 export function getStaticPaths() {
   return blogPosts.map((post) => ({
@@ -27,8 +27,10 @@ const breadcrumbs = [
   { label: post.shortTitle ?? post.title, path },
 ];
 
+const faqSchema = post.faq ? faqPageSchema(post.faq) : null;
 const schema = [
   articleSchema(post.title, post.description, path, post.datePublished),
+  ...(faqSchema ? [faqSchema] : []),
 ];
 
 const candidateSlugs = phaseTwoEnabled

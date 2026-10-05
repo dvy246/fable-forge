@@ -54,3 +54,19 @@ export function articleSchema(headline, description, path, datePublished = '2026
     },
   };
 }
+
+export function faqPageSchema(items) {
+  if (!Array.isArray(items) || items.length === 0) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  };
+}
