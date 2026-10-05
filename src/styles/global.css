@@ -1156,8 +1156,7 @@ h3 {
 .result-grid,
 .sample-grid,
 .tool-link-grid,
-.trust-grid,
-.faq-grid {
+.trust-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.65rem;
@@ -1165,8 +1164,7 @@ h3 {
 
 .result-card,
 .sample-card,
-.tool-card,
-.faq-item {
+.tool-card {
   min-width: 0;
   border: 1px solid var(--line);
   border-radius: 0.85rem;
