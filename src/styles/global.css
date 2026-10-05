@@ -430,20 +430,36 @@ select:focus-visible {
   font-size: 1rem;
 }
 
+h1 {
+  font-family: var(--display);
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  font-family: var(--display);
+  letter-spacing: -0.015em;
+}
+
+h3 {
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
 .hero h1,
 .section-heading,
 .page-heading {
   margin: 0;
   font-family: var(--display);
   font-weight: 500;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
   line-height: 1.03;
 }
 
 .hero h1 {
   max-width: 11ch;
   font-size: clamp(3.6rem, 7.2vw, 5.9rem);
-  letter-spacing: -0.04em;
+  letter-spacing: -0.025em;
   line-height: 0.96;
 }
 
@@ -667,7 +683,7 @@ select:focus-visible {
   font-size: clamp(2.2rem, 6vw, 4.2rem);
   font-weight: 800;
   color: var(--gold-bright);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   line-height: 1.1;
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
 }
@@ -811,7 +827,7 @@ select:focus-visible {
   font-family: var(--display);
   font-size: clamp(1.85rem, 3.4vw, 2.5rem);
   font-weight: 600;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
   line-height: 1.08;
 }
 
@@ -1111,7 +1127,11 @@ select:focus-visible {
 
 .result-section,
 .page-section {
-  padding: clamp(2rem, 5vw, 4rem) 0 0;
+  padding: clamp(2.5rem, 5vw, 4.25rem) 0 0;
+}
+
+.page-section + .page-section:not(.scroll-section) {
+  border-top: 1px solid var(--line);
 }
 
 #generator {
@@ -1123,6 +1143,7 @@ select:focus-visible {
 }
 
 .section-heading {
+  letter-spacing: -0.015em;
   line-height: 1.12;
 }
 
@@ -1155,6 +1176,29 @@ select:focus-visible {
 .result-card,
 .sample-card {
   padding: 0.85rem;
+}
+
+.tool-card,
+.blog-card,
+.guide-card,
+.result-card,
+.sample-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.tool-card:hover,
+.blog-card:hover,
+.guide-card:hover,
+.result-card:hover,
+.sample-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  border-color: var(--gold);
+}
+
+.result-card:hover,
+.sample-card:hover {
+  background: color-mix(in srgb, var(--panel) 88%, var(--ember-soft));
 }
 
 .result-card {
@@ -1193,6 +1237,18 @@ select:focus-visible {
     color-mix(in srgb, var(--gold) 5%, var(--sheet)) 100%
   );
   color: var(--sheet-ink);
+}
+
+.result-card[data-locked="true"]:hover,
+.result-card.is-locked:hover,
+.result-card[aria-pressed="true"]:hover {
+  border-color: var(--gold);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18), 0 0 16px rgba(var(--gold-rgb), 0.25);
+  background: linear-gradient(
+    135deg,
+    var(--sheet) 0%,
+    color-mix(in srgb, var(--gold) 5%, var(--sheet)) 100%
+  );
 }
 
 .result-card[data-locked="true"] .result-name,
@@ -1492,21 +1548,45 @@ select:focus-visible {
 .content-card h2 {
   margin: 0 0 0.8rem;
   font-size: clamp(1.5rem, 3vw, 2.2rem);
+  letter-spacing: -0.015em;
 }
 
 .content-card h3 {
   margin: 1.6rem 0 0.55rem;
   font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .content-card p,
 .content-card li {
   color: var(--muted);
-  font-size: 0.93rem;
+  font-size: 0.95rem;
 }
 
 .content-card p {
   margin: 0.6rem 0 0;
+  line-height: 1.75;
+  max-width: 65ch;
+}
+
+.content-card li {
+  line-height: 1.65;
+  max-width: 65ch;
+}
+
+.seo-copy p {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  max-width: 65ch;
+  color: var(--ink);
+}
+
+.sample-card .result-flavor {
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: none;
 }
 
 .content-card ul {
@@ -1515,8 +1595,7 @@ select:focus-visible {
 }
 
 .style-block + .style-block,
-.pronunciation-list li + li,
-.faq-item + .faq-item {
+.pronunciation-list li + li {
   margin-top: 1rem;
 }
 
@@ -1548,21 +1627,41 @@ select:focus-visible {
 }
 
 .faq-grid {
+  display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
 }
 
 .faq-item {
-  padding: 0.9rem;
+  min-width: 0;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 0.65rem;
+  padding: 1.25rem 1.5rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faq-item:hover {
+  border-color: var(--gold);
+  box-shadow: 0 4px 16px rgba(var(--gold-rgb), 0.08);
 }
 
 .faq-item h3 {
   margin: 0;
-  font-size: 1.05rem;
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.3;
 }
 
 .faq-item p {
-  margin: 0.35rem 0 0;
-  font-size: 0.82rem;
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: none;
 }
 
 .tool-card {
@@ -1572,12 +1671,9 @@ select:focus-visible {
   justify-content: space-between;
   padding: 1rem;
   text-decoration: none;
-  transition: border-color 160ms ease, transform 160ms ease, background-color 160ms ease;
 }
 
 .tool-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--gold);
   background: var(--ember-soft);
 }
 
@@ -1585,7 +1681,8 @@ select:focus-visible {
   margin: 0.2rem 0 0.35rem;
   font-family: var(--display);
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .tool-card p {
@@ -1652,7 +1749,7 @@ select:focus-visible {
   font-family: var(--display);
   font-size: clamp(2.3rem, 6vw, 4rem);
   font-weight: 500;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
   line-height: 1.04;
 }
 
@@ -1661,6 +1758,7 @@ select:focus-visible {
   font-family: var(--display);
   font-size: 1.55rem;
   font-weight: 500;
+  letter-spacing: -0.015em;
 }
 
 .simple-page p,
@@ -1702,12 +1800,9 @@ select:focus-visible {
   border-radius: 1rem;
   background: var(--panel);
   text-decoration: none;
-  transition: border-color 160ms ease, transform 160ms ease, background-color 160ms ease;
 }
 
 .blog-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--gold);
   background: color-mix(in srgb, var(--panel) 90%, var(--ember-soft));
 }
 
@@ -1739,6 +1834,7 @@ select:focus-visible {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--ink);
+  letter-spacing: -0.01em;
   line-height: 1.25;
 }
 
@@ -1777,7 +1873,7 @@ select:focus-visible {
   font-size: 1.7rem;
   font-weight: 500;
   color: var(--ink);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
 }
 
 .blog-article p {
@@ -1805,12 +1901,9 @@ select:focus-visible {
   border-radius: 1rem;
   background: var(--panel);
   text-decoration: none;
-  transition: border-color 160ms ease, transform 160ms ease, background-color 160ms ease;
 }
 
 .guide-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--gold);
   background: color-mix(in srgb, var(--panel) 90%, var(--ember-soft));
 }
 
@@ -1831,6 +1924,7 @@ select:focus-visible {
   font-size: 1.15rem;
   font-weight: 600;
   color: var(--ink);
+  letter-spacing: -0.01em;
   line-height: 1.3;
 }
 
@@ -2039,6 +2133,7 @@ select:focus-visible {
 
 .scroll-story-content > .scroll-section.page-section {
   padding-top: 0;
+  border-top: none;
 }
 
 .scroll-section {
@@ -2283,10 +2378,18 @@ select:focus-visible {
   .sample-grid,
   .tool-link-grid,
   .trust-grid,
-  .faq-grid,
   .blog-grid,
   .guide-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .faq-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.85rem;
+  }
+
+  .faq-item {
+    padding: 1.1rem 1.25rem;
   }
 
   .section-topline {
@@ -2316,6 +2419,14 @@ select:focus-visible {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+
+  .tool-card:hover,
+  .blog-card:hover,
+  .guide-card:hover,
+  .result-card:hover,
+  .sample-card:hover {
+    transform: none !important;
   }
 
   [data-action="generate"].dice-rolling,
