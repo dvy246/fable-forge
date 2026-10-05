@@ -43,6 +43,38 @@ const initialResults = Array.from({ length: 10 }, (_, index) => {
   return buildRaceName(initialProfile, defaultOptions, seed);
 });
 const serializedProfiles = JSON.stringify(generatorProfiles);
+
+const wheelColors = [
+  '#3d1e28', '#1c2836', '#283325', '#422b1a',
+  '#311d38', '#183332', '#442421', '#202c3a',
+  '#2e3522', '#3f291e', '#361e33', '#1d3036',
+];
+const wheelRadius = 230;
+const wheelCenter = 250;
+const wheelStep = profiles.length > 0 ? 360 / profiles.length : 30;
+const wheelSegments = profiles.map((profile, i) => {
+  const thetaMid = i * wheelStep;
+  const thetaStart = thetaMid - wheelStep / 2;
+  const thetaEnd = thetaMid + wheelStep / 2;
+  const radStart = (thetaStart - 90) * (Math.PI / 180);
+  const radEnd = (thetaEnd - 90) * (Math.PI / 180);
+  const x1 = +(wheelCenter + wheelRadius * Math.cos(radStart)).toFixed(2);
+  const y1 = +(wheelCenter + wheelRadius * Math.sin(radStart)).toFixed(2);
+  const x2 = +(wheelCenter + wheelRadius * Math.cos(radEnd)).toFixed(2);
+  const y2 = +(wheelCenter + wheelRadius * Math.sin(radEnd)).toFixed(2);
+  const pathD = `M ${wheelCenter} ${wheelCenter} L ${x1} ${y1} A ${wheelRadius} ${wheelRadius} 0 0 1 ${x2} ${y2} Z`;
+  const color = wheelColors[i % wheelColors.length];
+  const rotAngle = +(thetaMid - 90).toFixed(2);
+  return {
+    slug: profile.slug,
+    label: profile.label,
+    pathD,
+    color,
+    rotAngle,
+    x1,
+    y1,
+  };
+});
 ---
 <section class="page-section" id="generator" aria-labelledby="generator-heading">
   <div
@@ -64,7 +96,20 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
       <div class="control-grid">
         {showRaceSelect && (
           <div class="field">
-            <label for="generator-race">Ancestry</label>
+            <div class="field-header">
+              <label for="generator-race">Ancestry</label>
+              {profiles.length > 1 && (
+                <button
+                  class="wheel-open-btn"
+                  type="button"
+                  data-action="open-wheel"
+                  aria-haspopup="dialog"
+                  aria-label="Open wheel to pick a random ancestry"
+                >
+                  <span aria-hidden="true">&#127922;</span> Spin for Race
+                </button>
+              )}
+            </div>
             <select id="generator-race" data-race>
               {profiles.map((profile) => <option value={profile.slug} selected={profile.slug === initialProfile.slug}>{profile.label}</option>)}
             </select>
@@ -179,6 +224,99 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
       </section>
     </div>
     <div class="copy-toast" data-copy-toast role="status" aria-live="polite">Copied to clipboard!</div>
+    {showRaceSelect && profiles.length > 1 && (
+      <div
+        class="wheel-overlay"
+        data-wheel-overlay
+        role="dialog"
+        aria-modal="true"
+        aria-label="Ancestry selection wheel"
+        hidden
+      >
+        <div class="wheel-modal" data-wheel-modal>
+          <button
+            type="button"
+            class="wheel-close-btn"
+            data-action="close-wheel"
+            aria-label="Close wheel spinner"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h3 class="wheel-title">Wheel of Ancestry</h3>
+          <p class="wheel-subtitle">Spin the wheel to choose a random ancestry for your character</p>
+          <div class="wheel-wrapper">
+            <div class="wheel-pointer" aria-hidden="true">
+              <svg width="30" height="36" viewBox="0 0 30 36" fill="none">
+                <path d="M15 36L2 7C0.5 4 2.5 0 6.5 0H23.5C27.5 0 29.5 4 28 7L15 36Z" fill="#f1cf8d" stroke="#bd6249" stroke-width="2"/>
+                <circle cx="15" cy="11" r="3.5" fill="#bd6249"/>
+              </svg>
+            </div>
+            <svg
+              class="wheel-disc"
+              data-wheel-disc
+              viewBox="0 0 500 500"
+              width="500"
+              height="500"
+              aria-hidden="true"
+            >
+              <defs>
+                <filter id="wheel-text-shadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.9" />
+                </filter>
+              </defs>
+              <g class="wheel-disc-wedges">
+                {wheelSegments.map((seg) => (
+                  <path
+                    d={seg.pathD}
+                    fill={seg.color}
+                    stroke="rgba(216, 166, 91, 0.45)"
+                    stroke-width="1.5"
+                  />
+                ))}
+              </g>
+              <g class="wheel-disc-labels">
+                {wheelSegments.map((seg) => (
+                  <g transform={`rotate(${seg.rotAngle} 250 250)`}>
+                    <text
+                      x="425"
+                      y="250"
+                      text-anchor="end"
+                      dominant-baseline="central"
+                      fill="#f7efdf"
+                      font-size="17"
+                      font-weight="700"
+                      font-family="system-ui, -apple-system, sans-serif"
+                      letter-spacing="0.03em"
+                      filter="url(#wheel-text-shadow)"
+                    >
+                      {seg.label}
+                    </text>
+                  </g>
+                ))}
+              </g>
+              <circle cx="250" cy="250" r="230" fill="none" stroke="#d8a65b" stroke-width="3" />
+              <circle cx="250" cy="250" r="236" fill="none" stroke="rgba(216, 166, 91, 0.35)" stroke-width="1.5" stroke-dasharray="3 5" />
+              <circle cx="250" cy="250" r="224" fill="none" stroke="rgba(216, 166, 91, 0.2)" stroke-width="1" />
+              <g class="wheel-disc-rivets">
+                {wheelSegments.map((seg) => (
+                  <circle cx={seg.x1} cy={seg.y1} r="3" fill="#f1cf8d" stroke="#bd6249" stroke-width="1" />
+                ))}
+              </g>
+              <circle cx="250" cy="250" r="44" fill="#1a141c" stroke="#d8a65b" stroke-width="2.5" />
+            </svg>
+            <button
+              type="button"
+              class="wheel-spin-btn"
+              data-action="spin-wheel"
+              aria-label="Spin the wheel"
+            >
+              SPIN
+            </button>
+          </div>
+          <p class="wheel-status" data-wheel-status role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    )}
   </div>
 </section>
 
@@ -203,6 +341,17 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
     const favoritesList = root.querySelector('[data-favorites]');
     const favoritesEmpty = root.querySelector('[data-favorite-empty]');
     const storageKey = 'dnd-arena-favorites';
+    const wheelOverlay = root.querySelector('[data-wheel-overlay]');
+    const wheelDisc = root.querySelector('[data-wheel-disc]');
+    const wheelStatus = root.querySelector('[data-wheel-status]');
+    const spinButton = root.querySelector('[data-action="spin-wheel"]');
+    const wheelCloseBtn = root.querySelector('[data-action="close-wheel"]');
+    const wheelOpenBtn = root.querySelector('[data-action="open-wheel"]');
+    let currentWheelRotation = 0;
+    let isSpinning = false;
+    let spinTimer = null;
+    let landTimer = null;
+    let lastFocusedElement = null;
     const initialResults = Array.from(root.querySelectorAll('[data-result]')).map((card) => ({
       name: card.dataset.name ?? '',
       flavor: card.dataset.flavor ?? '',
@@ -390,6 +539,133 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
       setStatus(append ? 'Ten more names added.' : 'Unlocked names rerolled.');
     };
 
+    const openWheel = () => {
+      if (!wheelOverlay) return;
+      lastFocusedElement = document.activeElement;
+      wheelOverlay.removeAttribute('hidden');
+      requestAnimationFrame(() => {
+        wheelOverlay.classList.add('is-open');
+      });
+      if (wheelStatus) wheelStatus.textContent = '';
+      if (spinButton) {
+        spinButton.disabled = false;
+        spinButton.focus();
+      }
+    };
+
+    const closeWheel = () => {
+      if (!wheelOverlay) return;
+      wheelOverlay.classList.remove('is-open');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) {
+        wheelOverlay.setAttribute('hidden', '');
+      } else {
+        setTimeout(() => {
+          if (!wheelOverlay.classList.contains('is-open')) {
+            wheelOverlay.setAttribute('hidden', '');
+          }
+        }, 240);
+      }
+      if (lastFocusedElement instanceof HTMLElement) {
+        lastFocusedElement.focus();
+      } else if (wheelOpenBtn) {
+        wheelOpenBtn.focus();
+      }
+    };
+
+    const spinWheel = () => {
+      if (isSpinning || !wheelDisc || profiles.length === 0) return;
+      isSpinning = true;
+      if (spinButton) spinButton.disabled = true;
+      if (wheelStatus) wheelStatus.textContent = 'Spinning...';
+
+      const chosenIndex = Math.floor(Math.random() * profiles.length);
+      const chosenProfile = profiles[chosenIndex];
+
+      const wedgeStep = 360 / profiles.length;
+      const neededMod = (360 - (chosenIndex * wedgeStep) % 360) % 360;
+      const currentMod = currentWheelRotation % 360;
+      let diff = neededMod - currentMod;
+      if (diff <= 0) diff += 360;
+
+      const fullSpins = (5 + Math.floor(Math.random() * 4)) * 360;
+      const targetRotation = currentWheelRotation + fullSpins + diff;
+      currentWheelRotation = targetRotation;
+
+      const onLand = () => {
+        const announce = `The wheel chose ${chosenProfile.label}!`;
+        if (wheelStatus) wheelStatus.textContent = announce;
+        setStatus(announce);
+
+        if (raceSelect) {
+          raceSelect.value = chosenProfile.slug;
+          raceSelect.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+        generateNames(false);
+
+        landTimer = setTimeout(() => {
+          closeWheel();
+          isSpinning = false;
+          if (spinButton) spinButton.disabled = false;
+        }, 700);
+      };
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) {
+        wheelDisc.style.transition = 'none';
+        wheelDisc.style.transform = `rotate(${targetRotation}deg)`;
+        onLand();
+      } else {
+        wheelDisc.style.transition = 'transform 3.5s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+        wheelDisc.style.transform = `rotate(${targetRotation}deg)`;
+        spinTimer = setTimeout(() => {
+          onLand();
+        }, 3500);
+      }
+    };
+
+    if (wheelOverlay) {
+      wheelOverlay.addEventListener('click', (event) => {
+        if (event.target === wheelOverlay) {
+          if (isSpinning) {
+            clearTimeout(spinTimer);
+            clearTimeout(landTimer);
+            isSpinning = false;
+            if (spinButton) spinButton.disabled = false;
+          }
+          closeWheel();
+        }
+      });
+    }
+
+    document.addEventListener('keydown', (event) => {
+      if (!wheelOverlay || wheelOverlay.hasAttribute('hidden')) return;
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        if (isSpinning) {
+          clearTimeout(spinTimer);
+          clearTimeout(landTimer);
+          isSpinning = false;
+          if (spinButton) spinButton.disabled = false;
+        }
+        closeWheel();
+        return;
+      }
+      if (event.key === 'Tab') {
+        const focusable = wheelOverlay.querySelectorAll('button:not(:disabled)');
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
     root.addEventListener('change', (event) => {
       if (event.target === raceSelect) updateStyleOptions();
     });
@@ -400,6 +676,25 @@ const serializedProfiles = JSON.stringify(generatorProfiles);
       const button = target.closest('[data-action]');
       if (!button) return;
       const action = button.dataset.action;
+
+      if (action === 'open-wheel') {
+        openWheel();
+        return;
+      }
+      if (action === 'close-wheel') {
+        if (isSpinning) {
+          clearTimeout(spinTimer);
+          clearTimeout(landTimer);
+          isSpinning = false;
+          if (spinButton) spinButton.disabled = false;
+        }
+        closeWheel();
+        return;
+      }
+      if (action === 'spin-wheel') {
+        spinWheel();
+        return;
+      }
 
       if (action === 'generate') {
         if (button.classList.contains('dice-rolling')) return;
