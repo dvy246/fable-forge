@@ -25,6 +25,7 @@ const imageFile = imageType === 'hub' ? 'hub.svg' : imageType === 'race' ? 'race
 const socialImage = configuredSite ? `${configuredSite}/og/${imageFile}` : `/og/${imageFile}`;
 const origin = configuredSite ?? '';
 const hasApplicationSchema = schema.some((entry) => entry['@type'] === 'WebApplication');
+const hasArticleSchema = schema.some((entry) => entry['@type'] === 'Article');
 const applicationSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
@@ -42,7 +43,7 @@ const applicationSchema = {
 };
 const allSchema = isIndexable ? [
   ...schema,
-  ...(!hasApplicationSchema ? [applicationSchema] : []),
+  ...(!hasApplicationSchema && !hasArticleSchema ? [applicationSchema] : []),
   ...(breadcrumbs.length > 0
     ? [{
         '@context': 'https://schema.org',
@@ -149,6 +150,7 @@ const socialImageAlt = imageType === 'hub'
           ) : (
             <a class="nav-link" href="/#generator">Generators</a>
           )}
+          <a class="nav-link nav-link-secondary" href="/blog/">Guides</a>
           <a class="nav-link nav-link-secondary" href="/how-names-are-generated/">Our method</a>
           <a class="nav-link nav-link-secondary" href="/about/">About</a>
           <a class="header-cta" href="/#generator">Forge a name <span aria-hidden="true">↗</span></a>
@@ -189,6 +191,7 @@ const socialImageAlt = imageType === 'hub'
           <nav class="footer-links" aria-label="Footer navigation">
             <a href="/about/">About</a>
             <a href="/how-names-are-generated/">How names are made</a>
+            <a href="/blog/">Guides</a>
             <a href="/privacy/">Privacy</a>
             <a href="/terms/">Terms</a>
             {showContactEmail ? <a href={`mailto:${contactEmail}`}>Contact</a> : <a href="/contact/">Contact</a>}

@@ -29,6 +29,14 @@ const utilityKeywords = {
   '/npc-name-generator/': 'dnd npc name generator',
   '/last-name-generator/': 'dnd last name generator',
 };
+const blogKeywords = {
+  '/blog/how-to-name-your-dnd-character/': 'how to name your dnd character',
+  '/blog/best-elf-names-for-dnd-5e/': 'best elf names for dnd',
+  '/blog/dwarf-clan-names-and-meanings/': 'dwarf clan names',
+  '/blog/tiefling-naming-conventions-5e/': 'tiefling naming conventions',
+  '/blog/fantasy-town-naming-guide/': 'how to name a fantasy town',
+};
+const blogPaths = ['/blog/', ...Object.keys(blogKeywords)];
 const trustPaths = ['/about/', '/how-names-are-generated/', '/privacy/', '/terms/', '/contact/'];
 const errors = [];
 const pageRecords = [];
@@ -119,7 +127,7 @@ async function verifyPage(pagePath, keyword) {
   const robots = html.match(/<meta\s+name=["']robots["']\s+content=["']([^"']+)["']/i)?.[1] || '';
   const canonical = html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1] ?? '';
   const h1s = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)];
-  const heroText = stripHtml(html.match(/<section\s+class=["']hero["'][^>]*>([\s\S]*?)<\/section>/i)?.[1] ?? '');
+  const heroText = stripHtml(html.match(/<section\s+class=["'][^"']*\bhero\b[^"']*["'][^>]*>([\s\S]*?)<\/section>/i)?.[1] ?? '');
   const routeIsNoindex = pagePath === '/404/' || (pagePath === '/contact/' && !contactEmail);
   const isIndexable = !routeIsNoindex;
 
@@ -153,15 +161,25 @@ async function verifyPage(pagePath, keyword) {
 
   const entries = jsonLdEntries(html, pagePath);
   if (isIndexable) {
-    const application = entries.find((entry) => entry['@type'] === 'WebApplication');
-    const breadcrumb = entries.find((entry) => entry['@type'] === 'BreadcrumbList');
-    if (!application) fail(`${pagePath}: WebApplication JSON-LD is missing.`);
-    else {
-      if (!application.name || !application.url || !application.description) fail(`${pagePath}: WebApplication JSON-LD needs name, url, and description.`);
-      if (application.applicationCategory !== 'GameApplication' || application.operatingSystem !== 'Any') fail(`${pagePath}: WebApplication category or operating system is incorrect.`);
-      if (Number(application.offers?.price) !== 0 || application.offers?.priceCurrency !== 'USD') fail(`${pagePath}: WebApplication offers must be free and priced in USD.`);
-      if (configuredSite && !String(application.url).startsWith('https://')) fail(`${pagePath}: WebApplication URL must use HTTPS when PUBLIC_SITE_URL is set.`);
+    if (Object.hasOwn(blogKeywords, pagePath)) {
+      const article = entries.find((entry) => entry['@type'] === 'Article');
+      if (!article) fail(`${pagePath}: Article JSON-LD is missing.`);
+      else {
+        if (!article.headline || !article.url || !article.description) fail(`${pagePath}: Article JSON-LD needs headline, url, and description.`);
+        if (configuredSite && !String(article.url).startsWith('https://')) fail(`${pagePath}: Article URL must use HTTPS when PUBLIC_SITE_URL is set.`);
+      }
+      if (entries.some((entry) => entry['@type'] === 'WebApplication')) fail(`${pagePath}: Article pages must not emit WebApplication JSON-LD.`);
+    } else {
+      const application = entries.find((entry) => entry['@type'] === 'WebApplication');
+      if (!application) fail(`${pagePath}: WebApplication JSON-LD is missing.`);
+      else {
+        if (!application.name || !application.url || !application.description) fail(`${pagePath}: WebApplication JSON-LD needs name, url, and description.`);
+        if (application.applicationCategory !== 'GameApplication' || application.operatingSystem !== 'Any') fail(`${pagePath}: WebApplication category or operating system is incorrect.`);
+        if (Number(application.offers?.price) !== 0 || application.offers?.priceCurrency !== 'USD') fail(`${pagePath}: WebApplication offers must be free and priced in USD.`);
+        if (configuredSite && !String(application.url).startsWith('https://')) fail(`${pagePath}: WebApplication URL must use HTTPS when PUBLIC_SITE_URL is set.`);
+      }
     }
+    const breadcrumb = entries.find((entry) => entry['@type'] === 'BreadcrumbList');
     if (!breadcrumb || !Array.isArray(breadcrumb.itemListElement) || breadcrumb.itemListElement.length === 0) fail(`${pagePath}: BreadcrumbList JSON-LD is missing or empty.`);
     if (pagePath === '/' && !entries.some((entry) => entry['@type'] === 'WebSite')) fail('/ : WebSite JSON-LD is required on the hub.');
     if (pagePath !== '/' && entries.some((entry) => entry['@type'] === 'WebSite')) fail(`${pagePath}: WebSite JSON-LD belongs on the hub only.`);
@@ -226,13 +244,33 @@ async function verifyPage(pagePath, keyword) {
     }
   }
 
+  if (Object.hasOwn(blogKeywords, pagePath)) {
+    const bodyStart = html.indexOf('data-seo-copy');
+    const bodyContentStart = bodyStart === -1 ? -1 : html.indexOf('>', bodyStart) + 1;
+    const bodyEnd = bodyContentStart === -1 ? -1 : html.indexOf('aria-labelledby="related-heading"', bodyContentStart);
+    const body = bodyContentStart >= 0 && bodyEnd >= 0 ? html.slice(bodyContentStart, bodyEnd) : (bodyContentStart >= 0 ? html.slice(bodyContentStart) : '');
+    const words = stripHtml(body).match(/[A-Za-z0-9]+(?:['’][A-Za-z0-9]+)*/g) ?? [];
+    if (words.length < 600) fail(`${pagePath}: blog content must contain at least 600 words (found ${words.length}).`);
+    const faqSection = html.match(/<div\s+class=["']faq-grid["'][^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? '';
+    const faqCount = countMatches(faqSection, /class=["']faq-item["']/gi);
+    if (faqCount < 4) fail(`${pagePath}: needs at least four visible FAQ entries (found ${faqCount}).`);
+  }
+
+  if (pagePath === '/blog/') {
+    const postCards = [...html.matchAll(/<a\s+class=["']blog-card["'][^>]*href=["']([^"']+)["']/gi)];
+    const cardHrefs = new Set(postCards.map(([, href]) => new URL(href, 'https://local.invalid').pathname));
+    for (const expectedPostPath of Object.keys(blogKeywords)) {
+      if (!cardHrefs.has(expectedPostPath)) fail(`/blog/: blog hub does not link to ${expectedPostPath}.`);
+    }
+  }
+
   if (Object.hasOwn(raceKeywords, pagePath) && phaseTwoEnabled) {
     const utilityLinks = new Set(links.map((href) => new URL(href, 'https://local.invalid').pathname).filter((href) => Object.hasOwn(utilityKeywords, href)));
     if (utilityLinks.size < 2) fail(`${pagePath}: must link to at least two relevant utilities in the Phase 2 build.`);
   }
 }
 
-const expectedPages = ['/', ...Object.keys(raceKeywords), ...trustPaths, '/404/', ...(phaseTwoEnabled ? Object.keys(utilityKeywords) : [])];
+const expectedPages = ['/', ...Object.keys(raceKeywords), ...trustPaths, '/404/', ...blogPaths, ...(phaseTwoEnabled ? Object.keys(utilityKeywords) : [])];
 const builtHtmlFiles = (await walk(distRoot)).filter((file) => file.endsWith('.html'));
 const actualPages = new Set(builtHtmlFiles.map(pagePathFromFile));
 for (const pagePath of expectedPages) {
@@ -243,7 +281,7 @@ for (const pagePath of actualPages) {
 }
 
 for (const pagePath of expectedPages) {
-  await verifyPage(pagePath, raceKeywords[pagePath] ?? utilityKeywords[pagePath]);
+  await verifyPage(pagePath, raceKeywords[pagePath] ?? utilityKeywords[pagePath] ?? blogKeywords[pagePath]);
 }
 
 const titles = new Map();

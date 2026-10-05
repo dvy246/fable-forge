@@ -1668,6 +1668,125 @@ select:focus-visible {
   color: var(--muted);
 }
 
+/* Blog and Guide Styles */
+.hero-blog {
+  max-width: 54rem;
+  padding: clamp(2rem, 4.5vw, 3.5rem) 0 clamp(1.5rem, 3.5vw, 2.8rem);
+  gap: 1.25rem;
+}
+
+.hero-blog h1 {
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  max-width: 22ch;
+  line-height: 1.05;
+}
+
+.hero-blog .hero-copy {
+  max-width: 48ch;
+  font-size: 1.05rem;
+  color: var(--muted);
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+  gap: 1.4rem;
+}
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--panel);
+  text-decoration: none;
+  transition: border-color 160ms ease, transform 160ms ease, background-color 160ms ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+  background: color-mix(in srgb, var(--panel) 90%, var(--ember-soft));
+}
+
+.blog-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.blog-card-category {
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.blog-card-readtime {
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+}
+
+.blog-card-title {
+  margin: 0 0 0.6rem;
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.blog-card-desc {
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.55;
+  flex-grow: 1;
+}
+
+.blog-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--gold-bright);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.blog-article {
+  max-width: 52rem;
+  margin: 0 auto;
+}
+
+.blog-article .article-section {
+  margin-bottom: 2.6rem;
+}
+
+.blog-article h2 {
+  margin: 2.2rem 0 0.85rem;
+  font-family: var(--display);
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+
+.blog-article p {
+  margin: 0 0 1.15rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
 .microcopy {
   color: var(--dim);
   font-family: var(--mono);
@@ -2109,7 +2228,8 @@ select:focus-visible {
   .sample-grid,
   .tool-link-grid,
   .trust-grid,
-  .faq-grid {
+  .faq-grid,
+  .blog-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 

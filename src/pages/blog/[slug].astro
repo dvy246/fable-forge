@@ -1,0 +1,113 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import ToolCards from '../../components/ToolCards.astro';
+import { blogPosts, blogBySlug } from '../../data/blog-posts';
+import { raceBySlug } from '../../data/races';
+import { utilityBySlug } from '../../data/utilities';
+import { articleSchema } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return blogPosts.map((post) => ({
+    params: { slug: post.slug },
+    props: { slug: post.slug },
+  }));
+}
+
+const { slug } = Astro.props;
+const post = blogBySlug.get(slug);
+
+if (!post) throw new Error(`Missing blog post data for ${slug}`);
+
+const phaseTwoEnabled = import.meta.env.PUBLIC_BUILD_PHASE_2 !== 'false';
+const path = `/blog/${post.slug}/`;
+
+const breadcrumbs = [
+  { label: 'Home', path: '/' },
+  { label: 'Blog', path: '/blog/' },
+  { label: post.shortTitle ?? post.title, path },
+];
+
+const schema = [
+  articleSchema(post.title, post.description, path, post.datePublished),
+];
+
+const candidateSlugs = phaseTwoEnabled
+  ? post.relatedTools
+  : (post.relatedRaces ?? post.relatedTools.filter((toolSlug) => raceBySlug.has(toolSlug)));
+
+const relatedItems = candidateSlugs.map((relatedSlug) => {
+  const raceItem = raceBySlug.get(relatedSlug);
+  if (raceItem) {
+    return {
+      slug: raceItem.slug,
+      title: `${raceItem.label} names`,
+      description: raceItem.intro[0],
+      eyebrow: 'Ancestry names',
+    };
+  }
+  const utilityItem = utilityBySlug.get(relatedSlug);
+  if (utilityItem) {
+    return {
+      slug: utilityItem.slug,
+      title: utilityItem.label,
+      description: utilityItem.intro[0],
+      eyebrow: 'Campaign utility',
+    };
+  }
+  return null;
+}).filter((item) => item !== null);
+---
+<SiteLayout
+  title={post.title}
+  description={post.description}
+  path={path}
+  pageType="article"
+  imageType="utility"
+  breadcrumbs={breadcrumbs}
+  schema={schema}
+>
+  <section class="hero hero-blog">
+    <span class="eyebrow">{post.heroKicker}</span>
+    <h1>{post.h1}</h1>
+    <p class="hero-copy">{post.heroIntro}</p>
+  </section>
+
+  <article class="page-section seo-copy blog-article" data-seo-copy>
+    <div class="content-card">
+      {post.sections.map((section) => (
+        <section class="article-section">
+          <h2>{section.heading}</h2>
+          {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+        </section>
+      ))}
+
+      <section class="page-section" aria-labelledby="faq-heading">
+        <div class="section-topline">
+          <div>
+            <span class="eyebrow">A few quick answers</span>
+            <h2 id="faq-heading" class="section-heading">Frequently asked questions</h2>
+          </div>
+        </div>
+        <div class="faq-grid">
+          {post.faq.map((item) => (
+            <article class="faq-item">
+              <h3>{item.question}</h3>
+              <p>{item.answer}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
+  </article>
+
+  <section class="page-section" aria-labelledby="related-heading">
+    <div class="section-topline">
+      <div>
+        <span class="eyebrow">Keep exploring</span>
+        <h2 id="related-heading" class="section-heading">Related generators</h2>
+      </div>
+    </div>
+    <ToolCards items={relatedItems} />
+  </section>
+  <div class="ad-slot" aria-hidden="true"></div>
+</SiteLayout>

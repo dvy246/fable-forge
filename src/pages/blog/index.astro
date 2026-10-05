@@ -1,0 +1,69 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import ToolCards from '../../components/ToolCards.astro';
+import { blogPosts } from '../../data/blog-posts';
+import { raceProfiles } from '../../data/races';
+
+const title = 'DnD Naming Guides: Character Lore & World Craft';
+const description = 'Read comprehensive DnD naming guides covering character conventions, elf and dwarf traditions, settlement lore, and pronunciation tips for tabletop DMs.';
+const path = '/blog/';
+const breadcrumbs = [
+  { label: 'Home', path: '/' },
+  { label: 'Guides', path: '/blog/' },
+];
+
+const featuredGenerators = raceProfiles.slice(0, 4).map((profile) => ({
+  slug: profile.slug,
+  title: `${profile.label} name generator`,
+  description: profile.intro[0],
+  eyebrow: 'Ancestry names',
+}));
+---
+<SiteLayout
+  title={title}
+  description={description}
+  path={path}
+  pageType="website"
+  imageType="utility"
+  breadcrumbs={breadcrumbs}
+>
+  <section class="hero hero-blog">
+    <span class="eyebrow">Tabletop Guides & Lore</span>
+    <h1>DnD Naming Guides</h1>
+    <p class="hero-copy">Explore comprehensive guides on fantasy character naming, ancestral sound palettes, settlement worldbuilding, and practical tabletop roleplay advice for fifth edition campaigns.</p>
+  </section>
+
+  <section class="page-section" aria-labelledby="articles-heading">
+    <div class="section-topline">
+      <div>
+        <span class="eyebrow">In-Depth Guides</span>
+        <h2 id="articles-heading" class="section-heading">All Naming Guides</h2>
+      </div>
+    </div>
+    <div class="blog-grid">
+      {blogPosts.map((post) => (
+        <a class="blog-card" href={`/blog/${post.slug}/`}>
+          <div>
+            <div class="blog-card-meta">
+              <span class="blog-card-category">{post.category}</span>
+              <span class="blog-card-readtime">{post.readTime}</span>
+            </div>
+            <h3 class="blog-card-title">{post.title.split(':')[0]}</h3>
+            <p class="blog-card-desc">{post.description}</p>
+          </div>
+          <span class="blog-card-cta">Read guide <span aria-hidden="true">&rarr;</span></span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="generators-heading">
+    <div class="section-topline">
+      <div>
+        <span class="eyebrow">Interactive Tools</span>
+        <h2 id="generators-heading" class="section-heading">Featured Name Generators</h2>
+      </div>
+    </div>
+    <ToolCards items={featuredGenerators} />
+  </section>
+</SiteLayout>
