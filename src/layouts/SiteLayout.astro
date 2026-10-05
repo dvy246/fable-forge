@@ -94,7 +94,7 @@ const socialImageAlt = imageType === 'hub'
     <script is:inline>
       try {
         const savedTheme = window.localStorage.getItem('dnd-arena-theme');
-        if (savedTheme === 'night' || savedTheme === 'dark') {
+        if (savedTheme && ['dark', 'night', 'emerald', 'amethyst'].includes(savedTheme)) {
           document.documentElement.dataset.theme = savedTheme;
         }
       } catch {
@@ -182,10 +182,47 @@ const socialImageAlt = imageType === 'hub'
           <a class="nav-link nav-link-secondary" href="/how-names-are-generated/">Our method</a>
           <a class="nav-link nav-link-secondary" href="/about/">About</a>
           <a class="header-cta" href="/#generator">Forge a name <span aria-hidden="true">↗</span></a>
-          <button class="theme-button" type="button" data-theme-switch aria-pressed="false" aria-label="Switch to night theme">
-            <svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="M12.8 10.3A5.2 5.2 0 0 1 5.7 3.2 5.3 5.3 0 1 0 12.8 10.3Z" /></svg>
-            <span data-theme-label>Night</span>
-          </button>
+          <details class="palette-menu">
+            <summary class="palette-button" aria-label="Select color palette" title="Change fantasy theme color palette">
+              <span class="palette-indicator" aria-hidden="true"></span>
+              <span data-palette-active-label>Obsidian</span>
+              <svg aria-hidden="true" viewBox="0 0 16 16" focusable="false" class="palette-chevron"><path d="m4 6 4 4 4-4" /></svg>
+            </summary>
+            <div class="palette-dropdown" role="menu" aria-label="Color palettes">
+              <button type="button" class="palette-option" data-palette="dark" role="menuitem">
+                <span class="palette-swatch swatch-dark" aria-hidden="true"></span>
+                <span class="palette-option-text">
+                  <strong class="palette-option-name">Obsidian Gold</strong>
+                  <span class="palette-option-desc">Tabletop Amber</span>
+                </span>
+                <span class="palette-check" aria-hidden="true">✓</span>
+              </button>
+              <button type="button" class="palette-option" data-palette="night" role="menuitem">
+                <span class="palette-swatch swatch-night" aria-hidden="true"></span>
+                <span class="palette-option-text">
+                  <strong class="palette-option-name">Astral Night</strong>
+                  <span class="palette-option-desc">Celestial Cyan</span>
+                </span>
+                <span class="palette-check" aria-hidden="true">✓</span>
+              </button>
+              <button type="button" class="palette-option" data-palette="emerald" role="menuitem">
+                <span class="palette-swatch swatch-emerald" aria-hidden="true"></span>
+                <span class="palette-option-text">
+                  <strong class="palette-option-name">Verdant Grove</strong>
+                  <span class="palette-option-desc">Elven Sage</span>
+                </span>
+                <span class="palette-check" aria-hidden="true">✓</span>
+              </button>
+              <button type="button" class="palette-option" data-palette="amethyst" role="menuitem">
+                <span class="palette-swatch swatch-amethyst" aria-hidden="true"></span>
+                <span class="palette-option-text">
+                  <strong class="palette-option-name">Arcane Spire</strong>
+                  <span class="palette-option-desc">Mystic Violet</span>
+                </span>
+                <span class="palette-check" aria-hidden="true">✓</span>
+              </button>
+            </div>
+          </details>
         </nav>
       </div>
     </header>
@@ -230,29 +267,57 @@ const socialImageAlt = imageType === 'hub'
       </div>
     </footer>
     <script is:inline>
-      const themeButton = document.querySelector('[data-theme-switch]');
-      const themeLabel = document.querySelector('[data-theme-label]');
-      const applyTheme = (theme) => {
+      const paletteMenu = document.querySelector('.palette-menu');
+      const paletteOptions = document.querySelectorAll('.palette-option');
+      const activeLabel = document.querySelector('[data-palette-active-label]');
+
+      const paletteNames = {
+        dark: 'Obsidian',
+        night: 'Astral',
+        emerald: 'Verdant',
+        amethyst: 'Arcane',
+      };
+
+      const setPalette = (theme) => {
         document.documentElement.dataset.theme = theme;
-        const isNight = theme === 'night';
-        themeButton?.setAttribute('aria-pressed', String(isNight));
-        themeButton?.setAttribute('aria-label', isNight ? 'Switch to dark theme' : 'Switch to night theme');
-        if (themeLabel) themeLabel.textContent = isNight ? 'Dark' : 'Night';
         try {
           window.localStorage.setItem('dnd-arena-theme', theme);
         } catch {
-          return;
+          // ignore
         }
-      };
-      if (themeButton) {
-        const initialTheme = document.documentElement.dataset.theme === 'night' ? 'night' : 'dark';
-        themeButton.setAttribute('aria-pressed', String(initialTheme === 'night'));
-        themeLabel && (themeLabel.textContent = initialTheme === 'night' ? 'Dark' : 'Night');
-        themeButton.addEventListener('click', () => {
-          const currentTheme = document.documentElement.dataset.theme;
-          applyTheme(currentTheme === 'night' ? 'dark' : 'night');
+        if (activeLabel && paletteNames[theme]) {
+          activeLabel.textContent = paletteNames[theme];
+        }
+        paletteOptions.forEach((btn) => {
+          const isSelected = btn.dataset.palette === theme;
+          btn.setAttribute('aria-selected', String(isSelected));
+          btn.classList.toggle('is-selected', isSelected);
         });
-      }
+      };
+
+      const initialTheme = document.documentElement.dataset.theme || 'dark';
+      setPalette(initialTheme);
+
+      paletteOptions.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const targetTheme = btn.dataset.palette;
+          if (targetTheme) {
+            setPalette(targetTheme);
+            paletteMenu?.removeAttribute('open');
+          }
+        });
+      });
+
+      document.addEventListener('click', (event) => {
+        if (paletteMenu && paletteMenu.hasAttribute('open') && !paletteMenu.contains(event.target)) {
+          paletteMenu.removeAttribute('open');
+        }
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && paletteMenu && paletteMenu.hasAttribute('open')) {
+          paletteMenu.removeAttribute('open');
+        }
+      });
     </script>
   </body>
 </html>

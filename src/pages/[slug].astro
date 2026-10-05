@@ -126,10 +126,58 @@ const relatedGuides = matchedGuides.slice(0, 2);
   schema={schema}
   showTools={true}
 >
-  <section class="hero">
-    <span class="eyebrow">{race ? `${race.label} name craft` : 'A campaign-ready utility'}</span>
-    <h1>{heading}</h1>
-    <p class="hero-copy">{page.intro[0]}</p>
+  <section class="hero hero-tool" aria-label={`${heading} generator overview`}>
+    <div class="hero-narrative">
+      <div class="hero-eyebrow-wrap">
+        <span class="hero-eyebrow">{race ? `${race.label} Ancestry` : 'Campaign Utility'}</span>
+      </div>
+      <h1>{heading}</h1>
+      <p class="hero-copy">{page.intro[0]}</p>
+      <div class="hero-actions">
+        <a href="#generator" class="hero-cta" data-action="scroll-to-generator">
+          <span>Generate {race ? race.label : utility.label} Names</span>
+          <span class="hero-cta-arrow" aria-hidden="true">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 3l5 5-5 5" />
+            </svg>
+          </span>
+        </a>
+        <div class="hero-trust">
+          <span class="hero-trust-indicator" aria-hidden="true"></span>
+          <span>Original phonetic tables · Pure browser roll</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-tool-badge-card" aria-hidden="true">
+      <div class="tool-spec-shell">
+        <div class="tool-spec-header">
+          <span class="tool-spec-title">✦ {race ? 'Ancestral Sound Spec' : 'Campaign Tool Spec'}</span>
+          <span class="tool-spec-sigil">᚛ 5e ᚜</span>
+        </div>
+        <div class="tool-spec-rows">
+          <div class="tool-spec-row">
+            <span class="tool-spec-key">{race ? 'Sound Traditions' : 'Generation Mode'}</span>
+            <span class="tool-spec-val">{race ? `${race.styles.length} Distinct Styles` : 'Tabletop Campaign'}</span>
+          </div>
+          <div class="tool-spec-row">
+            <span class="tool-spec-key">{race ? 'Sample Bank' : 'Roll Batch'}</span>
+            <span class="tool-spec-val">{race ? '12 Pre-Rendered' : '10 Names / Click'}</span>
+          </div>
+          <div class="tool-spec-row">
+            <span class="tool-spec-key">{race ? 'Linguistic Rule' : 'Output Controls'}</span>
+            <span class="tool-spec-val">{race ? 'Syllable Combinations' : 'Custom Options'}</span>
+          </div>
+          <div class="tool-spec-row">
+            <span class="tool-spec-key">Storage & Privacy</span>
+            <span class="tool-spec-val">100% In-Browser</span>
+          </div>
+        </div>
+        <div class="tool-spec-footer">
+          <span>Ready for Tabletop</span>
+          <span>No Sign-Up Required</span>
+        </div>
+      </div>
+    </div>
   </section>
 
   <Generator
