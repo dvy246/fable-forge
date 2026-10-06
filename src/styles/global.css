@@ -4352,6 +4352,104 @@ h3 {
   color: var(--ink);
 }
 
+/* Classes Decision Framework Sticky HUD */
+.classes-decision-hud {
+  background: color-mix(in srgb, var(--panel) 92%, black 8%);
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  padding: 1.35rem 1.15rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.classes-decision-hud .visual-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--gold) 12%, transparent);
+  border: 1px solid rgba(216, 166, 91, 0.25);
+  color: var(--gold-bright);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.65rem;
+}
+
+.classes-decision-hud .scroll-story-badge {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+}
+
+.classes-decision-hud .scroll-section-label {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0.25rem 0 0.85rem;
+  line-height: 1.25;
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hud-summary-tip {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: 0.65rem;
+  padding: 0.65rem 0.75rem;
+  margin-top: 1rem;
+  text-align: left;
+  width: 100%;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.hud-roster-jump {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0.55rem 0.85rem;
+  margin-top: 0.75rem;
+  background: color-mix(in srgb, var(--panel-soft) 85%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.hud-roster-jump:hover {
+  border-color: var(--gold);
+  color: var(--gold-bright);
+  background: var(--panel);
+  transform: translateY(-1px);
+}
+
+.classes-scroll-story .scroll-story-content {
+  gap: 2rem;
+}
+
+.classes-scroll-story .content-card.scroll-section {
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border-radius: 1.25rem;
+}
+
 /* Responsive Rules for Classes */
 @media (max-width: 64rem) {
   .classes-sticky-stage {

@@ -90,6 +90,57 @@ const relatedItems = relatedSlugs.map((slug) => {
   }
   return null;
 }).filter(Boolean);
+
+const frameworkSections = [
+  {
+    id: 'framework-pillars',
+    label: '1. Decision Pillars',
+    tip: 'Balance resource horizons, positioning, and rule complexity before choosing.',
+  },
+  {
+    id: 'framework-roles',
+    label: '2. Combat Roles',
+    tip: 'Tanks anchor chokepoints, Strikers burst single targets, Controllers shape terrain, Supports buff.',
+  },
+  {
+    id: 'framework-hitdice',
+    label: '3. Hit Die Tiers',
+    tip: 'Compare baseline HP and recuperation capacity across all 14 official character classes.',
+  },
+  {
+    id: 'framework-economy',
+    label: '4. Resource Economy',
+    tip: 'Short rest sustainability vs long rest encounter-warping spells.',
+  },
+  {
+    id: 'framework-breakdowns',
+    label: '5. Class Breakdown',
+    tip: 'Tactical play loops and vulnerabilities for all official classes.',
+  },
+  {
+    id: 'framework-multiclass',
+    label: '6. Multiclass Synergies',
+    tip: 'Stat prerequisites, action economy, and optimized power dips.',
+  },
+  {
+    id: 'framework-beginners',
+    label: '7. Beginner Picks',
+    tip: 'Straightforward loops and forgiving health pools for new players.',
+  },
+  {
+    id: 'framework-ancestry',
+    label: '8. Ancestry Synergies',
+    tip: 'Pair complementary racial traits and evocative names with your class.',
+  },
+  {
+    id: 'framework-faq',
+    label: '9. Common Questions',
+    tip: 'Key answers to common tabletop selection and mechanic questions.',
+  },
+];
+
+const initialFrameworkLabel = frameworkSections[0].label;
+const initialFrameworkTip = frameworkSections[0].tip;
 ---
 <SiteLayout
   title={title}
@@ -561,9 +612,54 @@ const relatedItems = relatedSlugs.map((slug) => {
   </section>
 
   <article class="page-section seo-copy" data-seo-copy id="class-guide">
-    <div class="content-card">
-      <section class="article-section">
-        <h2>How to Choose Your 5e Class: A Player Decision Framework</h2>
+    <div class="scroll-story classes-scroll-story">
+      <aside class="scroll-story-sticky" aria-label="Player Decision Framework Navigation">
+        <div class="scroll-story-visual classes-decision-hud">
+          <div class="visual-icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+          </div>
+          <span class="scroll-story-badge">Decision Codex</span>
+          <h3 id="framework-scroll-label" class="scroll-section-label" aria-live="polite" aria-atomic="true">
+            {initialFrameworkLabel}
+          </h3>
+          <nav class="scroll-story-nav" aria-label="Framework step navigation">
+            <div class="scroll-story-dots">
+              {frameworkSections.map((sec, idx) => (
+                <a
+                  href={`#${sec.id}`}
+                  class={`scroll-dot${idx === 0 ? ' active' : ''}`}
+                  data-target-label={sec.label}
+                  data-target-tip={sec.tip}
+                  data-tooltip={sec.label}
+                  aria-label={`Jump to ${sec.label}`}
+                  aria-current={idx === 0 ? 'true' : undefined}
+                >
+                  <span class="scroll-dot-pip"></span>
+                </a>
+              ))}
+            </div>
+          </nav>
+          <div class="hud-summary-tip" id="framework-hud-tip">
+            {initialFrameworkTip}
+          </div>
+          <a href="#classes-roster" class="hud-roster-jump">
+            <span>&uarr; Back to Class Roster</span>
+          </a>
+        </div>
+      </aside>
+
+      <div class="scroll-story-content">
+        <section
+          id="framework-pillars"
+          class="content-card scroll-section in-view"
+          aria-labelledby="framework-heading"
+          data-section-label={frameworkSections[0].label}
+          data-section-tip={frameworkSections[0].tip}
+        >
+          <span class="eyebrow">Strategic Selection</span>
+          <h2 id="framework-heading">How to Choose Your 5e Class: A Player Decision Framework</h2>
         <p>
           Selecting a character class is the single most defining mechanical and thematic choice you make in fifth edition tabletop roleplaying. While race and background supply cultural heritage and narrative origins, your class determines how you interact with every combat encounter, exploration challenge, and resource puzzle presented by your Dungeon Master. The ideal character aligns both your narrative fantasy and your preferred table gameplay loop.
         </p>
@@ -578,8 +674,15 @@ const relatedItems = relatedSlugs.map((slug) => {
         </p>
       </section>
 
-      <section class="article-section">
-        <h2>The Four Fundamental Party Roles in Tabletop Combat</h2>
+      <section
+        id="framework-roles"
+        class="content-card scroll-section"
+        aria-labelledby="roles-heading"
+        data-section-label={frameworkSections[1].label}
+        data-section-tip={frameworkSections[1].tip}
+      >
+        <span class="eyebrow">Battlefield Dynamics</span>
+        <h2 id="roles-heading">The Four Fundamental Party Roles in Tabletop Combat</h2>
         <p>
           Every class in 5e contributes to the party through a distinct combination of four tactical combat roles: Frontline Tanks, Precision Strikers, Battlefield Controllers, and Support Specialists. Recognizing where your chosen class sits across these spectrums helps you coordinate effectively with your companions during life-or-death encounters.
         </p>
@@ -611,8 +714,15 @@ const relatedItems = relatedSlugs.map((slug) => {
         </div>
       </section>
 
-      <section class="article-section">
-        <h2>Complete Hit Die Hierarchy and Durability Analysis</h2>
+      <section
+        id="framework-hitdice"
+        class="content-card scroll-section"
+        aria-labelledby="hitdie-heading"
+        data-section-label={frameworkSections[2].label}
+        data-section-tip={frameworkSections[2].tip}
+      >
+        <span class="eyebrow">Physical Resilience</span>
+        <h2 id="hitdie-heading">Complete Hit Die Hierarchy and Durability Analysis</h2>
         <p>
           Hit Dice govern your character baseline physical resilience, maximum health progression, and recuperation capacity during short rests. In fifth edition, classes are categorized into four distinct Hit Die tiers ranging from the monstrous d12 down to the fragile d6. Understanding these tiers helps you gauge how aggressively your character can position on the battlefield.
         </p>
@@ -749,8 +859,15 @@ const relatedItems = relatedSlugs.map((slug) => {
         </p>
       </section>
 
-      <section class="article-section">
-        <h2>Martial, Full Caster, and Half-Caster Resource Economies</h2>
+      <section
+        id="framework-economy"
+        class="content-card scroll-section"
+        aria-labelledby="economy-heading"
+        data-section-label={frameworkSections[3].label}
+        data-section-tip={frameworkSections[3].tip}
+      >
+        <span class="eyebrow">Rest Recovery Rhythm</span>
+        <h2 id="economy-heading">Martial, Full Caster, and Half-Caster Resource Economies</h2>
         <p>
           The fundamental design contrast in 5e rests on the resource economy: how frequently each class must rest to replenish their signature powers. Understanding the rhythm of short rests versus long rests prevents you from running out of steam when exploring dangerous dungeon environments.
         </p>
@@ -765,8 +882,15 @@ const relatedItems = relatedSlugs.map((slug) => {
         </p>
       </section>
 
-      <section class="article-section">
-        <h2>Class by Class Strategic Breakdown: All 14 Classes Explored</h2>
+      <section
+        id="framework-breakdowns"
+        class="content-card scroll-section"
+        aria-labelledby="breakdowns-heading"
+        data-section-label={frameworkSections[4].label}
+        data-section-tip={frameworkSections[4].tip}
+      >
+        <span class="eyebrow">Official Codex</span>
+        <h2 id="breakdowns-heading">Class by Class Strategic Breakdown: All 14 Classes Explored</h2>
         <p>
           Below is a comprehensive tactical analysis of every official class in tabletop fifth edition, highlighting their primary battle loops, signature advantages, and tabletop execution tips.
         </p>
@@ -912,8 +1036,15 @@ const relatedItems = relatedSlugs.map((slug) => {
         </div>
       </section>
 
-      <section class="article-section">
-        <h2>Multiclassing Strategy: Prerequisites, Synergies, and Pitfalls</h2>
+      <section
+        id="framework-multiclass"
+        class="content-card scroll-section"
+        aria-labelledby="multiclass-heading"
+        data-section-label={frameworkSections[5].label}
+        data-section-tip={frameworkSections[5].tip}
+      >
+        <span class="eyebrow">Advanced Builds</span>
+        <h2 id="multiclass-heading">Multiclassing Strategy: Prerequisites, Synergies, and Pitfalls</h2>
         <p>
           Multiclassing in fifth edition allows you to blend the strengths of multiple classes into a specialized character archetype, such as a holy paladin who wields warlock pact magic or a rogue who supplements stealth with fighter maneuvers. However, multiclassing comes with substantial risks that can weaken your character if executed without a coherent mechanical goal.
         </p>
@@ -934,8 +1065,15 @@ const relatedItems = relatedSlugs.map((slug) => {
         </ul>
       </section>
 
-      <section class="article-section">
-        <h2>Beginner Recommendations and Progression Roadmaps</h2>
+      <section
+        id="framework-beginners"
+        class="content-card scroll-section"
+        aria-labelledby="beginners-heading"
+        data-section-label={frameworkSections[6].label}
+        data-section-tip={frameworkSections[6].tip}
+      >
+        <span class="eyebrow">New Adventurers</span>
+        <h2 id="beginners-heading">Beginner Recommendations and Progression Roadmaps</h2>
         <p>
           If you are sitting down at a tabletop campaign for the very first time, the sheer volume of rules, spell slots, and action economy terms can feel intimidating. Choosing a beginner-friendly class allows you to focus on learning roleplay etiquette, dice mechanics, and tactical movement before diving into complex resource spreadsheets.
         </p>
@@ -967,8 +1105,15 @@ const relatedItems = relatedSlugs.map((slug) => {
         </div>
       </section>
 
-      <section class="article-section">
-        <h2>Ancestry Synergies and Thematic Naming Identity</h2>
+      <section
+        id="framework-ancestry"
+        class="content-card scroll-section"
+        aria-labelledby="ancestry-heading"
+        data-section-label={frameworkSections[7].label}
+        data-section-tip={frameworkSections[7].tip}
+      >
+        <span class="eyebrow">Identity Synergy</span>
+        <h2 id="ancestry-heading">Ancestry Synergies and Thematic Naming Identity</h2>
         <p>
           A memorable character emerges when mechanical strengths intertwine with rich roleplay identity. Pairing complementary ancestries with your class choices unlocks powerful synergy. For instance, Half-Orcs combine Relentless Endurance and Savage Attacks with Barbarian Rage to survive fatal strikes and roll crushing critical hits. Elves bring Fey Ancestry, perception proficiencies, and meditation trances that harmonize naturally with Rangers and Rogues. Tieflings offer natural Charisma bonuses and hellish thaumaturgy that empower Warlocks, Bards, and Sorcerers.
         </p>
@@ -977,7 +1122,13 @@ const relatedItems = relatedSlugs.map((slug) => {
         </p>
       </section>
 
-      <section class="page-section" aria-labelledby="faq-heading">
+      <section
+        id="framework-faq"
+        class="content-card scroll-section"
+        aria-labelledby="faq-heading"
+        data-section-label={frameworkSections[8].label}
+        data-section-tip={frameworkSections[8].tip}
+      >
         <div class="section-topline">
           <div>
             <span class="eyebrow">A few quick answers</span>
@@ -994,7 +1145,8 @@ const relatedItems = relatedSlugs.map((slug) => {
         </div>
       </section>
     </div>
-  </article>
+  </div>
+</article>
 
   <section class="page-section" aria-labelledby="related-heading">
     <div class="section-topline">
@@ -1216,6 +1368,90 @@ const relatedItems = relatedSlugs.map((slug) => {
         });
 
         cards.forEach((card) => observer.observe(card));
+      }
+
+      // Sticky Scroll Storytelling for Player Decision Framework
+      const frameworkStory = document.querySelector('.classes-scroll-story');
+      if (frameworkStory) {
+        const labelEl = document.getElementById('framework-scroll-label');
+        const tipEl = document.getElementById('framework-hud-tip');
+        const visualEl = frameworkStory.querySelector('.scroll-story-visual');
+        const sections = Array.from(frameworkStory.querySelectorAll('.scroll-section'));
+        const dots = Array.from(frameworkStory.querySelectorAll('.scroll-dot'));
+
+        let activeFrameworkSection = null;
+        let pulseTimer = null;
+        let isFrameworkClick = false;
+        let frameworkScrollTimeout = null;
+
+        function activateFrameworkSection(target) {
+          if (!target || target === activeFrameworkSection) return;
+          activeFrameworkSection = target;
+
+          sections.forEach((sec) => {
+            sec.classList.toggle('in-view', sec === target);
+          });
+
+          const label = target.dataset.sectionLabel;
+          const tip = target.dataset.sectionTip;
+          if (label && labelEl) {
+            labelEl.textContent = label;
+          }
+          if (tip && tipEl) {
+            tipEl.textContent = tip;
+          }
+
+          dots.forEach((dot) => {
+            const isActive = dot.dataset.targetLabel === label;
+            dot.classList.toggle('active', isActive);
+            if (isActive) {
+              dot.setAttribute('aria-current', 'true');
+            } else {
+              dot.removeAttribute('aria-current');
+            }
+          });
+
+          if (visualEl && !prefersReducedMotion) {
+            visualEl.classList.remove('pulse');
+            void visualEl.offsetWidth;
+            visualEl.classList.add('pulse');
+            clearTimeout(pulseTimer);
+            pulseTimer = setTimeout(() => {
+              visualEl.classList.remove('pulse');
+            }, 500);
+          }
+        }
+
+        dots.forEach((dot) => {
+          dot.addEventListener('click', () => {
+            const targetLabel = dot.dataset.targetLabel;
+            const targetSec = sections.find((s) => s.dataset.sectionLabel === targetLabel);
+            if (targetSec) {
+              isFrameworkClick = true;
+              activateFrameworkSection(targetSec);
+              clearTimeout(frameworkScrollTimeout);
+              frameworkScrollTimeout = setTimeout(() => {
+                isFrameworkClick = false;
+              }, 800);
+            }
+          });
+        });
+
+        if ('IntersectionObserver' in window) {
+          const frameworkObserver = new IntersectionObserver((entries) => {
+            if (isFrameworkClick) return;
+            const visible = entries.filter((e) => e.isIntersecting);
+            if (visible.length > 0) {
+              visible.sort((a, b) => Math.abs(a.boundingClientRect.top) - Math.abs(b.boundingClientRect.top));
+              activateFrameworkSection(visible[0].target);
+            }
+          }, {
+            rootMargin: '-10% 0px -40% 0px',
+            threshold: [0, 0.2, 0.4]
+          });
+
+          sections.forEach((sec) => frameworkObserver.observe(sec));
+        }
       }
     })();
   </script>
