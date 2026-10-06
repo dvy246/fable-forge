@@ -327,6 +327,11 @@ const relatedGuides = matchedGuides.slice(0, 2);
         </div>
       </div>
       <div class="guide-grid">
+        <a href="/dnd-classes/" class="guide-card class-guide-card">
+          <span class="guide-category">5e Character Dossiers</span>
+          <h3>DnD Classes: Complete 5e Guide</h3>
+          <p>Explore all 14 official character classes with hit dice, primary abilities, combat roles, and subclass pathways.</p>
+        </a>
         {relatedGuides.map((guide) => (
           <a href={`/blog/${guide.slug}/`} class="guide-card">
             <span class="guide-category">{guide.category}</span>
