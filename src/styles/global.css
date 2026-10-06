@@ -1235,6 +1235,38 @@ h3 {
   filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.5));
 }
 
+.character-realistic-wrapper {
+  position: relative;
+  width: 13.5rem;
+  height: 13.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.character-realistic-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--char-theme, var(--gold)) 70%, white 30%);
+  box-shadow:
+    0 0 25px color-mix(in srgb, var(--char-theme, var(--gold)) 40%, transparent),
+    0 16px 36px rgba(0, 0, 0, 0.7);
+  display: block;
+  animation: characterBreathe 5s ease-in-out infinite;
+}
+
+.character-realistic-rim {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px dashed color-mix(in srgb, var(--char-theme, var(--gold)) 60%, transparent);
+  pointer-events: none;
+  animation: celestial-rotate 40s linear infinite;
+}
+
 /* Micro-animations inside Character SVG */
 .character-figure.is-active .char-body {
   animation: characterBreathe 4s ease-in-out infinite;
@@ -3270,18 +3302,39 @@ h3 {
   gap: 1rem;
 }
 
-.sticky-crest-icon {
-  width: 3.5rem;
-  height: 3.5rem;
+.sticky-portrait-thumb {
+  position: relative;
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 0.85rem;
+  overflow: visible;
   flex-shrink: 0;
+}
+
+.sticky-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.85rem;
+  border: 1.5px solid color-mix(in srgb, var(--active-color, var(--gold)) 70%, var(--line));
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  display: block;
+}
+
+.sticky-crest-icon {
+  position: absolute;
+  right: -0.35rem;
+  bottom: -0.35rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--bg-raised) 90%, black 10%);
+  border: 1px solid var(--line);
+  padding: 0.15rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: color-mix(in srgb, var(--bg-raised) 80%, black 20%);
-  border: 1px solid var(--line);
-  border-radius: 0.75rem;
-  padding: 0.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
@@ -3584,30 +3637,39 @@ h3 {
 /* Visual Showcase */
 .card-visual-showcase {
   display: grid;
-  grid-template-columns: 7.5rem 1fr;
+  grid-template-columns: 8rem 1fr;
   align-items: center;
   gap: 1.25rem;
   padding: 0.5rem 1.5rem 1rem;
 }
 
 .portrait-container {
-  width: 7.5rem;
-  height: 7.5rem;
-  border-radius: 1rem;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 1.15rem;
   overflow: hidden;
   background: color-mix(in srgb, var(--panel-soft) 60%, black 40%);
-  border: 1px solid color-mix(in srgb, var(--class-theme) 40%, var(--line));
+  border: 1px solid color-mix(in srgb, var(--class-theme) 45%, var(--line));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  position: relative;
 }
 
 .portrait-container svg,
-.character-art-svg {
+.character-art-svg,
+.character-realistic-portrait {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.class-dossier-card:hover .character-realistic-portrait {
+  transform: scale(1.06);
 }
 
 .card-synopsis {

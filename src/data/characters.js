@@ -11,6 +11,7 @@ export const heroCharacters = [
     flavor: 'a star-touched wood elf ranger',
     themeColor: '#7ecba1',
     accentColor: '#38a169',
+    imageSrc: '/characters/elf-ranger.jpg',
     svgMarkup: `
       <svg class="character-art-svg" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Elven Star-Ranger portrait">
         <defs>
@@ -78,6 +79,7 @@ export const heroCharacters = [
     flavor: 'a brimstone fiend-warlock of the stygian pit',
     themeColor: '#f87171',
     accentColor: '#dc2626',
+    imageSrc: '/characters/tiefling-warlock.jpg',
     svgMarkup: `
       <svg class="character-art-svg" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Tiefling Fiend-Warlock portrait">
         <defs>
@@ -136,6 +138,7 @@ export const heroCharacters = [
     flavor: 'a mountain dwarf runesmith of the deep anvil',
     themeColor: '#fbbf24',
     accentColor: '#d97706',
+    imageSrc: '/characters/dwarf-cleric.jpg',
     svgMarkup: `
       <svg class="character-art-svg" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Dwarf Forge-Cleric portrait">
         <defs>
@@ -193,6 +196,7 @@ export const heroCharacters = [
     flavor: 'a draconic flame-knight of the solar crest',
     themeColor: '#fb923c',
     accentColor: '#ea580c',
+    imageSrc: '/characters/dragonborn-paladin.jpg',
     svgMarkup: `
       <svg class="character-art-svg" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Dragonborn Paladin portrait">
         <defs>
@@ -250,6 +254,7 @@ export const heroCharacters = [
     flavor: 'an underdark shadow-weaver of the arachnid veil',
     themeColor: '#c084fc',
     accentColor: '#9333ea',
+    imageSrc: '/characters/drow-rogue.jpg',
     svgMarkup: `
       <svg class="character-art-svg" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Drow Shadow-Rogue portrait">
         <defs>

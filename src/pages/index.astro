@@ -182,7 +182,17 @@ const schema = [
                 data-ancestry-slug={char.ancestrySlug}
                 aria-hidden={idx === 0 ? 'false' : 'true'}
               >
-                <Fragment set:html={char.svgMarkup} />
+                <div class="character-realistic-wrapper" style={`--char-theme: ${char.themeColor};`}>
+                  <img
+                    src={char.imageSrc}
+                    alt={`${char.label} - ${char.name}`}
+                    class="character-realistic-img"
+                    width="240"
+                    height="240"
+                    loading={idx === 0 ? 'eager' : 'lazy'}
+                  />
+                  <div class="character-realistic-rim" aria-hidden="true"></div>
+                </div>
               </div>
             ))}
           </div>

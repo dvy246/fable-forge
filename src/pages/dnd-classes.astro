@@ -185,7 +185,17 @@ const relatedItems = relatedSlugs.map((slug) => {
           </div>
 
           <div class="sticky-crest-wrapper" id="sticky-crest-wrapper" style={`--active-color: ${dndClasses[0].themeColor};`}>
-            <div class="sticky-crest-icon" id="sticky-crest-icon" set:html={dndClasses[0].crestSvg} />
+            <div class="sticky-portrait-thumb" id="sticky-portrait-thumb">
+              <img
+                id="sticky-portrait-img"
+                src={dndClasses[0].imageSrc}
+                alt={`${dndClasses[0].name} miniature`}
+                class="sticky-thumb-img"
+                width="56"
+                height="56"
+              />
+              <div class="sticky-crest-icon" id="sticky-crest-icon" set:html={dndClasses[0].crestSvg} />
+            </div>
             <div class="sticky-title-wrap">
               <span class="sticky-class-role" id="sticky-class-role">{dndClasses[0].roleCategory}</span>
               <h3 class="sticky-class-name" id="sticky-class-name">{dndClasses[0].name}</h3>
@@ -264,6 +274,7 @@ const relatedItems = relatedSlugs.map((slug) => {
               data-class-saves={item.saves.split(' & ')[0]}
               data-class-synopsis={item.synopsis}
               data-class-color={item.themeColor}
+              data-class-image={item.imageSrc}
               data-class-url={item.nameGeneratorUrl}
               data-index={index + 1}
               style={`--class-theme: ${item.themeColor}; --class-accent: ${item.accentColor};`}
@@ -284,7 +295,16 @@ const relatedItems = relatedSlugs.map((slug) => {
               </header>
 
               <div class="card-visual-showcase">
-                <div class="portrait-container" set:html={item.characterArtSvg} />
+                <div class="portrait-container">
+                  <img
+                    src={item.imageSrc}
+                    alt={`${item.name} character portrait`}
+                    class="character-realistic-portrait"
+                    width="240"
+                    height="240"
+                    loading={index < 2 ? 'eager' : 'lazy'}
+                  />
+                </div>
                 <p class="card-synopsis">{item.synopsis}</p>
               </div>
 
@@ -925,6 +945,13 @@ const relatedItems = relatedSlugs.map((slug) => {
         const cardCrest = card.querySelector('.crest-wrapper');
         if (cardCrest && crestIconEl) {
           crestIconEl.innerHTML = cardCrest.innerHTML;
+        }
+
+        const image = card.dataset.classImage;
+        const portraitImgEl = document.getElementById('sticky-portrait-img');
+        if (portraitImgEl && image) {
+          portraitImgEl.src = image;
+          portraitImgEl.alt = `${name} miniature`;
         }
 
         trackPills.forEach((pill) => {
