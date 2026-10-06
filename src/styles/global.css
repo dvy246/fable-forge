@@ -30,6 +30,32 @@
   --display: "Iowan Old Style", "Baskerville", "Palatino Linotype", Georgia, serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+
+  /* Fantasy Color Palettes */
+  /* Palette 1 - Sapphire Tide */
+  --palette-sapphire-navy: #425b9a;
+  --palette-sapphire-sky: #76c0ec;
+  --palette-sapphire-cream: #fff6dc;
+  --palette-sapphire-coral: #ff95a5;
+  --palette-sapphire-teal: #31aaa9;
+  --palette-sapphire-gold: #f8e0a4;
+  --palette-sapphire-ruby: #a82020;
+  --palette-sapphire-garnet: #6c1a1a;
+
+  /* Palette 2 - Crimson Abyss */
+  --palette-crimson-black: #000000;
+  --palette-crimson-blood: #830000;
+  --palette-crimson-scarlet: #bc0202;
+  --palette-crimson-pure: #ff0000;
+  --palette-crimson-garnet: #8e1616;
+  --palette-crimson-gold: #e8c999;
+  --palette-crimson-ivory: #f8eedf;
+
+  /* Palette 3 - Dragon Flame */
+  --palette-dragon-wine: #760031;
+  --palette-dragon-crimson: #d51c39;
+  --palette-dragon-coral: #ff6060;
+  --palette-dragon-sun: #feec41;
 }
 
 :root[data-theme="night"] {
@@ -111,6 +137,93 @@
   --action: #422263;
   --action-ink: #f8f2fd;
   --shadow: 0 24px 60px rgba(0, 0, 0, 0.38);
+}
+
+:root[data-theme="sapphire"] {
+  color-scheme: dark;
+  --bg: #0d1424;
+  --bg-raised: #141e33;
+  --panel: #1b2844;
+  --panel-soft: #25365c;
+  --ink: #fff6dc;
+  --muted: #f8e0a4;
+  --dim: #8ea3c4;
+  --line: rgba(118, 192, 236, 0.22);
+  --line-strong: rgba(118, 192, 236, 0.42);
+  --gold: #76c0ec;
+  --gold-rgb: 118, 192, 236;
+  --gold-bright: #fff6dc;
+  --ember: #ff95a5;
+  --ember-soft: rgba(255, 149, 165, 0.18);
+  --success: #31aaa9;
+  --sheet: #fff6dc;
+  --sheet-ink: #0d1424;
+  --sheet-muted: #425b9a;
+  --sheet-line: #76c0ec;
+  --sheet-input: #fffaee;
+  --action: #425b9a;
+  --action-ink: #fff6dc;
+  --danger: #a82020;
+  --danger-deep: #6c1a1a;
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+:root[data-theme="crimson"] {
+  color-scheme: dark;
+  --bg: #000000;
+  --bg-raised: #0d0202;
+  --panel: #170404;
+  --panel-soft: #260707;
+  --ink: #f8eedf;
+  --muted: #e8c999;
+  --dim: #9e6f54;
+  --line: rgba(188, 2, 2, 0.3);
+  --line-strong: rgba(255, 0, 0, 0.45);
+  --gold: #e8c999;
+  --gold-rgb: 232, 201, 153;
+  --gold-bright: #f8eedf;
+  --ember: #ff0000;
+  --ember-soft: rgba(255, 0, 0, 0.2);
+  --success: #bc0202;
+  --sheet: #f8eedf;
+  --sheet-ink: #000000;
+  --sheet-muted: #8e1616;
+  --sheet-line: #e8c999;
+  --sheet-input: #fffaf2;
+  --action: #830000;
+  --action-ink: #f8eedf;
+  --danger: #ff0000;
+  --danger-deep: #830000;
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+}
+
+:root[data-theme="solardragon"] {
+  color-scheme: dark;
+  --bg: #120208;
+  --bg-raised: #1c040d;
+  --panel: #280613;
+  --panel-soft: #38091c;
+  --ink: #fff7ea;
+  --muted: #f6cfb5;
+  --dim: #b4787e;
+  --line: rgba(254, 236, 65, 0.24);
+  --line-strong: rgba(213, 28, 57, 0.45);
+  --gold: #feec41;
+  --gold-rgb: 254, 236, 65;
+  --gold-bright: #fff88a;
+  --ember: #ff6060;
+  --ember-soft: rgba(255, 96, 96, 0.2);
+  --success: #feec41;
+  --sheet: #fff5e6;
+  --sheet-ink: #1a030c;
+  --sheet-muted: #760031;
+  --sheet-line: #d51c39;
+  --sheet-input: #fffcf5;
+  --action: #760031;
+  --action-ink: #feec41;
+  --danger: #d51c39;
+  --danger-deep: #760031;
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
 }
 
 * {
@@ -577,6 +690,18 @@ select:focus-visible {
 
 .swatch-amethyst {
   background: radial-gradient(circle, #e4cffc 40%, #bf98e6 70%, #120c19 100%);
+}
+
+.swatch-sapphire {
+  background: radial-gradient(circle, #76c0ec 35%, #425b9a 70%, #0d1424 100%);
+}
+
+.swatch-crimson {
+  background: radial-gradient(circle, #ff0000 30%, #830000 65%, #000000 100%);
+}
+
+.swatch-solardragon {
+  background: radial-gradient(circle, #feec41 30%, #d51c39 65%, #760031 100%);
 }
 
 .palette-option-text {

@@ -94,7 +94,7 @@ const socialImageAlt = imageType === 'hub'
     <script is:inline>
       try {
         const savedTheme = window.localStorage.getItem('dnd-arena-theme');
-        if (savedTheme && ['dark', 'night', 'emerald', 'amethyst'].includes(savedTheme)) {
+        if (savedTheme && ['dark', 'night', 'emerald', 'amethyst', 'sapphire', 'crimson', 'solardragon'].includes(savedTheme)) {
           document.documentElement.dataset.theme = savedTheme;
         }
       } catch {
@@ -220,7 +220,31 @@ const socialImageAlt = imageType === 'hub'
                   <strong class="palette-option-name">Arcane Spire</strong>
                   <span class="palette-option-desc">Mystic Violet</span>
                 </span>
-                <span class="palette-check" aria-hidden="true">✓</span>
+                <span class="palette-check" aria-hidden="true">&check;</span>
+              </button>
+              <button type="button" class="palette-option" data-palette="sapphire" role="menuitem">
+                <span class="palette-swatch swatch-sapphire" aria-hidden="true"></span>
+                <span class="palette-option-text">
+                  <strong class="palette-option-name">Sapphire Tide</strong>
+                  <span class="palette-option-desc">Mystic Cerulean</span>
+                </span>
+                <span class="palette-check" aria-hidden="true">&check;</span>
+              </button>
+              <button type="button" class="palette-option" data-palette="crimson" role="menuitem">
+                <span class="palette-swatch swatch-crimson" aria-hidden="true"></span>
+                <span class="palette-option-text">
+                  <strong class="palette-option-name">Crimson Abyss</strong>
+                  <span class="palette-option-desc">Blood &amp; Obsidian</span>
+                </span>
+                <span class="palette-check" aria-hidden="true">&check;</span>
+              </button>
+              <button type="button" class="palette-option" data-palette="solardragon" role="menuitem">
+                <span class="palette-swatch swatch-solardragon" aria-hidden="true"></span>
+                <span class="palette-option-text">
+                  <strong class="palette-option-name">Dragon Flame</strong>
+                  <span class="palette-option-desc">Solar Ember</span>
+                </span>
+                <span class="palette-check" aria-hidden="true">&check;</span>
               </button>
             </div>
           </details>
@@ -278,6 +302,9 @@ const socialImageAlt = imageType === 'hub'
         night: 'Astral',
         emerald: 'Verdant',
         amethyst: 'Arcane',
+        sapphire: 'Sapphire',
+        crimson: 'Crimson',
+        solardragon: 'Dragon',
       };
 
       const setPalette = (theme) => {
