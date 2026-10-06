@@ -101,57 +101,179 @@ const relatedItems = relatedSlugs.map((slug) => {
   schema={schema}
 >
   <section class="hero hero-classes">
-    <div class="hero-classes-narrative">
-      <div class="hero-eyebrow-wrap">
-        <span class="hero-eyebrow">
-          <span class="hero-trust-indicator" aria-hidden="true"></span>
-          Tabletop 5e Character Dossiers
-        </span>
+    <div class="hero-classes-stage">
+      <div class="hero-classes-narrative">
+        <div class="hero-eyebrow-wrap">
+          <span class="hero-eyebrow">
+            <span class="hero-trust-indicator" aria-hidden="true"></span>
+            Tabletop 5e Character Dossiers
+          </span>
+        </div>
+        <h1 class="hero-classes-h1">DnD Classes: The Complete 5e Character Guide</h1>
+        <p class="hero-copy">
+          Discover all 14 official DnD classes with complete mechanical breakdowns, hit dice ratings, primary abilities, combat roles, playstyle radars, and subclass synergies in our authoritative tabletop 5e guide.
+        </p>
+
+        <div class="hero-specs-row" aria-label="Guide highlights">
+          <div class="spec-chip">
+            <span class="spec-num">14</span>
+            <span class="spec-text">Official Classes</span>
+          </div>
+          <div class="spec-chip">
+            <span class="spec-num">56+</span>
+            <span class="spec-text">Subclasses</span>
+          </div>
+          <div class="spec-chip">
+            <span class="spec-num">4</span>
+            <span class="spec-text">Hit Die Tiers</span>
+          </div>
+          <div class="spec-chip">
+            <span class="spec-num">100%</span>
+            <span class="spec-text">Free Reference</span>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a href="#classes-roster" class="hero-cta">
+            <span>Explore All 14 Classes</span>
+            <span class="hero-cta-arrow" aria-hidden="true">&darr;</span>
+          </a>
+          <a href="#class-guide" class="hero-secondary-cta">
+            <span>Tactical Multiclass Guide</span>
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
       </div>
-      <h1>DnD Classes: The Complete 5e Character Guide</h1>
-      <p class="hero-copy">
-        Discover all 14 official DnD classes with complete mechanical breakdowns, hit dice ratings, primary abilities, combat roles, playstyle radars, and subclass synergies in our authoritative tabletop 5e guide.
-      </p>
-      <div class="hero-quick-stats">
-        <div class="quick-stat-badge">
-          <span class="quick-stat-number">14</span>
-          <span class="quick-stat-label">Official Classes</span>
+
+      <div class="hero-spotlight-card" id="hero-spotlight-card" style="--spotlight-theme: #3b82f6;">
+        <div class="spotlight-header">
+          <div class="spotlight-badge-row">
+            <span class="spotlight-kicker">Codex Spotlight</span>
+            <span class="spotlight-role" id="spotlight-role">Frontline Tactician</span>
+          </div>
+          <span class="spotlight-hitdie" id="spotlight-hitdie">Hit Die: d10</span>
         </div>
-        <div class="quick-stat-badge">
-          <span class="quick-stat-number">56+</span>
-          <span class="quick-stat-label">Subclasses</span>
+
+        <div class="spotlight-visual-stage">
+          <div class="spotlight-portrait-frame">
+            <img
+              id="spotlight-img"
+              src="/characters/fighter.jpg"
+              alt="Fighter character portrait"
+              class="spotlight-img"
+              width="240"
+              height="240"
+              loading="eager"
+            />
+            <div class="spotlight-portrait-rim" aria-hidden="true"></div>
+          </div>
+          <div class="spotlight-info">
+            <h3 class="spotlight-name" id="spotlight-name">Fighter</h3>
+            <span class="spotlight-subtitle" id="spotlight-subtitle">Battle Master Champion</span>
+            <p class="spotlight-desc" id="spotlight-desc">
+              Master of martial discipline, heavy armor, and devastating Action Surge bursts across tactical encounters.
+            </p>
+            <div class="spotlight-tags">
+              <span class="spotlight-tag" id="spotlight-primary">Primary: Strength / Dex</span>
+              <span class="spotlight-tag" id="spotlight-saves">Saves: Str &amp; Con</span>
+            </div>
+          </div>
         </div>
-        <div class="quick-stat-badge">
-          <span class="quick-stat-number">4</span>
-          <span class="quick-stat-label">Hit Die Tiers</span>
+
+        <div class="spotlight-switcher" role="tablist" aria-label="Quick preview core archetypes">
+          <span class="switcher-label">Preview Pillars:</span>
+          <div class="switcher-chips">
+            <button
+              type="button"
+              class="spotlight-chip is-active"
+              data-spotlight-name="Fighter"
+              data-spotlight-subtitle="Battle Master Champion"
+              data-spotlight-role="Frontline Tactician"
+              data-spotlight-hitdie="Hit Die: d10"
+              data-spotlight-primary="Primary: Strength / Dex"
+              data-spotlight-saves="Saves: Str &amp; Con"
+              data-spotlight-desc="Master of martial discipline, heavy armor, and devastating Action Surge bursts across tactical encounters."
+              data-spotlight-img="/characters/fighter.jpg"
+              data-spotlight-color="#3b82f6"
+              role="tab"
+              aria-selected="true"
+            >
+              <span class="chip-pip" style="background-color: #3b82f6;"></span>
+              <span>Fighter</span>
+            </button>
+            <button
+              type="button"
+              class="spotlight-chip"
+              data-spotlight-name="Wizard"
+              data-spotlight-subtitle="Master of the Arcane"
+              data-spotlight-role="Arcane Controller"
+              data-spotlight-hitdie="Hit Die: d6"
+              data-spotlight-primary="Primary: Intelligence"
+              data-spotlight-saves="Saves: Int &amp; Wis"
+              data-spotlight-desc="Scholarly arcanist bending reality with ancient spellbooks, ritual preparation, and battlefield control."
+              data-spotlight-img="/characters/wizard.jpg"
+              data-spotlight-color="#6366f1"
+              role="tab"
+              aria-selected="false"
+            >
+              <span class="chip-pip" style="background-color: #6366f1;"></span>
+              <span>Wizard</span>
+            </button>
+            <button
+              type="button"
+              class="spotlight-chip"
+              data-spotlight-name="Rogue"
+              data-spotlight-subtitle="Shadow Assassin"
+              data-spotlight-role="Stealth Specialist"
+              data-spotlight-hitdie="Hit Die: d8"
+              data-spotlight-primary="Primary: Dexterity"
+              data-spotlight-saves="Saves: Dex &amp; Int"
+              data-spotlight-desc="Infiltration expert delivering lethal Sneak Attack strikes with cunning action and slippery evasion."
+              data-spotlight-img="/characters/rogue.jpg"
+              data-spotlight-color="#8b5cf6"
+              role="tab"
+              aria-selected="false"
+            >
+              <span class="chip-pip" style="background-color: #8b5cf6;"></span>
+              <span>Rogue</span>
+            </button>
+            <button
+              type="button"
+              class="spotlight-chip"
+              data-spotlight-name="Cleric"
+              data-spotlight-subtitle="Forge &amp; Life Conduit"
+              data-spotlight-role="Divine Bastion"
+              data-spotlight-hitdie="Hit Die: d8"
+              data-spotlight-primary="Primary: Wisdom"
+              data-spotlight-saves="Saves: Wis &amp; Cha"
+              data-spotlight-desc="Holy armor-clad champion channeling divine miracles, radiant burst wrath, and emergency party healing."
+              data-spotlight-img="/characters/cleric.jpg"
+              data-spotlight-color="#f59e0b"
+              role="tab"
+              aria-selected="false"
+            >
+              <span class="chip-pip" style="background-color: #f59e0b;"></span>
+              <span>Cleric</span>
+            </button>
+          </div>
         </div>
-        <div class="quick-stat-badge">
-          <span class="quick-stat-number">100%</span>
-          <span class="quick-stat-label">Free Reference</span>
-        </div>
-      </div>
-      <div class="hero-actions">
-        <a href="#classes-roster" class="hero-cta">
-          <span>Browse All Classes</span>
-          <span class="hero-cta-arrow" aria-hidden="true">&darr;</span>
-        </a>
-        <a href="#class-guide" class="hero-secondary-cta">
-          <span>Read Tactical Guide</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
       </div>
     </div>
-    <div class="hero-classes-jumpbox">
-      <span class="jumpbox-heading">Quick Jump to Class:</span>
-      <div class="jumpbox-pills">
+
+    <nav class="hero-quick-jump-ribbon" aria-label="Quick jump to class">
+      <div class="jump-ribbon-label">
+        <span class="jump-ribbon-icon" aria-hidden="true">✦</span>
+        <span>Quick Jump to Class:</span>
+      </div>
+      <div class="jump-ribbon-pills">
         {dndClasses.map((item) => (
-          <a href={`#class-${item.slug}`} class="jumpbox-pill" style={`--pill-color: ${item.themeColor};`}>
-            <span class="pill-dot" style={`background-color: ${item.themeColor};`}></span>
+          <a href={`#class-${item.slug}`} class="jump-ribbon-pill" style={`--pill-accent: ${item.themeColor};`}>
+            <span class="pill-pip" style={`background-color: ${item.themeColor};`}></span>
             <span>{item.name}</span>
           </a>
         ))}
       </div>
-    </div>
+    </nav>
   </section>
 
   <section class="page-section" id="classes-roster" aria-labelledby="roster-heading">
@@ -886,6 +1008,58 @@ const relatedItems = relatedSlugs.map((slug) => {
 
   <script is:inline>
     (() => {
+      // Hero Codex Spotlight Switcher
+      const spotlightCard = document.getElementById('hero-spotlight-card');
+      const spotlightChips = document.querySelectorAll('.spotlight-chip');
+      const spotlightImg = document.getElementById('spotlight-img');
+      const spotlightName = document.getElementById('spotlight-name');
+      const spotlightSubtitle = document.getElementById('spotlight-subtitle');
+      const spotlightRole = document.getElementById('spotlight-role');
+      const spotlightHitdie = document.getElementById('spotlight-hitdie');
+      const spotlightPrimary = document.getElementById('spotlight-primary');
+      const spotlightSaves = document.getElementById('spotlight-saves');
+      const spotlightDesc = document.getElementById('spotlight-desc');
+
+      spotlightChips.forEach((chip) => {
+        chip.addEventListener('click', () => {
+          spotlightChips.forEach((c) => {
+            const isCurrent = c === chip;
+            c.classList.toggle('is-active', isCurrent);
+            c.setAttribute('aria-selected', String(isCurrent));
+          });
+
+          const name = chip.dataset.spotlightName;
+          const subtitle = chip.dataset.spotlightSubtitle;
+          const role = chip.dataset.spotlightRole;
+          const hitdie = chip.dataset.spotlightHitdie;
+          const primary = chip.dataset.spotlightPrimary;
+          const saves = chip.dataset.spotlightSaves;
+          const desc = chip.dataset.spotlightDesc;
+          const img = chip.dataset.spotlightImg;
+          const color = chip.dataset.spotlightColor;
+
+          if (spotlightCard && color) {
+            spotlightCard.style.setProperty('--spotlight-theme', color);
+          }
+          if (spotlightName && name) spotlightName.textContent = name;
+          if (spotlightSubtitle && subtitle) spotlightSubtitle.textContent = subtitle;
+          if (spotlightRole && role) spotlightRole.textContent = role;
+          if (spotlightHitdie && hitdie) spotlightHitdie.textContent = hitdie;
+          if (spotlightPrimary && primary) spotlightPrimary.textContent = primary;
+          if (spotlightSaves && saves) spotlightSaves.textContent = saves;
+          if (spotlightDesc && desc) spotlightDesc.textContent = desc;
+
+          if (spotlightImg && img) {
+            spotlightImg.style.opacity = '0';
+            setTimeout(() => {
+              spotlightImg.src = img;
+              spotlightImg.alt = `${name} character portrait`;
+              spotlightImg.style.opacity = '1';
+            }, 120);
+          }
+        });
+      });
+
       const stage = document.querySelector('.classes-sticky-stage');
       if (!stage) return;
 
@@ -977,7 +1151,7 @@ const relatedItems = relatedSlugs.map((slug) => {
         }
       }
 
-      document.querySelectorAll('.track-pill, .jumpbox-pill').forEach((btn) => {
+      document.querySelectorAll('.track-pill, .jump-ribbon-pill, .jumpbox-pill').forEach((btn) => {
         btn.addEventListener('click', (e) => {
           const targetSlug = btn.dataset.targetSlug || btn.getAttribute('href')?.replace('#class-', '');
           if (!targetSlug) return;
