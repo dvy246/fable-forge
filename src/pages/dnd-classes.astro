@@ -54,14 +54,20 @@ function getClassCategory(slug) {
   return 'spellcaster';
 }
 
-const relatedSlugs = [
-  'character-name-generator',
-  'party-name-generator',
-  'npc-name-generator',
-  'last-name-generator',
-  'human-name-generator',
-  'elf-name-generator',
-];
+const phaseTwoEnabled = import.meta.env.PUBLIC_BUILD_PHASE_2 !== 'false';
+const relatedSlugs = phaseTwoEnabled
+  ? [
+      'character-name-generator',
+      'party-name-generator',
+      'npc-name-generator',
+      'last-name-generator',
+    ]
+  : [
+      'elf-name-generator',
+      'dwarf-name-generator',
+      'human-name-generator',
+      'tiefling-name-generator',
+    ];
 
 const relatedItems = relatedSlugs.map((slug) => {
   const race = raceBySlug.get(slug);

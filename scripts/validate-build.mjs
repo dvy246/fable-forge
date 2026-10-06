@@ -40,6 +40,10 @@ const blogKeywords = {
   '/blog/fantasy-town-naming-guide/': 'how to name a fantasy town',
 };
 const blogPaths = ['/blog/', ...Object.keys(blogKeywords)];
+const guideKeywords = {
+  '/dnd-classes/': 'dnd classes',
+};
+const guidePaths = Object.keys(guideKeywords);
 const trustPaths = ['/about/', '/how-names-are-generated/', '/privacy/', '/terms/', '/contact/'];
 const errors = [];
 const pageRecords = [];
@@ -164,7 +168,7 @@ async function verifyPage(pagePath, keyword) {
 
   const entries = jsonLdEntries(html, pagePath);
   if (isIndexable) {
-    if (Object.hasOwn(blogKeywords, pagePath)) {
+    if (Object.hasOwn(blogKeywords, pagePath) || Object.hasOwn(guideKeywords, pagePath)) {
       const article = entries.find((entry) => entry['@type'] === 'Article');
       if (!article) fail(`${pagePath}: Article JSON-LD is missing.`);
       else {
@@ -187,7 +191,7 @@ async function verifyPage(pagePath, keyword) {
     if (pagePath === '/' && !entries.some((entry) => entry['@type'] === 'WebSite')) fail('/ : WebSite JSON-LD is required on the hub.');
     if (pagePath !== '/' && entries.some((entry) => entry['@type'] === 'WebSite')) fail(`${pagePath}: WebSite JSON-LD belongs on the hub only.`);
 
-    const hasFaqContent = pagePath === '/' || Object.hasOwn(raceKeywords, pagePath) || Object.hasOwn(utilityKeywords, pagePath) || Object.hasOwn(blogKeywords, pagePath);
+    const hasFaqContent = pagePath === '/' || Object.hasOwn(raceKeywords, pagePath) || Object.hasOwn(utilityKeywords, pagePath) || Object.hasOwn(blogKeywords, pagePath) || Object.hasOwn(guideKeywords, pagePath);
     if (hasFaqContent) {
       const faqPage = entries.find((entry) => entry['@type'] === 'FAQPage');
       if (!faqPage) {
@@ -286,6 +290,15 @@ async function verifyPage(pagePath, keyword) {
     if (faqCount < 4) fail(`${pagePath}: needs at least four visible FAQ entries (found ${faqCount}).`);
   }
 
+  if (Object.hasOwn(guideKeywords, pagePath)) {
+    const bodyStart = html.indexOf('data-seo-copy');
+    const bodyContentStart = bodyStart === -1 ? -1 : html.indexOf('>', bodyStart) + 1;
+    const bodyEnd = bodyContentStart === -1 ? -1 : html.indexOf('aria-labelledby="related-heading"', bodyContentStart);
+    const body = bodyContentStart >= 0 && bodyEnd >= 0 ? html.slice(bodyContentStart, bodyEnd) : (bodyContentStart >= 0 ? html.slice(bodyContentStart) : '');
+    const words = stripHtml(body).match(/[A-Za-z0-9]+(?:['’][A-Za-z0-9]+)*/g) ?? [];
+    if (words.length < 2000) fail(`${pagePath}: guide content must contain at least 2000 words (found ${words.length}).`);
+  }
+
   if (pagePath === '/blog/') {
     const postCards = [...html.matchAll(/<a\s+class=["']blog-card["'][^>]*href=["']([^"']+)["']/gi)];
     const cardHrefs = new Set(postCards.map(([, href]) => new URL(href, 'https://local.invalid').pathname));
@@ -305,7 +318,7 @@ async function verifyPage(pagePath, keyword) {
   }
 }
 
-const expectedPages = ['/', ...Object.keys(raceKeywords), ...trustPaths, '/404/', ...blogPaths, ...(phaseTwoEnabled ? Object.keys(utilityKeywords) : [])];
+const expectedPages = ['/', ...Object.keys(raceKeywords), ...trustPaths, '/404/', ...blogPaths, ...guidePaths, ...(phaseTwoEnabled ? Object.keys(utilityKeywords) : [])];
 const builtHtmlFiles = (await walk(distRoot)).filter((file) => file.endsWith('.html'));
 const actualPages = new Set(builtHtmlFiles.map(pagePathFromFile));
 for (const pagePath of expectedPages) {
@@ -316,7 +329,7 @@ for (const pagePath of actualPages) {
 }
 
 for (const pagePath of expectedPages) {
-  await verifyPage(pagePath, raceKeywords[pagePath] ?? utilityKeywords[pagePath] ?? blogKeywords[pagePath]);
+  await verifyPage(pagePath, raceKeywords[pagePath] ?? utilityKeywords[pagePath] ?? blogKeywords[pagePath] ?? guideKeywords[pagePath]);
 }
 
 const titles = new Map();
