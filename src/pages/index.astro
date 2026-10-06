@@ -7,6 +7,8 @@ import { utilityPages } from '../data/utilities';
 import { asGeneratorProfile, buildRaceName, buildSurname, buildUtilityResult, makeSampleResults } from '../lib/name-engine';
 import { webApplicationSchema, webSiteSchema, faqPageSchema } from '../lib/seo';
 
+import { heroCharacters } from '../data/characters';
+
 const generatedHeroSamples = raceProfiles.slice(0, 6).flatMap((profile, idx) => {
   const genProfile = asGeneratorProfile(profile);
   const style = profile.styles[idx % profile.styles.length];
@@ -100,7 +102,7 @@ const schema = [
       ))}
     </div>
 
-    <!-- Left side: Narrative & CTA -->
+    <!-- Left side: Narrative, CTA & Archetype Quick-Select -->
     <div class="hero-narrative">
       <div class="hero-eyebrow-wrap">
         <span class="hero-eyebrow">Tabletop RPG Generator</span>
@@ -123,14 +125,34 @@ const schema = [
           <span>Zero sign-up · Pure browser roll · Free forever</span>
         </div>
       </div>
+
+      <!-- Quick Archetype Select Chips -->
+      <div class="hero-archetype-chips" aria-label="Quick-select character archetype">
+        <span class="chips-label">Pick Archetype:</span>
+        <div class="chips-list" role="tablist">
+          {heroCharacters.map((char, idx) => (
+            <button
+              type="button"
+              class={`archetype-chip ${idx === 0 ? 'is-active' : ''}`}
+              data-char-id={char.id}
+              role="tab"
+              aria-selected={idx === 0 ? 'true' : 'false'}
+              aria-label={`Preview ${char.label}`}
+            >
+              <span class="chip-icon" aria-hidden="true">{char.icon}</span>
+              <span class="chip-label">{char.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
 
-    <!-- Right side: Bespoke Fantasy Artifact (Engraved obsidian & brass celestial plaque) -->
-    <div class="hero-artifact-wrap" aria-label="Interactive fantasy name preview medallion">
-      <div class="hero-artifact">
-        <div class="artifact-ambient-aura" aria-hidden="true"></div>
-        <div class="artifact-shell">
-          <!-- Concentric Astronomical & Cartographic Linework -->
+    <!-- Right side: Animated DnD Character Stage -->
+    <div class="hero-artifact-wrap" aria-label="Animated DnD character preview stage">
+      <div class="character-stage" data-character-stage>
+        <div class="character-ambient-aura" aria-hidden="true"></div>
+        <div class="character-stage-frame">
+          <!-- Concentric Astronomical & Arcane Linework -->
           <svg class="artifact-celestial-rings" viewBox="0 0 340 340" fill="none" aria-hidden="true">
             <circle cx="170" cy="170" r="162" class="c-ring c-ring-outer" />
             <circle cx="170" cy="170" r="152" class="c-ring c-ring-ticks" stroke-dasharray="2 6" />
@@ -145,24 +167,44 @@ const schema = [
             <circle cx="324" cy="170" r="3" class="c-pip" />
           </svg>
 
-          <!-- Recessed Core Tablet Plaque with Live Cycling Roll -->
-          <div class="artifact-tablet">
+          <!-- Character Viewport: Layered Character Busts with Idle & Glow Motion -->
+          <div class="character-viewport">
+            {heroCharacters.map((char, idx) => (
+              <div
+                class={`character-figure ${idx === 0 ? 'is-active' : ''}`}
+                data-character-figure={char.id}
+                data-name={char.name}
+                data-flavor={char.flavor}
+                data-theme={char.themeColor}
+                data-accent={char.accentColor}
+                data-label={char.label}
+                data-icon={char.icon}
+                data-ancestry-slug={char.ancestrySlug}
+                aria-hidden={idx === 0 ? 'false' : 'true'}
+              >
+                <Fragment set:html={char.svgMarkup} />
+              </div>
+            ))}
+          </div>
+
+          <!-- Recessed Character Plaque with Live Name -->
+          <div class="character-plaque">
             <div class="artifact-topline">
-              <span class="artifact-badge">
+              <span class="artifact-badge" id="hero-badge">
                 <span class="artifact-badge-gem" aria-hidden="true"></span>
-                <span>Live Roll</span>
+                <span id="hero-archetype-label">{heroCharacters[0].label}</span>
               </span>
-              <span class="artifact-sigil" aria-hidden="true">✦ ᚱ ✦</span>
+              <span class="artifact-sigil" id="hero-ancestry-icon" aria-hidden="true">{heroCharacters[0].icon}</span>
             </div>
             
             <div class="hero-preview" aria-live="polite">
-              <span class="preview-name" id="hero-cycling-name">{heroSamples[0].name}</span>
-              <span class="preview-flavor">{heroSamples[0].flavor}</span>
+              <span class="preview-name" id="hero-cycling-name">{heroCharacters[0].name}</span>
+              <span class="preview-flavor">{heroCharacters[0].flavor}</span>
             </div>
 
             <div class="artifact-bottomline">
-              <span>Original Syllables</span>
-              <span>5e Tabletop</span>
+              <span>Phonetic Morphemes</span>
+              <span>D&amp;D 5e Tabletop</span>
             </div>
           </div>
         </div>
@@ -294,36 +336,102 @@ const schema = [
   </section>
 
   <script is:inline>
-    // Hero name cycling with synchronized fade transitions
-    const samples = [...document.querySelectorAll('[data-hero-sample]')];
-    const nameEl = document.getElementById('hero-cycling-name');
-    const flavorEl = nameEl?.nextElementSibling;
-    if (nameEl && samples.length) {
-      let i = 0;
-      let timer = null;
-      const step = () => {
-        if (document.hidden) return;
+    // Hero animated character stage & synchronized cycling
+    (() => {
+      const stage = document.querySelector('[data-character-stage]');
+      const figures = Array.from(document.querySelectorAll('[data-character-figure]'));
+      const chips = Array.from(document.querySelectorAll('.archetype-chip'));
+      const nameEl = document.getElementById('hero-cycling-name');
+      const flavorEl = nameEl ? nameEl.nextElementSibling : null;
+      const archetypeLabelEl = document.getElementById('hero-archetype-label');
+      const iconEl = document.getElementById('hero-ancestry-icon');
+      const auraEl = stage ? stage.querySelector('.character-ambient-aura') : null;
+
+      if (!figures.length || !nameEl) return;
+
+      let currentIndex = 0;
+      let cycleTimer = null;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function showCharacter(index, isUserInteraction = false) {
+        if (index < 0 || index >= figures.length) return;
+        currentIndex = index;
+        const targetFig = figures[index];
+        const charId = targetFig.dataset.characterFigure;
+        const charName = targetFig.dataset.name;
+        const charFlavor = targetFig.dataset.flavor;
+        const charTheme = targetFig.dataset.theme;
+        const charLabel = targetFig.dataset.label;
+        const charIcon = targetFig.dataset.icon;
+
+        // Dynamic ambient aura coloring
+        if (auraEl && charTheme) {
+          auraEl.style.background = `radial-gradient(circle, color-mix(in srgb, ${charTheme} 24%, transparent) 0%, color-mix(in srgb, ${charTheme} 10%, transparent) 45%, transparent 72%)`;
+        }
+
+        // Fade out plaque text
         nameEl.style.opacity = '0';
         if (flavorEl) flavorEl.style.opacity = '0';
+
         setTimeout(() => {
-          i = (i + 1) % samples.length;
-          const s = samples[i];
-          nameEl.textContent = s.dataset.name;
-          if (flavorEl) flavorEl.textContent = s.dataset.flavor;
+          nameEl.textContent = charName;
+          if (flavorEl) flavorEl.textContent = charFlavor;
+          if (archetypeLabelEl && charLabel) archetypeLabelEl.textContent = charLabel;
+          if (iconEl && charIcon) iconEl.textContent = charIcon;
+
           nameEl.style.opacity = '1';
           if (flavorEl) flavorEl.style.opacity = '1';
-        }, 350);
-      };
+        }, 180);
 
-      const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-      if (!motionQuery.matches) {
-        timer = setInterval(step, 4000);
+        // Switch active character SVG
+        figures.forEach((fig, i) => {
+          if (i === index) {
+            fig.classList.add('is-active');
+            fig.setAttribute('aria-hidden', 'false');
+          } else {
+            fig.classList.remove('is-active');
+            fig.setAttribute('aria-hidden', 'true');
+          }
+        });
+
+        // Switch active archetype chip
+        chips.forEach((chip) => {
+          const isActive = chip.dataset.charId === charId;
+          chip.classList.toggle('is-active', isActive);
+          chip.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+
+        // If user explicitly clicked a chip, reset cycle timer
+        if (isUserInteraction && !prefersReducedMotion) {
+          clearInterval(cycleTimer);
+          cycleTimer = setInterval(nextCharacter, 4200);
+        }
+      }
+
+      function nextCharacter() {
+        if (document.hidden) return;
+        const nextIdx = (currentIndex + 1) % figures.length;
+        showCharacter(nextIdx);
+      }
+
+      // Attach click handlers to archetype chips
+      chips.forEach((chip, idx) => {
+        chip.addEventListener('click', () => {
+          showCharacter(idx, true);
+        });
+      });
+
+      if (!prefersReducedMotion) {
+        cycleTimer = setInterval(nextCharacter, 4200);
         document.addEventListener('visibilitychange', () => {
-          if (document.hidden) clearInterval(timer);
-          else timer = setInterval(step, 4000);
+          if (document.hidden) {
+            clearInterval(cycleTimer);
+          } else {
+            cycleTimer = setInterval(nextCharacter, 4200);
+          }
         });
       }
-    }
+    })();
 
     // Smooth scroll CTA
     const cta = document.querySelector('[data-action="scroll-to-generator"]');
