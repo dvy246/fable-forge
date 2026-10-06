@@ -3543,10 +3543,14 @@ h3 {
 }
 
 .classes-sticky-aside {
+  position: -webkit-sticky;
   position: sticky;
-  top: 6.25rem;
+  top: 5.5rem;
   align-self: start;
-  height: fit-content;
+  max-height: calc(100vh - 6.5rem);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
   z-index: 20;
 }
 
@@ -4352,77 +4356,200 @@ h3 {
   color: var(--ink);
 }
 
-/* Classes Decision Framework Sticky HUD */
-.classes-decision-hud {
-  background: color-mix(in srgb, var(--panel) 92%, black 8%);
+/* Classes Decision Framework Sticky Scroll Layout */
+.classes-scroll-story {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 3rem;
+  align-items: start;
+  position: relative;
+}
+
+.classes-framework-aside {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 5.5rem;
+  align-self: start;
+  z-index: 15;
+}
+
+.classes-framework-sticky-inner {
+  background: color-mix(in srgb, var(--panel) 94%, black 6%);
   border: 1px solid var(--line);
   border-radius: 1.25rem;
-  padding: 1.35rem 1.15rem;
+  padding: 1.5rem 1.35rem;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 1.15rem;
+  max-height: calc(100vh - 6.5rem);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
 }
 
-.classes-decision-hud .visual-icon {
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--gold) 12%, transparent);
-  border: 1px solid rgba(216, 166, 91, 0.25);
-  color: var(--gold-bright);
+.framework-header-block {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 0.65rem;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.classes-decision-hud .scroll-story-badge {
+.framework-kicker {
   font-family: var(--mono);
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--gold);
 }
 
-.classes-decision-hud .scroll-section-label {
+.framework-main-title {
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+.framework-lead {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 0;
+}
+
+.framework-active-box {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid color-mix(in srgb, var(--gold) 28%, var(--line));
+  border-radius: 0.85rem;
+  padding: 0.95rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.active-box-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.active-box-badge {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold-bright);
+}
+
+.active-step-counter {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.framework-active-label {
   font-family: var(--display);
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--ink);
-  margin: 0.25rem 0 0.85rem;
+  margin: 0;
   line-height: 1.25;
-  min-height: 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
 }
 
-.hud-summary-tip {
+.framework-active-tip {
   font-family: var(--mono);
   font-size: 0.72rem;
   line-height: 1.45;
   color: var(--muted);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--line);
-  border-radius: 0.65rem;
-  padding: 0.65rem 0.75rem;
-  margin-top: 1rem;
-  text-align: left;
-  width: 100%;
-  transition: color 0.25s ease, border-color 0.25s ease;
+  margin: 0;
 }
 
-.hud-roster-jump {
+.framework-step-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.step-nav-label {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dim);
+}
+
+.step-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.step-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 0.55rem;
+  border: 1px solid transparent;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.step-nav-item:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--line);
+}
+
+.step-nav-item.is-active {
+  color: var(--gold-bright);
+  background: color-mix(in srgb, var(--gold) 12%, transparent);
+  border-color: color-mix(in srgb, var(--gold) 40%, transparent);
+  font-weight: 600;
+}
+
+.step-pip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--dim);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.step-nav-item.is-active .step-pip {
+  background: var(--gold);
+  border-color: var(--gold-bright);
+  color: #110d13;
+  box-shadow: 0 0 8px rgba(216, 166, 91, 0.4);
+}
+
+.framework-roster-jump {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
   width: 100%;
   padding: 0.55rem 0.85rem;
-  margin-top: 0.75rem;
+  margin-top: 0.25rem;
   background: color-mix(in srgb, var(--panel-soft) 85%, transparent);
   border: 1px solid var(--line);
   border-radius: 9999px;
@@ -4434,7 +4561,7 @@ h3 {
   transition: all 0.2s ease;
 }
 
-.hud-roster-jump:hover {
+.framework-roster-jump:hover {
   border-color: var(--gold);
   color: var(--gold-bright);
   background: var(--panel);
@@ -4448,6 +4575,15 @@ h3 {
 .classes-scroll-story .content-card.scroll-section {
   padding: clamp(1.5rem, 3vw, 2.5rem);
   border-radius: 1.25rem;
+}
+
+.framework-section-title {
+  font-family: var(--display);
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+  margin: 0.4rem 0 1rem;
 }
 
 /* Responsive Rules for Classes */
@@ -4465,6 +4601,18 @@ h3 {
   }
   .classes-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .classes-scroll-story {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.75rem;
+  }
+  .classes-framework-aside {
+    position: static;
+    top: auto;
+  }
+  .classes-framework-sticky-inner {
+    max-height: none;
   }
 }
 
