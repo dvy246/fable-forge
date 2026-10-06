@@ -349,265 +349,173 @@ const initialFrameworkTip = frameworkSections[0].tip;
       </div>
     </div>
 
-    <div class="classes-sticky-stage">
-      <aside class="classes-sticky-aside" aria-label="Active class overview">
-        <div class="classes-sticky-card" id="classes-sticky-card">
-          <div class="sticky-card-topline">
-            <span class="sticky-kicker">Tabletop Codex</span>
-            <span class="sticky-counter" id="sticky-class-counter">01 / 14</span>
-          </div>
-
-          <div class="sticky-crest-wrapper" id="sticky-crest-wrapper" style={`--active-color: ${dndClasses[0].themeColor};`}>
-            <div class="sticky-portrait-thumb" id="sticky-portrait-thumb">
-              <img
-                id="sticky-portrait-img"
-                src={dndClasses[0].imageSrc}
-                alt={`${dndClasses[0].name} miniature`}
-                class="sticky-thumb-img"
-                width="56"
-                height="56"
-              />
-              <div class="sticky-crest-icon" id="sticky-crest-icon" set:html={dndClasses[0].crestSvg} />
-            </div>
-            <div class="sticky-title-wrap">
-              <span class="sticky-class-role" id="sticky-class-role">{dndClasses[0].roleCategory}</span>
-              <h3 class="sticky-class-name" id="sticky-class-name">{dndClasses[0].name}</h3>
-            </div>
-          </div>
-
-          <div class="sticky-stats-grid">
-            <div class="sticky-stat-item">
-              <span class="sticky-stat-label">Hit Die</span>
-              <span class="sticky-stat-val" id="sticky-hit-die">
-                <svg class="dice-icon-mini" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="m12 2 8 4.5v11L12 22l-8-4.5v-11L12 2z" />
-                  <path d="M12 2v20" />
-                  <path d="m12 12 8-5.5" />
-                  <path d="M12 12 4 6.5" />
-                </svg>
-                <strong id="sticky-hitdie-val">{dndClasses[0].hitDie}</strong>
-              </span>
-            </div>
-            <div class="sticky-stat-item">
-              <span class="sticky-stat-label">Primary</span>
-              <span class="sticky-stat-val" id="sticky-primary-val">{dndClasses[0].primaryAbility.split(' ')[0]}</span>
-            </div>
-            <div class="sticky-stat-item">
-              <span class="sticky-stat-label">Saves</span>
-              <span class="sticky-stat-val" id="sticky-saves-val">{dndClasses[0].saves.split(' & ')[0]}</span>
-            </div>
-          </div>
-
-          <p class="sticky-class-synopsis" id="sticky-synopsis-text">"{dndClasses[0].synopsis}"</p>
-
-          <div class="sticky-nav-track">
-            <span class="track-label">Directory Progress:</span>
-            <div class="sticky-track-pills">
-              {dndClasses.map((item, idx) => (
-                <button
-                  type="button"
-                  class={`track-pill${idx === 0 ? ' is-active' : ''}`}
-                  data-target-slug={item.slug}
-                  data-class-index={idx + 1}
-                  style={`--pill-accent: ${item.themeColor};`}
-                  aria-label={`Scroll to ${item.name}`}
-                >
-                  <span class="track-pill-dot" style={`background-color: ${item.themeColor};`}></span>
-                  <span class="track-pill-name">{item.name}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <a
-            id="sticky-forge-cta"
-            href={dndClasses[0].nameGeneratorUrl}
-            class="sticky-forge-btn"
-            style={`--btn-accent: ${dndClasses[0].themeColor};`}
+    <div class="classes-roster-grid">
+      {dndClasses.map((item, index) => {
+        const category = getClassCategory(item.slug);
+        return (
+          <article
+            id={`class-${item.slug}`}
+            class="class-dossier-card"
+            data-category={category}
+            data-class-slug={item.slug}
+            data-class-name={item.name}
+            data-class-role={item.roleCategory}
+            data-class-hitdie={item.hitDie}
+            data-class-primary={item.primaryAbility.split(' ')[0]}
+            data-class-saves={item.saves.split(' & ')[0]}
+            data-class-synopsis={item.synopsis}
+            data-class-color={item.themeColor}
+            data-class-image={item.imageSrc}
+            data-class-url={item.nameGeneratorUrl}
+            data-index={index + 1}
+            style={`--class-theme: ${item.themeColor}; --class-accent: ${item.accentColor};`}
           >
-            <span id="sticky-cta-label">Forge {dndClasses[0].name} Names</span>
-            <span aria-hidden="true">&rarr;</span>
-          </a>
-        </div>
-      </aside>
+            <div class="card-accent-line" style={`background-color: ${item.themeColor};`}></div>
 
-      <div class="classes-cards-scroll">
-        {dndClasses.map((item, index) => {
-          const category = getClassCategory(item.slug);
-          return (
-            <article
-              id={`class-${item.slug}`}
-              class={`class-dossier-card scroll-dossier-card${index === 0 ? ' is-active-card' : ''}`}
-              data-category={category}
-              data-class-slug={item.slug}
-              data-class-name={item.name}
-              data-class-role={item.roleCategory}
-              data-class-hitdie={item.hitDie}
-              data-class-primary={item.primaryAbility.split(' ')[0]}
-              data-class-saves={item.saves.split(' & ')[0]}
-              data-class-synopsis={item.synopsis}
-              data-class-color={item.themeColor}
-              data-class-image={item.imageSrc}
-              data-class-url={item.nameGeneratorUrl}
-              data-index={index + 1}
-              style={`--class-theme: ${item.themeColor}; --class-accent: ${item.accentColor};`}
-            >
-              <div class="card-accent-line" style={`background-color: ${item.themeColor};`}></div>
-
-              <header class="card-header">
-                <div class="card-identity">
-                  <div class="crest-wrapper" set:html={item.crestSvg} />
-                  <div class="title-wrap">
-                    <div class="badge-row">
-                      <span class="ruleset-tag">{item.ruleset}</span>
-                      <span class="role-badge">{item.roleCategory}</span>
-                    </div>
-                    <h3 class="class-name">{item.name}</h3>
-                  </div>
-                </div>
-              </header>
-
-              <div class="card-visual-showcase">
-                <div class="portrait-container">
-                  <img
-                    src={item.imageSrc}
-                    alt={`${item.name} character portrait`}
-                    class="character-realistic-portrait"
-                    width="240"
-                    height="240"
-                    loading={index < 2 ? 'eager' : 'lazy'}
-                  />
-                </div>
-                <p class="card-synopsis">{item.synopsis}</p>
+            <div class="card-top-stage">
+              <div class="card-portrait-showcase">
+                <img
+                  src={item.imageSrc}
+                  alt={`${item.name} character portrait`}
+                  class="character-realistic-portrait"
+                  width="240"
+                  height="240"
+                  loading={index < 4 ? 'eager' : 'lazy'}
+                />
+                <div class="portrait-crest-badge" set:html={item.crestSvg} />
               </div>
 
-              <div class="card-stats-grid">
-                <div class="stat-pill">
-                  <span class="stat-label">Hit Die</span>
-                  <span class="dice-pill">
-                    <svg class="dice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="m12 2 8 4.5v11L12 22l-8-4.5v-11L12 2z" />
-                      <path d="M12 2v20" />
-                      <path d="m12 12 8-5.5" />
-                      <path d="M12 12 4 6.5" />
-                      <path d="m12 12 8 5.5" />
-                      <path d="M12 12 4 17.5" />
-                    </svg>
-                    <strong>{item.hitDie}</strong>
-                  </span>
+              <div class="card-identity-vitals">
+                <div class="badge-row">
+                  <span class="ruleset-tag">{item.ruleset}</span>
+                  <span class="role-badge">{item.roleCategory}</span>
                 </div>
-                <div class="stat-pill">
-                  <span class="stat-label">Primary Ability</span>
-                  <span class="stat-value">{item.primaryAbility}</span>
+                <h3 class="class-name">{item.name}</h3>
+
+                <div class="card-stats-grid">
+                  <div class="stat-pill">
+                    <span class="stat-label">Hit Die</span>
+                    <span class="dice-pill">
+                      <svg class="dice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m12 2 8 4.5v11L12 22l-8-4.5v-11L12 2z" />
+                        <path d="M12 2v20" />
+                        <path d="m12 12 8-5.5" />
+                        <path d="M12 12 4 6.5" />
+                        <path d="m12 12 8 5.5" />
+                        <path d="M12 12 4 17.5" />
+                      </svg>
+                      <strong>{item.hitDie}</strong>
+                    </span>
+                  </div>
+                  <div class="stat-pill">
+                    <span class="stat-label">Primary Ability</span>
+                    <span class="stat-value">{item.primaryAbility}</span>
+                  </div>
+                  <div class="stat-pill">
+                    <span class="stat-label">Saving Throws</span>
+                    <span class="stat-value">{item.saves}</span>
+                  </div>
                 </div>
-                <div class="stat-pill">
-                  <span class="stat-label">Saving Throws</span>
-                  <span class="stat-value">{item.saves}</span>
-                </div>
-                <div class="stat-pill full-width">
-                  <span class="stat-label">Armor & Weapon Proficiencies</span>
-                  <span class="stat-subvalue">{item.armorProficiencies}; {item.weaponProficiencies}</span>
+
+                <div class="proficiencies-chip">
+                  <span class="prof-label">Proficiencies</span>
+                  <span class="prof-val">{item.armorProficiencies}; {item.weaponProficiencies}</span>
                 </div>
               </div>
+            </div>
 
-              <div class="card-block card-playstyle-section">
-                <h4 class="card-block-heading">Playstyle Radar</h4>
-                <div class="score-meters-grid">
-                  <div class="score-meter">
-                    <div class="meter-info">
-                      <span class="meter-label">Offense</span>
-                      <span class="meter-score">{item.playstyleScores.offense}/5</span>
-                    </div>
-                    <div class="meter-track">
-                      <div class="meter-fill" style={`width: ${item.playstyleScores.offense * 20}%; background-color: ${item.themeColor};`}></div>
-                    </div>
+            <div class="card-synopsis-bar">
+              <p class="card-synopsis">"{item.synopsis}"</p>
+            </div>
+
+            <div class="card-block card-playstyle-section">
+              <h4 class="card-block-heading">Playstyle Radar</h4>
+              <div class="score-meters-grid">
+                <div class="score-meter">
+                  <div class="meter-info">
+                    <span class="meter-label">Offense</span>
+                    <span class="meter-score">{item.playstyleScores.offense}/5</span>
                   </div>
-                  <div class="score-meter">
-                    <div class="meter-info">
-                      <span class="meter-label">Defense</span>
-                      <span class="meter-score">{item.playstyleScores.defense}/5</span>
-                    </div>
-                    <div class="meter-track">
-                      <div class="meter-fill" style={`width: ${item.playstyleScores.defense * 20}%; background-color: ${item.themeColor};`}></div>
-                    </div>
+                  <div class="meter-track">
+                    <div class="meter-fill" style={`width: ${item.playstyleScores.offense * 20}%; background-color: ${item.themeColor};`}></div>
                   </div>
-                  <div class="score-meter">
-                    <div class="meter-info">
-                      <span class="meter-label">Support</span>
-                      <span class="meter-score">{item.playstyleScores.support}/5</span>
-                    </div>
-                    <div class="meter-track">
-                      <div class="meter-fill" style={`width: ${item.playstyleScores.support * 20}%; background-color: ${item.themeColor};`}></div>
-                    </div>
+                </div>
+                <div class="score-meter">
+                  <div class="meter-info">
+                    <span class="meter-label">Defense</span>
+                    <span class="meter-score">{item.playstyleScores.defense}/5</span>
                   </div>
-                  <div class="score-meter">
-                    <div class="meter-info">
-                      <span class="meter-label">Utility</span>
-                      <span class="meter-score">{item.playstyleScores.utility}/5</span>
-                    </div>
-                    <div class="meter-track">
-                      <div class="meter-fill" style={`width: ${item.playstyleScores.utility * 20}%; background-color: ${item.themeColor};`}></div>
-                    </div>
+                  <div class="meter-track">
+                    <div class="meter-fill" style={`width: ${item.playstyleScores.defense * 20}%; background-color: ${item.themeColor};`}></div>
                   </div>
-                  <div class="score-meter">
-                    <div class="meter-info">
-                      <span class="meter-label">Complexity</span>
-                      <span class="meter-score">{item.playstyleScores.complexity}/5</span>
-                    </div>
-                    <div class="meter-track">
-                      <div class="meter-fill" style={`width: ${item.playstyleScores.complexity * 20}%; background-color: ${item.themeColor};`}></div>
-                    </div>
+                </div>
+                <div class="score-meter">
+                  <div class="meter-info">
+                    <span class="meter-label">Support</span>
+                    <span class="meter-score">{item.playstyleScores.support}/5</span>
+                  </div>
+                  <div class="meter-track">
+                    <div class="meter-fill" style={`width: ${item.playstyleScores.support * 20}%; background-color: ${item.themeColor};`}></div>
+                  </div>
+                </div>
+                <div class="score-meter">
+                  <div class="meter-info">
+                    <span class="meter-label">Utility</span>
+                    <span class="meter-score">{item.playstyleScores.utility}/5</span>
+                  </div>
+                  <div class="meter-track">
+                    <div class="meter-fill" style={`width: ${item.playstyleScores.utility * 20}%; background-color: ${item.themeColor};`}></div>
+                  </div>
+                </div>
+                <div class="score-meter">
+                  <div class="meter-info">
+                    <span class="meter-label">Complexity</span>
+                    <span class="meter-score">{item.playstyleScores.complexity}/5</span>
+                  </div>
+                  <div class="meter-track">
+                    <div class="meter-fill" style={`width: ${item.playstyleScores.complexity * 20}%; background-color: ${item.themeColor};`}></div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div class="card-block card-features-section">
-                <h4 class="card-block-heading">Signature Features</h4>
-                <div class="feature-chips">
-                  {item.signatureFeatures.map((feature) => (
-                    <span class="feature-chip">{feature}</span>
-                  ))}
-                </div>
+            <div class="card-block card-subclasses-section">
+              <h4 class="card-block-heading">Notable Subclasses</h4>
+              <div class="subclass-chips">
+                {item.subclasses.map((subclass) => (
+                  <div class="subclass-chip">
+                    <strong class="subclass-name">{subclass.name}</strong>
+                    <span class="subclass-desc">{subclass.summary}</span>
+                  </div>
+                ))}
               </div>
+            </div>
 
-              <div class="card-block card-subclasses-section">
-                <h4 class="card-block-heading">Notable Subclasses</h4>
-                <div class="subclass-chips">
-                  {item.subclasses.map((subclass) => (
-                    <div class="subclass-chip">
-                      <strong class="subclass-name">{subclass.name}</strong>
-                      <span class="subclass-desc">{subclass.summary}</span>
-                    </div>
-                  ))}
-                </div>
+            <div class="card-block card-ancestry-section">
+              <h4 class="card-block-heading">Synergistic Ancestries</h4>
+              <div class="ancestry-links">
+                {item.bestAncestries.map((ancestry) => (
+                  <a href={`/${ancestry.slug}/`} class="ancestry-link">
+                    <span class="ancestry-bullet" aria-hidden="true">&loz;</span>
+                    <span>{ancestry.label} Names</span>
+                  </a>
+                ))}
               </div>
+            </div>
 
-              <div class="card-block card-ancestry-section">
-                <h4 class="card-block-heading">Synergistic Ancestries</h4>
-                <div class="ancestry-links">
-                  {item.bestAncestries.map((ancestry) => (
-                    <a href={`/${ancestry.slug}/`} class="ancestry-link">
-                      <span class="ancestry-bullet" aria-hidden="true">&loz;</span>
-                      <span>{ancestry.label} Names</span>
-                    </a>
-                  ))}
-                </div>
-              </div>
+            <div class="card-persona">
+              <p><strong>Player Persona:</strong> {item.playerPersona}</p>
+            </div>
 
-              <div class="card-persona">
-                <p><strong>Player Persona:</strong> {item.playerPersona}</p>
-              </div>
-
-              <div class="card-footer">
-                <a href={item.nameGeneratorUrl} class="card-cta-btn" style={`--btn-accent: ${item.themeColor};`}>
-                  <span>Generate {item.name} Names</span>
-                  <span class="cta-arrow" aria-hidden="true">&rarr;</span>
-                </a>
-              </div>
-            </article>
-          );
-        })}
-      </div>
+            <div class="card-footer">
+              <a href={item.nameGeneratorUrl} class="card-cta-btn" style={`--btn-accent: ${item.themeColor};`}>
+                <span>Generate {item.name} Names</span>
+                <span class="cta-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </article>
+        );
+      })}
     </div>
   </section>
 
@@ -1235,112 +1143,10 @@ const initialFrameworkTip = frameworkSections[0].tip;
         });
       });
 
-      const stage = document.querySelector('.classes-sticky-stage');
-      if (!stage) return;
-
+      // Roster filtering and smooth navigation
       const filterTabs = document.querySelectorAll('.filter-tab');
-      const cards = Array.from(stage.querySelectorAll('.scroll-dossier-card'));
-      const trackPills = Array.from(document.querySelectorAll('.track-pill'));
-      const counterEl = document.getElementById('sticky-class-counter');
-      const crestIconEl = document.getElementById('sticky-crest-icon');
-      const crestWrapperEl = document.getElementById('sticky-crest-wrapper');
-      const nameEl = document.getElementById('sticky-class-name');
-      const roleEl = document.getElementById('sticky-class-role');
-      const hitDieEl = document.getElementById('sticky-hitdie-val');
-      const primaryEl = document.getElementById('sticky-primary-val');
-      const savesEl = document.getElementById('sticky-saves-val');
-      const synopsisEl = document.getElementById('sticky-synopsis-text');
-      const ctaEl = document.getElementById('sticky-forge-cta');
-      const ctaLabelEl = document.getElementById('sticky-cta-label');
-      const cardEl = document.getElementById('classes-sticky-card');
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      let activeSlug = null;
-      let pulseTimer = null;
-      let isUserScrolling = false;
-      let scrollTimer = null;
-
-      function updateStickyPanel(card) {
-        if (!card) return;
-        const slug = card.dataset.classSlug;
-        if (slug === activeSlug) return;
-        activeSlug = slug;
-
-        const index = card.dataset.index || '1';
-        const name = card.dataset.className || '';
-        const role = card.dataset.classRole || '';
-        const hitDie = card.dataset.classHitdie || '';
-        const primary = card.dataset.classPrimary || '';
-        const saves = card.dataset.classSaves || '';
-        const synopsis = card.dataset.classSynopsis || '';
-        const color = card.dataset.classColor || '#d4af37';
-        const url = card.dataset.classUrl || '/character-name-generator/';
-
-        if (counterEl) counterEl.textContent = `${String(index).padStart(2, '0')} / 14`;
-        if (nameEl) nameEl.textContent = name;
-        if (roleEl) roleEl.textContent = role;
-        if (hitDieEl) hitDieEl.textContent = hitDie;
-        if (primaryEl) primaryEl.textContent = primary;
-        if (savesEl) savesEl.textContent = saves;
-        if (synopsisEl) synopsisEl.textContent = `"${synopsis}"`;
-
-        if (crestWrapperEl) crestWrapperEl.style.setProperty('--active-color', color);
-        if (ctaEl) {
-          ctaEl.href = url;
-          ctaEl.style.setProperty('--btn-accent', color);
-        }
-        if (ctaLabelEl) ctaLabelEl.textContent = `Forge ${name} Names`;
-
-        const cardCrest = card.querySelector('.crest-wrapper');
-        if (cardCrest && crestIconEl) {
-          crestIconEl.innerHTML = cardCrest.innerHTML;
-        }
-
-        const image = card.dataset.classImage;
-        const portraitImgEl = document.getElementById('sticky-portrait-img');
-        if (portraitImgEl && image) {
-          portraitImgEl.src = image;
-          portraitImgEl.alt = `${name} miniature`;
-        }
-
-        trackPills.forEach((pill) => {
-          const isActive = pill.dataset.targetSlug === slug;
-          pill.classList.toggle('is-active', isActive);
-          if (isActive && !isUserScrolling) {
-            pill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
-          }
-        });
-
-        cards.forEach((c) => {
-          c.classList.toggle('is-active-card', c === card);
-        });
-
-        if (cardEl && !prefersReducedMotion) {
-          cardEl.classList.remove('pulse');
-          void cardEl.offsetWidth;
-          cardEl.classList.add('pulse');
-          clearTimeout(pulseTimer);
-          pulseTimer = setTimeout(() => {
-            cardEl.classList.remove('pulse');
-          }, 450);
-        }
-      }
-
-      document.querySelectorAll('.track-pill, .jump-ribbon-pill, .jumpbox-pill').forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-          const targetSlug = btn.dataset.targetSlug || btn.getAttribute('href')?.replace('#class-', '');
-          if (!targetSlug) return;
-          const targetCard = document.getElementById(`class-${targetSlug}`);
-          if (targetCard) {
-            e.preventDefault();
-            isUserScrolling = true;
-            targetCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            updateStickyPanel(targetCard);
-            clearTimeout(scrollTimer);
-            scrollTimer = setTimeout(() => { isUserScrolling = false; }, 800);
-          }
-        });
-      });
+      const rosterCards = Array.from(document.querySelectorAll('.classes-roster-grid .class-dossier-card'));
+      const jumpPills = Array.from(document.querySelectorAll('.jump-ribbon-pill'));
 
       filterTabs.forEach((tab) => {
         tab.addEventListener('click', () => {
@@ -1351,47 +1157,40 @@ const initialFrameworkTip = frameworkSections[0].tip;
             t.setAttribute('aria-selected', String(isActive));
           });
 
-          let firstVisible = null;
-          cards.forEach((card) => {
+          rosterCards.forEach((card) => {
             const category = card.dataset.category;
             const matches = filter === 'all' || category === filter;
             card.classList.toggle('is-hidden', !matches);
-            if (matches && !firstVisible) firstVisible = card;
           });
-
-          trackPills.forEach((pill) => {
-            const targetSlug = pill.dataset.targetSlug;
-            const targetCard = document.getElementById(`class-${targetSlug}`);
-            const isVisible = targetCard && !targetCard.classList.contains('is-hidden');
-            pill.style.display = isVisible ? 'inline-flex' : 'none';
-          });
-
-          if (firstVisible) {
-            updateStickyPanel(firstVisible);
-          }
         });
       });
 
-      if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-          if (isUserScrolling) return;
-          const visibleEntries = entries.filter((e) => e.isIntersecting && !e.target.classList.contains('is-hidden'));
-          if (visibleEntries.length > 0) {
-            const viewportCenter = window.innerHeight / 2;
-            visibleEntries.sort((a, b) => {
-              const aDist = Math.abs(a.boundingClientRect.top + a.boundingClientRect.height / 2 - viewportCenter);
-              const bDist = Math.abs(b.boundingClientRect.top + b.boundingClientRect.height / 2 - viewportCenter);
-              return aDist - bDist;
-            });
-            updateStickyPanel(visibleEntries[0].target);
+      jumpPills.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          const targetSlug = btn.getAttribute('href')?.replace('#class-', '');
+          if (!targetSlug) return;
+          const targetCard = document.getElementById(`class-${targetSlug}`);
+          if (targetCard) {
+            e.preventDefault();
+            // If the card is hidden by an active filter, switch filter back to all
+            if (targetCard.classList.contains('is-hidden')) {
+              filterTabs.forEach((t) => {
+                const isAll = t.dataset.filter === 'all';
+                t.classList.toggle('is-active', isAll);
+                t.setAttribute('aria-selected', String(isAll));
+              });
+              rosterCards.forEach((card) => card.classList.remove('is-hidden'));
+            }
+            targetCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            targetCard.classList.remove('pulse');
+            void targetCard.offsetWidth;
+            targetCard.classList.add('pulse');
+            setTimeout(() => {
+              targetCard.classList.remove('pulse');
+            }, 600);
           }
-        }, {
-          rootMargin: '-15% 0px -40% 0px',
-          threshold: [0, 0.25, 0.5]
         });
-
-        cards.forEach((card) => observer.observe(card));
-      }
+      });
 
       // Sticky Scroll Storytelling for Player Decision Framework
       const frameworkStory = document.querySelector('.classes-scroll-story');
