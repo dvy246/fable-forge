@@ -3009,6 +3009,768 @@ h3 {
   scroll-margin-top: 6.5rem;
 }
 
+/* ==========================================================================
+   DnD Classes Cornerstone Page & Dossier Cards
+   ========================================================================== */
+
+/* Hero Section */
+.hero.hero-classes {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.95fr);
+  align-items: center;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  padding: clamp(2rem, 4vw, 3.25rem) 0 clamp(1.5rem, 3vw, 2.5rem);
+  position: relative;
+}
+
+.hero-classes-narrative {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.hero-classes h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(2.3rem, 4.6vw, 3.8rem);
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  text-shadow: 0 2px 24px rgba(216, 166, 91, 0.18);
+  padding-bottom: 0.1em;
+}
+
+.hero-classes .hero-copy {
+  margin: 0.85rem 0 0;
+  max-width: 48ch;
+  font-size: clamp(1rem, 1.3vw, 1.12rem);
+  line-height: 1.65;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.hero-quick-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.65rem;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.quick-stat-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 0.5rem;
+  background: color-mix(in srgb, var(--panel) 85%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  text-align: center;
+}
+
+.quick-stat-number {
+  font-family: var(--display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--gold-bright);
+  line-height: 1.1;
+}
+
+.quick-stat-label {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.2rem;
+}
+
+.hero-secondary-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.82rem 1.4rem;
+  background: var(--panel-soft);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border-radius: 9999px;
+  border: 1px solid var(--line);
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.hero-secondary-cta:hover {
+  background: var(--panel);
+  border-color: var(--gold);
+  color: var(--gold-bright);
+  transform: translateY(-1px);
+}
+
+.hero-classes-jumpbox {
+  display: flex;
+  flex-direction: column;
+  background: color-mix(in srgb, var(--panel) 90%, black 10%);
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  padding: 1.25rem 1.4rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+.jumpbox-heading {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  margin-bottom: 0.85rem;
+  display: block;
+}
+
+.jumpbox-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.jumpbox-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.65rem;
+  background: color-mix(in srgb, var(--panel-soft) 80%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.jumpbox-pill:hover {
+  background: color-mix(in srgb, var(--panel) 70%, var(--pill-color, var(--gold)) 30%);
+  border-color: var(--pill-color, var(--gold));
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.pill-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Filter Controls */
+.filter-controls {
+  display: inline-flex;
+  gap: 0.4rem;
+  background: var(--panel);
+  padding: 0.3rem;
+  border-radius: 9999px;
+  border: 1px solid var(--line);
+}
+
+.filter-tab {
+  padding: 0.45rem 1rem;
+  border-radius: 9999px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-tab:hover {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--panel-soft) 60%, transparent);
+}
+
+.filter-tab.is-active {
+  background: var(--gold);
+  color: #110d13;
+  box-shadow: 0 2px 8px rgba(216, 166, 91, 0.35);
+}
+
+/* Classes Grid */
+.classes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.75rem;
+  margin-top: 1.75rem;
+}
+
+/* Class Dossier Card */
+.class-dossier-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: color-mix(in srgb, var(--panel) 92%, black 8%);
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.class-dossier-card.is-hidden {
+  display: none !important;
+}
+
+.class-dossier-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--class-theme, var(--gold));
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), 0 0 25px color-mix(in srgb, var(--class-theme) 18%, transparent);
+}
+
+.card-accent-line {
+  height: 3px;
+  width: 100%;
+}
+
+.card-header {
+  padding: 1.25rem 1.5rem 0.85rem;
+}
+
+.card-identity {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.crest-wrapper {
+  width: 3.25rem;
+  height: 3.25rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.crest-wrapper svg,
+.class-crest-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+}
+
+.title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.badge-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.ruleset-tag {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--dim);
+  background: var(--bg);
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.35rem;
+  border: 1px solid var(--line);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.role-badge {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--gold-bright);
+  letter-spacing: 0.02em;
+}
+
+.class-name {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+/* Visual Showcase */
+.card-visual-showcase {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.5rem 1.5rem 1rem;
+}
+
+.portrait-container {
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--panel-soft) 60%, black 40%);
+  border: 1px solid color-mix(in srgb, var(--class-theme) 40%, var(--line));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.portrait-container svg,
+.character-art-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-synopsis {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+/* Stats Grid */
+.card-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  padding: 0 1.5rem 1rem;
+}
+
+.stat-pill {
+  display: flex;
+  flex-direction: column;
+  padding: 0.55rem 0.75rem;
+  background: var(--panel-soft);
+  border: 1px solid var(--line);
+  border-radius: 0.65rem;
+}
+
+.stat-pill.full-width {
+  grid-column: span 3;
+}
+
+.stat-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--dim);
+}
+
+.stat-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 0.15rem;
+}
+
+.stat-subvalue {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.2rem;
+  line-height: 1.4;
+}
+
+.dice-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.15rem;
+  color: var(--gold-bright);
+}
+
+.dice-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+  color: var(--gold);
+}
+
+/* Card Blocks */
+.card-block {
+  padding: 0.85rem 1.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+}
+
+.card-block-heading {
+  margin: 0 0 0.65rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+}
+
+/* Playstyle Score Meters */
+.score-meters-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+}
+
+.score-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.meter-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.meter-label {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  color: var(--dim);
+}
+
+.meter-score {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.meter-track {
+  height: 5px;
+  background: var(--bg);
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.meter-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+/* Feature Chips */
+.feature-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.feature-chip {
+  padding: 0.25rem 0.6rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: 0.4rem;
+  font-size: 0.76rem;
+  color: var(--ink);
+}
+
+/* Subclass Chips */
+.subclass-chips {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.subclass-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.55rem 0.7rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: 0.55rem;
+}
+
+.subclass-name {
+  font-size: 0.8rem;
+  color: var(--gold-bright);
+}
+
+.subclass-desc {
+  font-size: 0.72rem;
+  color: var(--dim);
+  line-height: 1.4;
+}
+
+/* Ancestry Section */
+.ancestry-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.ancestry-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  background: var(--panel-soft);
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.ancestry-link:hover {
+  background: color-mix(in srgb, var(--panel) 80%, var(--gold) 20%);
+  border-color: var(--gold);
+  color: var(--gold-bright);
+  transform: translateY(-1px);
+}
+
+.ancestry-bullet {
+  color: var(--gold);
+  font-size: 0.8rem;
+}
+
+/* Persona & Footer */
+.card-persona {
+  padding: 0.75rem 1.5rem;
+  background: color-mix(in srgb, var(--bg-raised) 70%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--line) 40%, transparent);
+  font-size: 0.8rem;
+  color: var(--dim);
+  line-height: 1.45;
+}
+
+.card-persona p {
+  margin: 0;
+}
+
+.card-persona strong {
+  color: var(--gold);
+}
+
+.card-footer {
+  padding: 1.15rem 1.5rem 1.35rem;
+  margin-top: auto;
+}
+
+.card-cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  background: var(--panel-soft);
+  border: 1px solid var(--btn-accent, var(--gold));
+  border-radius: 0.75rem;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: all 0.2s ease;
+}
+
+.card-cta-btn:hover {
+  background: var(--btn-accent, var(--gold));
+  color: #110d13;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--btn-accent, var(--gold)) 35%, transparent);
+}
+
+.cta-arrow {
+  transition: transform 0.2s ease;
+}
+
+.card-cta-btn:hover .cta-arrow {
+  transform: translateX(3px);
+}
+
+/* Tactical Guide Elements */
+.role-cards-grid,
+.beginner-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.role-card,
+.beginner-card {
+  padding: 1.25rem 1.4rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+}
+
+.role-card h3,
+.beginner-card h3 {
+  margin: 0 0 0.5rem;
+  font-family: var(--display);
+  font-size: 1.15rem;
+  color: var(--gold-bright);
+}
+
+.role-card p,
+.beginner-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1.75rem 0;
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+  background: var(--panel);
+}
+
+.class-comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.86rem;
+}
+
+.class-comparison-table th {
+  background: var(--panel-soft);
+  color: var(--gold-bright);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.class-comparison-table td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 40%, transparent);
+  color: var(--muted);
+}
+
+.class-comparison-table tr:last-child td {
+  border-bottom: none;
+}
+
+.class-comparison-table tr:hover td {
+  background: color-mix(in srgb, var(--panel-soft) 50%, transparent);
+  color: var(--ink);
+}
+
+.dice-tag {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  background: var(--bg);
+  border: 1px solid var(--gold);
+  border-radius: 0.35rem;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--gold-bright);
+}
+
+.class-analysis-card {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+}
+
+.class-analysis-card:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.class-analysis-card h3 {
+  margin: 0 0 0.65rem;
+  font-family: var(--display);
+  font-size: 1.35rem;
+  color: var(--gold-bright);
+}
+
+.styled-list {
+  padding-left: 1.25rem;
+  margin: 1.25rem 0;
+}
+
+.styled-list li {
+  margin-bottom: 0.75rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.styled-list strong {
+  color: var(--ink);
+}
+
+/* Responsive Rules for Classes */
+@media (max-width: 64rem) {
+  .classes-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 48rem) {
+  .hero.hero-classes {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .hero-quick-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card-visual-showcase {
+    grid-template-columns: minmax(0, 1fr);
+    text-align: center;
+  }
+
+  .portrait-container {
+    margin: 0 auto;
+  }
+
+  .score-meters-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .subclass-chips {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .role-cards-grid,
+  .beginner-cards-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 36rem) {
+  .card-stats-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .stat-pill.full-width {
+    grid-column: span 1;
+  }
+
+  .filter-controls {
+    flex-wrap: wrap;
+    border-radius: 0.85rem;
+  }
+}
+
 @media (max-width: 54rem) {
   .scroll-story {
     grid-template-columns: minmax(0, 1fr);
@@ -3294,7 +4056,12 @@ h3 {
   .blog-card:hover,
   .guide-card:hover,
   .result-card:hover,
-  .sample-card:hover {
+  .sample-card:hover,
+  .class-dossier-card:hover,
+  .card-cta-btn:hover,
+  .jumpbox-pill:hover,
+  .hero-secondary-cta:hover,
+  .ancestry-link:hover {
     transform: none !important;
   }
 

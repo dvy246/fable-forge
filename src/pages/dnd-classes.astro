@@ -1,0 +1,804 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import ToolCards from '../components/ToolCards.astro';
+import { dndClasses } from '../data/dnd-classes';
+import { raceBySlug } from '../data/races';
+import { utilityBySlug } from '../data/utilities';
+import { articleSchema, faqPageSchema } from '../lib/seo';
+
+const title = 'DnD Classes: The Complete 5e Character Guide';
+const description = 'Discover all official DnD classes with hit dice, primary abilities, combat roles, playstyles, and subclass breakdowns in our complete tabletop 5e guide.';
+const path = '/dnd-classes/';
+
+const breadcrumbs = [
+  { label: 'Home', path: '/' },
+  { label: 'DnD Classes', path: '/dnd-classes/' },
+];
+
+const faqItems = [
+  {
+    question: 'What is the easiest DnD class for beginners?',
+    answer: 'Fighter and Barbarian are widely recognized as the easiest DnD classes for newcomers. Both classes emphasize straightforward combat loops, generous hit point pools, and minimal resource tracking compared to spellcasting classes. Fighters rely on consistent weapon attacks and the simple recovery mechanic of Second Wind, while Barbarians use Rage for immediate offensive and defensive buffs without juggling spell slots or preparation lists.',
+  },
+  {
+    question: 'What are the strongest DnD classes in 5e?',
+    answer: 'Wizard, Cleric, and Paladin consistently rank among the most powerful DnD classes. Wizards offer unmatched arcane utility and encounter-ending battlefield control spells. Clerics combine heavy armor durability, full spellcasting progression, and game-altering healing and radiant burst damage. Paladins dominate single-target burst through Divine Smite while granting essential party-wide saving throw bonuses through their Aura of Protection.',
+  },
+  {
+    question: 'How do hit dice work across DnD classes?',
+    answer: 'Hit dice determine both a character starting maximum health and their hit point recovery during short rests. The d12 die belongs exclusively to the Barbarian for maximum durability. The d10 die serves frontline martial warriors including Fighters, Paladins, Rangers, and Blood Hunters. The d8 die provides moderate resilience for mid-range combatants such as Bards, Clerics, Druids, Monks, Rogues, and Artificers. The d6 die belongs to fragile arcane casters like Sorcerers and Wizards.',
+  },
+  {
+    question: 'Can you multiclass between any DnD classes?',
+    answer: 'Multiclassing requires meeting specific ability score prerequisites for both your current class and your new class, typically a minimum score of 13 in the primary ability. For instance, multiclassing into or out of Paladin requires a Strength of 13 and a Charisma of 13. While multiclassing unlocks potent feature combinations, it delays high-tier spell access, extra attacks, and ability score improvements.',
+  },
+  {
+    question: 'What is the difference between prepared and known spellcasters?',
+    answer: 'Known casters like Bards, Sorcerers, Warlocks, and Rangers choose a fixed pool of spells as they level up and cannot change them during daily rests. Prepared casters like Clerics, Druids, Paladins, Artificers, and Wizards can swap their active spell loadout at the end of each long rest from their entire spell list or spellbook, granting superior tactical adaptability before dungeon crawls.',
+  },
+];
+
+const faqSchema = faqPageSchema(faqItems);
+const schema = [
+  articleSchema(title, description, path),
+  ...(faqSchema ? [faqSchema] : []),
+];
+
+function getClassCategory(slug) {
+  if (['barbarian', 'fighter', 'monk', 'rogue', 'blood-hunter'].includes(slug)) {
+    return 'martial';
+  }
+  if (['paladin', 'ranger', 'artificer'].includes(slug)) {
+    return 'half-caster';
+  }
+  return 'spellcaster';
+}
+
+const relatedSlugs = [
+  'character-name-generator',
+  'party-name-generator',
+  'npc-name-generator',
+  'last-name-generator',
+  'human-name-generator',
+  'elf-name-generator',
+];
+
+const relatedItems = relatedSlugs.map((slug) => {
+  const race = raceBySlug.get(slug);
+  if (race) {
+    return {
+      slug: race.slug,
+      title: `${race.label} names`,
+      description: race.intro[0],
+      eyebrow: 'Ancestry names',
+    };
+  }
+  const utility = utilityBySlug.get(slug);
+  if (utility) {
+    return {
+      slug: utility.slug,
+      title: utility.label,
+      description: utility.intro[0],
+      eyebrow: 'Campaign utility',
+    };
+  }
+  return null;
+}).filter(Boolean);
+---
+<SiteLayout
+  title={title}
+  description={description}
+  path={path}
+  pageType="article"
+  imageType="utility"
+  breadcrumbs={breadcrumbs}
+  schema={schema}
+>
+  <section class="hero hero-classes">
+    <div class="hero-classes-narrative">
+      <div class="hero-eyebrow-wrap">
+        <span class="hero-eyebrow">
+          <span class="hero-trust-indicator" aria-hidden="true"></span>
+          Tabletop 5e Character Dossiers
+        </span>
+      </div>
+      <h1>DnD Classes: The Complete 5e Character Guide</h1>
+      <p class="hero-copy">
+        Discover all 14 official DnD classes with complete mechanical breakdowns, hit dice ratings, primary abilities, combat roles, playstyle radars, and subclass synergies in our authoritative tabletop 5e guide.
+      </p>
+      <div class="hero-quick-stats">
+        <div class="quick-stat-badge">
+          <span class="quick-stat-number">14</span>
+          <span class="quick-stat-label">Official Classes</span>
+        </div>
+        <div class="quick-stat-badge">
+          <span class="quick-stat-number">56+</span>
+          <span class="quick-stat-label">Subclasses</span>
+        </div>
+        <div class="quick-stat-badge">
+          <span class="quick-stat-number">4</span>
+          <span class="quick-stat-label">Hit Die Tiers</span>
+        </div>
+        <div class="quick-stat-badge">
+          <span class="quick-stat-number">100%</span>
+          <span class="quick-stat-label">Free Reference</span>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <a href="#classes-roster" class="hero-cta">
+          <span>Browse All Classes</span>
+          <span class="hero-cta-arrow" aria-hidden="true">&darr;</span>
+        </a>
+        <a href="#class-guide" class="hero-secondary-cta">
+          <span>Read Tactical Guide</span>
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </div>
+    <div class="hero-classes-jumpbox">
+      <span class="jumpbox-heading">Quick Jump to Class:</span>
+      <div class="jumpbox-pills">
+        {dndClasses.map((item) => (
+          <a href={`#class-${item.slug}`} class="jumpbox-pill" style={`--pill-color: ${item.themeColor};`}>
+            <span class="pill-dot" style={`background-color: ${item.themeColor};`}></span>
+            <span>{item.name}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section" id="classes-roster" aria-labelledby="roster-heading">
+    <div class="section-topline">
+      <div>
+        <span class="eyebrow">Interactive Directory</span>
+        <h2 id="roster-heading" class="section-heading">All 14 Character Classes</h2>
+      </div>
+      <div class="filter-controls" role="tablist" aria-label="Filter classes by archetype">
+        <button type="button" class="filter-tab is-active" data-filter="all" role="tab" aria-selected="true">
+          All (14)
+        </button>
+        <button type="button" class="filter-tab" data-filter="martial" role="tab" aria-selected="false">
+          Martial (5)
+        </button>
+        <button type="button" class="filter-tab" data-filter="spellcaster" role="tab" aria-selected="false">
+          Spellcasters (6)
+        </button>
+        <button type="button" class="filter-tab" data-filter="half-caster" role="tab" aria-selected="false">
+          Half-Casters (3)
+        </button>
+      </div>
+    </div>
+
+    <div class="classes-grid">
+      {dndClasses.map((item) => {
+        const category = getClassCategory(item.slug);
+        return (
+          <article
+            id={`class-${item.slug}`}
+            class="class-dossier-card"
+            data-category={category}
+            data-class={item.slug}
+            style={`--class-theme: ${item.themeColor}; --class-accent: ${item.accentColor};`}
+          >
+            <div class="card-accent-line" style={`background-color: ${item.themeColor};`}></div>
+
+            <header class="card-header">
+              <div class="card-identity">
+                <div class="crest-wrapper" set:html={item.crestSvg} />
+                <div class="title-wrap">
+                  <div class="badge-row">
+                    <span class="ruleset-tag">{item.ruleset}</span>
+                    <span class="role-badge">{item.roleCategory}</span>
+                  </div>
+                  <h3 class="class-name">{item.name}</h3>
+                </div>
+              </div>
+            </header>
+
+            <div class="card-visual-showcase">
+              <div class="portrait-container" set:html={item.characterArtSvg} />
+              <p class="card-synopsis">{item.synopsis}</p>
+            </div>
+
+            <div class="card-stats-grid">
+              <div class="stat-pill">
+                <span class="stat-label">Hit Die</span>
+                <span class="dice-pill">
+                  <svg class="dice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="m12 2 8 4.5v11L12 22l-8-4.5v-11L12 2z" />
+                    <path d="M12 2v20" />
+                    <path d="m12 12 8-5.5" />
+                    <path d="M12 12 4 6.5" />
+                    <path d="m12 12 8 5.5" />
+                    <path d="M12 12 4 17.5" />
+                  </svg>
+                  <strong>{item.hitDie}</strong>
+                </span>
+              </div>
+              <div class="stat-pill">
+                <span class="stat-label">Primary Ability</span>
+                <span class="stat-value">{item.primaryAbility}</span>
+              </div>
+              <div class="stat-pill">
+                <span class="stat-label">Saving Throws</span>
+                <span class="stat-value">{item.saves}</span>
+              </div>
+              <div class="stat-pill full-width">
+                <span class="stat-label">Armor & Weapon Proficiencies</span>
+                <span class="stat-subvalue">{item.armorProficiencies}; {item.weaponProficiencies}</span>
+              </div>
+            </div>
+
+            <div class="card-block card-playstyle-section">
+              <h4 class="card-block-heading">Playstyle Radar</h4>
+              <div class="score-meters-grid">
+                <div class="score-meter">
+                  <div class="meter-info">
+                    <span class="meter-label">Offense</span>
+                    <span class="meter-score">{item.playstyleScores.offense}/5</span>
+                  </div>
+                  <div class="meter-track">
+                    <div class="meter-fill" style={`width: ${item.playstyleScores.offense * 20}%; background-color: ${item.themeColor};`}></div>
+                  </div>
+                </div>
+                <div class="score-meter">
+                  <div class="meter-info">
+                    <span class="meter-label">Defense</span>
+                    <span class="meter-score">{item.playstyleScores.defense}/5</span>
+                  </div>
+                  <div class="meter-track">
+                    <div class="meter-fill" style={`width: ${item.playstyleScores.defense * 20}%; background-color: ${item.themeColor};`}></div>
+                  </div>
+                </div>
+                <div class="score-meter">
+                  <div class="meter-info">
+                    <span class="meter-label">Support</span>
+                    <span class="meter-score">{item.playstyleScores.support}/5</span>
+                  </div>
+                  <div class="meter-track">
+                    <div class="meter-fill" style={`width: ${item.playstyleScores.support * 20}%; background-color: ${item.themeColor};`}></div>
+                  </div>
+                </div>
+                <div class="score-meter">
+                  <div class="meter-info">
+                    <span class="meter-label">Utility</span>
+                    <span class="meter-score">{item.playstyleScores.utility}/5</span>
+                  </div>
+                  <div class="meter-track">
+                    <div class="meter-fill" style={`width: ${item.playstyleScores.utility * 20}%; background-color: ${item.themeColor};`}></div>
+                  </div>
+                </div>
+                <div class="score-meter">
+                  <div class="meter-info">
+                    <span class="meter-label">Complexity</span>
+                    <span class="meter-score">{item.playstyleScores.complexity}/5</span>
+                  </div>
+                  <div class="meter-track">
+                    <div class="meter-fill" style={`width: ${item.playstyleScores.complexity * 20}%; background-color: ${item.themeColor};`}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-block card-features-section">
+              <h4 class="card-block-heading">Signature Features</h4>
+              <div class="feature-chips">
+                {item.signatureFeatures.map((feature) => (
+                  <span class="feature-chip">{feature}</span>
+                ))}
+              </div>
+            </div>
+
+            <div class="card-block card-subclasses-section">
+              <h4 class="card-block-heading">Notable Subclasses</h4>
+              <div class="subclass-chips">
+                {item.subclasses.map((subclass) => (
+                  <div class="subclass-chip">
+                    <strong class="subclass-name">{subclass.name}</strong>
+                    <span class="subclass-desc">{subclass.summary}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div class="card-block card-ancestry-section">
+              <h4 class="card-block-heading">Synergistic Ancestries</h4>
+              <div class="ancestry-links">
+                {item.bestAncestries.map((ancestry) => (
+                  <a href={`/${ancestry.slug}/`} class="ancestry-link">
+                    <span class="ancestry-bullet" aria-hidden="true">&loz;</span>
+                    <span>{ancestry.label} Names</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div class="card-persona">
+              <p><strong>Player Persona:</strong> {item.playerPersona}</p>
+            </div>
+
+            <div class="card-footer">
+              <a href={item.nameGeneratorUrl} class="card-cta-btn" style={`--btn-accent: ${item.themeColor};`}>
+                <span>Generate {item.name} Names</span>
+                <span class="cta-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+
+  <article class="page-section seo-copy" data-seo-copy id="class-guide">
+    <div class="content-card">
+      <section class="article-section">
+        <h2>How to Choose Your 5e Class: A Player Decision Framework</h2>
+        <p>
+          Selecting a character class is the single most defining mechanical and thematic choice you make in fifth edition tabletop roleplaying. While race and background supply cultural heritage and narrative origins, your class determines how you interact with every combat encounter, exploration challenge, and resource puzzle presented by your Dungeon Master. The ideal character aligns both your narrative fantasy and your preferred table gameplay loop.
+        </p>
+        <p>
+          To discover the class that fits your playstyle, consider three core mechanical dimensions: resource management horizons, battlefield positioning preferences, and procedural rule complexity. Players who prefer low bookkeeping thrive on classes with at-will abilities or short rest recoveries, such as the Champion Fighter, the Rogue, or the Warlock. Players who relish managing intricate spell lists, anticipating dungeon hazards, and preparing situational countermeasures will naturally gravitate toward versatile prepared casters like the Wizard, Cleric, or Druid.
+        </p>
+        <p>
+          Battlefield positioning represents another crucial division. Frontline warriors must possess high Armor Class and generous hit point reserves to endure focused enemy attacks in tight corridors. Skirmishers and ranged specialists need reliable mobility tools, such as the Rogue Cunning Action or the Monk Step of the Wind, allowing them to deliver lethal damage before retreating beyond enemy reach. Backline spellcasters trade physical durability for encounter-altering magic, staying safe behind armored allies while dictating battlefield geometry.
+        </p>
+        <p>
+          Finally, evaluate team composition harmony. Fifth edition does not enforce a rigid holy trinity of tank, healer, and damage dealer, but a balanced party functions with greater confidence when all core ability check pillars are represented. Ensuring your adventuring group includes reliable Strength for athletic obstacles, Dexterity for stealth and trap disarming, Intelligence for arcana and investigation, Wisdom for perception and insight, and Charisma for social navigation prevents frustrating dead ends during campaign arcs.
+        </p>
+      </section>
+
+      <section class="article-section">
+        <h2>The Four Fundamental Party Roles in Tabletop Combat</h2>
+        <p>
+          Every class in 5e contributes to the party through a distinct combination of four tactical combat roles: Frontline Tanks, Precision Strikers, Battlefield Controllers, and Support Specialists. Recognizing where your chosen class sits across these spectrums helps you coordinate effectively with your companions during life-or-death encounters.
+        </p>
+        <div class="role-cards-grid">
+          <div class="role-card">
+            <h3>Frontline Tanks and Anchors</h3>
+            <p>
+              Frontline tanks hold chokepoints, absorb brutal physical punishment, and punish enemies who attempt to bypass them toward vulnerable spellcasters. Barbarians excel here by combining the game highest hit point pools with damage halving through Rage. Fighters bring ironclad Armor Class via plate armor and shields, supplemented by self-healing through Second Wind. Paladins anchor the frontline with heavy armor, burst healing from Lay on Hands, and defensive auras that safeguard adjacent companions.
+            </p>
+          </div>
+          <div class="role-card">
+            <h3>Precision Strikers and Skirmishers</h3>
+            <p>
+              Strikers specialize in single-target elimination, pinpointing high-value enemy targets and obliterating them before they unleash devastating attacks. Rogues embody precision through Sneak Attack, exploiting distraction to roll massive fistfuls of damage dice each turn. Monks leverage superior speed and Flurry of Blows to dive past enemy vanguards and lock down enemy spellcasters with Stunning Strike. Rangers and Blood Hunters deliver relentless weapon damage through hunter marks, archery styles, and elemental rites.
+            </p>
+          </div>
+          <div class="role-card">
+            <h3>Battlefield Controllers and Area Deniers</h3>
+            <p>
+              Controllers reshape the terrain of battle, turning chaotic skirmishes into manageable engagements through area-of-effect spells and crowd control conditions. Wizards stand as the ultimate controllers, deploying spells like Web, Hypnotic Pattern, and Wall of Force to divide enemy ranks. Druids command nature to conjure entangling vines, spike growth, and obscuring fogs that turn terrain lethal. Sorcerers sculpt magical fields using Metamagic, bending spells around companions to incapacitate clustered foes.
+            </p>
+          </div>
+          <div class="role-card">
+            <h3>Support Specialists and Force Multipliers</h3>
+            <p>
+              Support characters turn an ordinary adventuring party into an indomitable fighting unit. Clerics blend emergency restorative magic with game-altering buffs like Bless and spiritual area control through Spirit Guardians. Bards serve as supreme force multipliers, handing out Bardic Inspiration dice to turn failed attack rolls into critical hits while disrupting adversary saving throws with Cutting Words. Artificers bolster companions with bespoke magical infusions, defensive barriers, and versatile Flash of Genius boosts.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>Complete Hit Die Hierarchy and Durability Analysis</h2>
+        <p>
+          Hit Dice govern your character baseline physical resilience, maximum health progression, and recuperation capacity during short rests. In fifth edition, classes are categorized into four distinct Hit Die tiers ranging from the monstrous d12 down to the fragile d6. Understanding these tiers helps you gauge how aggressively your character can position on the battlefield.
+        </p>
+        <div class="table-responsive">
+          <table class="class-comparison-table">
+            <thead>
+              <tr>
+                <th scope="col">Class</th>
+                <th scope="col">Hit Die</th>
+                <th scope="col">Base HP (Level 1)</th>
+                <th scope="col">Primary Ability</th>
+                <th scope="col">Armor Proficiencies</th>
+                <th scope="col">Primary Combat Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Barbarian</strong></td>
+                <td><span class="dice-tag">d12</span></td>
+                <td>14 hp (+2 Con)</td>
+                <td>Strength</td>
+                <td>Light, medium armor, shields</td>
+                <td>Frontline Tank & Berserker</td>
+              </tr>
+              <tr>
+                <td><strong>Fighter</strong></td>
+                <td><span class="dice-tag">d10</span></td>
+                <td>12 hp (+2 Con)</td>
+                <td>Strength or Dexterity</td>
+                <td>All armor, shields</td>
+                <td>Martial Master & Weapon Tactician</td>
+              </tr>
+              <tr>
+                <td><strong>Paladin</strong></td>
+                <td><span class="dice-tag">d10</span></td>
+                <td>12 hp (+2 Con)</td>
+                <td>Strength & Charisma</td>
+                <td>All armor, shields</td>
+                <td>Holy Crusader & Aura Protector</td>
+              </tr>
+              <tr>
+                <td><strong>Ranger</strong></td>
+                <td><span class="dice-tag">d10</span></td>
+                <td>12 hp (+2 Con)</td>
+                <td>Dexterity & Wisdom</td>
+                <td>Light, medium armor, shields</td>
+                <td>Wilderness Skirmisher & Hunter</td>
+              </tr>
+              <tr>
+                <td><strong>Blood Hunter</strong></td>
+                <td><span class="dice-tag">d10</span></td>
+                <td>12 hp (+2 Con)</td>
+                <td>Strength/Dex & Int/Wis</td>
+                <td>Light, medium armor, shields</td>
+                <td>Hemocraft Striker & Monster Slayer</td>
+              </tr>
+              <tr>
+                <td><strong>Cleric</strong></td>
+                <td><span class="dice-tag">d8</span></td>
+                <td>10 hp (+2 Con)</td>
+                <td>Wisdom</td>
+                <td>Light, medium (some heavy), shields</td>
+                <td>Divine Healer & Battlecaster</td>
+              </tr>
+              <tr>
+                <td><strong>Druid</strong></td>
+                <td><span class="dice-tag">d8</span></td>
+                <td>10 hp (+2 Con)</td>
+                <td>Wisdom</td>
+                <td>Light, medium (non-metal), shields</td>
+                <td>Primal Caster & Shapeshifter</td>
+              </tr>
+              <tr>
+                <td><strong>Monk</strong></td>
+                <td><span class="dice-tag">d8</span></td>
+                <td>10 hp (+2 Con)</td>
+                <td>Dexterity & Wisdom</td>
+                <td>None (Unarmored Defense)</td>
+                <td>Mobile Striker & Ki Adept</td>
+              </tr>
+              <tr>
+                <td><strong>Rogue</strong></td>
+                <td><span class="dice-tag">d8</span></td>
+                <td>10 hp (+2 Con)</td>
+                <td>Dexterity</td>
+                <td>Light armor</td>
+                <td>Precision Striker & Skill Expert</td>
+              </tr>
+              <tr>
+                <td><strong>Bard</strong></td>
+                <td><span class="dice-tag">d8</span></td>
+                <td>10 hp (+2 Con)</td>
+                <td>Charisma</td>
+                <td>Light armor</td>
+                <td>Support Specialist & Arcane Generalist</td>
+              </tr>
+              <tr>
+                <td><strong>Artificer</strong></td>
+                <td><span class="dice-tag">d8</span></td>
+                <td>10 hp (+2 Con)</td>
+                <td>Intelligence</td>
+                <td>Light, medium armor, shields</td>
+                <td>Magical Tinkerer & Support Craftsman</td>
+              </tr>
+              <tr>
+                <td><strong>Warlock</strong></td>
+                <td><span class="dice-tag">d8</span></td>
+                <td>10 hp (+2 Con)</td>
+                <td>Charisma</td>
+                <td>Light armor</td>
+                <td>Occult Blaster & Eldritch Invocator</td>
+              </tr>
+              <tr>
+                <td><strong>Sorcerer</strong></td>
+                <td><span class="dice-tag">d6</span></td>
+                <td>8 hp (+2 Con)</td>
+                <td>Charisma</td>
+                <td>None</td>
+                <td>Metamagic Blaster & Bloodline Prodigy</td>
+              </tr>
+              <tr>
+                <td><strong>Wizard</strong></td>
+                <td><span class="dice-tag">d6</span></td>
+                <td>8 hp (+2 Con)</td>
+                <td>Intelligence</td>
+                <td>None</td>
+                <td>Supreme Scholar & Spellbook Master</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          While the d12 gives Barbarians an immense buffer against physical trauma, hit points represent only one layer of survivability. Armor Class, defensive saving throws, and damage mitigation abilities often dictate practical endurance. For example, a heavy armor Paladin with a shield and the Shield of Faith spell frequently avoids hits entirely, while a d6 Wizard relies on reactive abjuration spells like Shield and Absorb Elements to negate catastrophic bursts of damage that would otherwise spell immediate defeat.
+        </p>
+      </section>
+
+      <section class="article-section">
+        <h2>Martial, Full Caster, and Half-Caster Resource Economies</h2>
+        <p>
+          The fundamental design contrast in 5e rests on the resource economy: how frequently each class must rest to replenish their signature powers. Understanding the rhythm of short rests versus long rests prevents you from running out of steam when exploring dangerous dungeon environments.
+        </p>
+        <p>
+          Full spellcasters, comprising Wizards, Clerics, Druids, Bards, and Sorcerers, progress from 1st-level spells up to reality-altering 9th-level spells. They possess massive encounter-warping potential, able to turn the tide of a boss battle in a single turn. However, their prowess is strictly gated by spell slots that recover exclusively on a long rest. In campaigns featuring frequent combat encounters per day, full casters must budget their slots judiciously, relying on cantrips and concentration spells to preserve fuel for climactic encounters.
+        </p>
+        <p>
+          Half-casters, including Paladins, Rangers, and Artificers, gain spell slots at half the rate of full casters, maxing out at 5th-level magic by level 17. In return, they receive martial proficiencies, Extra Attack, and robust defensive capabilities. Half-casters rarely rely on magic to resolve every combat round; instead, they use spell slots as tactical accelerants, such as fueling Paladin Divine Smites, triggering Ranger stealth ambushes, or activating Artificer protective wards.
+        </p>
+        <p>
+          Pure martial characters, like Fighters, Barbarians, Rogues, Monks, and Blood Hunters, maintain relentless at-will output. A Rogue Sneak Attack functions every single round without consuming any daily pool, while Fighters and Monks recover core assets like Action Surge, Second Wind, and Ki points after a brief one-hour short rest. When a party is pushed through a grueling multi-chamber dungeon without the luxury of an eight-hour sleep, martial characters stand as the reliable backbone that keeps the team advancing.
+        </p>
+      </section>
+
+      <section class="article-section">
+        <h2>Class by Class Strategic Breakdown: All 14 Classes Explored</h2>
+        <p>
+          Below is a comprehensive tactical analysis of every official class in tabletop fifth edition, highlighting their primary battle loops, signature advantages, and tabletop execution tips.
+        </p>
+
+        <div class="class-analysis-card">
+          <h3>1. Barbarian: Primal Juggernaut</h3>
+          <p>
+            Barbarians are the premier physical powerhouses of tabletop gaming. Activating Rage provides immediate resistance to bludgeoning, piercing, and slashing damage, effectively doubling the value of their already unmatched d12 hit point pool. Through Reckless Attack, Barbarians can grant themselves advantage on all Strength-based melee weapon attacks each turn, maximizing critical hit rates and pairing devastatingly well with feats like Great Weapon Master.
+          </p>
+          <p>
+            Their main vulnerability lies in mental saving throws, particularly Wisdom and Charisma saves against enchantment magic like Hold Person or Hypnotic Pattern. Prudent Barbarians invest in high Constitution to boost Unarmored Defense, maintain mobility, and rely on subclasses like Path of the Totem Warrior or Path of the Zealot to attain supernatural resilience that defies mortal mortality.
+          </p>
+        </div>
+
+        <div class="class-analysis-card">
+          <h3>2. Bard: Versatile Maestro</h3>
+          <p>
+            Bards blend supreme conversational expertise with exceptional full spellcasting versatility. Their signature Bardic Inspiration bonus die turns near-miss attack rolls into hits and bolsters allied saving throws against deadly dragon breath weapons. Through Jack of All Trades and Expertise, Bards frequently dominate social intrigue, puzzle solving, and counterspell ability checks, ensuring the party never stumbles on skill tests.
+          </p>
+          <p>
+            At higher levels, Magical Secrets enables Bards to cherry-pick the most powerful spells from any spell list in the multiverse, including Paladin smites, Ranger arrows, or Wizard destructive evocations. Subclasses like the College of Lore enhance magical versatility, while the College of Eloquence guarantees reliable dialogue persuasion and subtracts bardic dice from enemy saving throws.
+          </p>
+        </div>
+
+        <div class="class-analysis-card">
+          <h3>3. Cleric: Devout Combat Anchor</h3>
+          <p>
+            Clerics shatter the stereotype of passive healbots, serving as armored battlecasters capable of leading the vanguard. With access to medium or heavy armor, shields, and the premier area-denial spell Spirit Guardians, a Cleric can walk into enemy hordes while radiant spirits grind foes down each round. Spells like Healing Word allow Clerics to revive fallen companions as a swift bonus action while maintaining weapon attacks or offensive cantrips.
+          </p>
+          <p>
+            Their Divine Domain selected at 1st level provides immense specialization. The Life Domain guarantees overwhelming restorative output, the Light Domain unleashes incinerating fireballs and warding flares, and the Twilight Domain blankets allies in an ethereal sphere that grants refreshing temporary hit points each round, neutralizing attrition-based dungeon designs.
+          </p>
+        </div>
+
+        <div class="class-analysis-card">
+          <h3>4. Druid: Primal Shaper and Master of the Wild</h3>
+          <p>
+            Druids harness the primal forces of nature, commanding complex battlefield control spells and transforming into beasts via Wild Shape. While basic Wild Shape offers incredible scouting flexibility as a tiny spider or falcon, Circle of the Moon Druids weaponize the feature, shifting into lethal bears and elementals that absorb hundreds of hit points of punishment before their true health pool is ever touched.
+          </p>
+          <p>
+            Outside of shapeshifting, Druids control the earth itself through hazardous terrain spells like Spike Growth, Plant Growth, and Conjure Animals. Subclasses like the Circle of the Stars provide astronomical spell blasts and unbreakable concentration, while the Circle of Wildfire commands an agile flame spirit that teleports allies out of grapple range across the battlefield.
+          </p>
+        </div>
+
+        <div class="class-analysis-card">
+          <h3>5. Fighter: Unmatched Martial Tactician</h3>
+          <p>
+            Fighters are the benchmark of martial excellence in fifth edition. Armed with mastery over all weapons and armors, Fighters customize their tactics via Fighting Styles and deliver unmatched burst damage through Action Surge, granting a second full action on their turn once per short rest. While most classes receive five Ability Score Improvements over twenty levels, Fighters receive seven, enabling them to max their primary attributes while collecting powerful feats like Polearm Master, Sentinel, or Sharpshooter.
+          </p>
+          <p>
+            Subclasses broaden their combat repertoire significantly. The Battle Master introduces superiority dice for tactical maneuvers that disarm, trip, and maneuver companions. The Eldritch Knight integrates abjuration defense and evocation attacks into melee swings, while the Echo Knight projects shadowy duplicates to strike targets across vast tactical distances without exposing their physical body.
+          </p>
+        </div>
+
+        <div class="class-analysis-card">
+          <h3>6. Monk: Kinetic Striker and Battlefield Harasser</h3>
+          <p>
+            Monks weaponize the inner flow of ki energy to move faster and strike more frequently than any other adventurer. With Martial Arts granting bonus unarmed strikes and Flurry of Blows doubling that output, a Monk delivers a flurry of attacks each round without requiring manufactured weapons. Their peerless mobility allows them to scale vertical castle walls, run across open water, and catch incoming crossbow bolts out of thin air via Deflect Missiles.
+          </p>
+          <p>
+            Their premier offensive weapon is Stunning Strike, forcing Constitution saves on successful melee hits to completely incapacitate dangerous enemy spellcasters. Subclasses like the Way of the Open Hand add prone and shove effects to every flurry, while the Way of Shadow allows seamless teleportation between dim shadows to ambush high-value commanders in dark dungeons.
+          </p>
+        </div>
+
+        <div class="class-analysis-card">
+          <h3>7. Paladin: Righteous Vanguard and Aura Bulwark</h3>
+          <p>
+            Paladins represent the pinnacle of single-target burst damage and party defense. Clad in full plate armor, Paladins expend spell slots to ignite Divine Smite upon landing weapon attacks, turning natural 20 critical hits into encounter-ending explosions of radiant dice. Their Lay on Hands pool delivers reliable, non-spell healing that cures diseases and revives unconscious comrades with pinpoint efficiency.
+          </p>
+          <p>
+            At level 6, Paladins unlock Aura of Protection, arguably the strongest defensive class feature in the entire fifth edition ruleset. By adding their Charisma modifier to all saving throws for themselves and every ally within ten feet, Paladins insulate the entire party against fatal area spells. Subclasses like Oath of Vengeance grant advantage on command, while Oath of the Ancients halves all incoming spell damage.
+          </p>
+        </div>
+
+        <div class="class-analysis-card">
+          <h3>8. Ranger: Wilderness Sniper and Ambush Specialist</h3>
+          <p>
+            Rangers master the treacherous wilderness, blending precision martial archery with nature-infused half-casting. Utilizing the Archery fighting style alongside spells like Hunter Mark, Rangers sustain consistent, reliable single-target damage across long ranges. Features like Natural Explorer and Deft Explorer grant expertise in key exploration skills, ensuring the party navigates hostile terrain undetected.
+          </p>
+          <p>
+            Subclass design elevates the Ranger into a lethal threat. The Gloom Stalker dominates the opening round of combat, gaining bonus speed, an extra attack, and additional weapon damage while remaining entirely invisible to creatures relying on darkvision. The Fey Wanderer infuses silver-tongued Charisma into diplomatic encounters, and the Beast Master commands loyal primal beasts that coordinate flanking attacks.
+          </p>
+        </div>
+
+        <div class="class-analysis-card">
+          <h3>9. Rogue: Opportunistic Specialist and Infiltrator</h3>
+          <p>
+            Rogues turn patience and positioning into artful lethality. By satisfying the conditions for Sneak Attack, either through advantage or by targeting foes engaged with adjacent allies, Rogues add substantial scaling damage dice to their strikes every turn. Their Cunning Action feature grants Dash, Disengage, or Hide as a bonus action, ensuring they slip away after striking without provoking opportunity attacks.
+          </p>
+          <p>
+            Outside of combat, Rogues shine brighter than almost any class due to Expertise and Reliable Talent, which guarantees that ability checks using proficient skills treat d20 rolls of 9 or lower as a 10. Traps, locked vaults, and stealth ambushes become trivial obstacles. Subclasses like the Swashbuckler excel in dueling, while the Arcane Trickster weaves invisible Mage Hand illusions into infiltration missions.
+          </p>
+        </div>
+
+        <div class="class-analysis-card">
+          <h3>10. Sorcerer: Innate Arcane Conduit</h3>
+          <p>
+            Sorcerers do not study magic through books or pray to distant gods; magic pulses through their very bloodline. While their list of known spells is more compact than a Wizard, Sorcerers manipulate the underlying structure of spells via Metamagic. Twinned Spell duplicates single-target enchantments like Haste or Greater Invisibility across two allies at once, while Quickened Spell casts full spells as bonus actions, freeing the main action for cantrips or tactical maneuvers.
+          </p>
+          <p>
+            Their subclasses grant vivid thematic flavors and mechanical boons. Draconic Bloodline provides natural armor scales and elemental resistance, Divine Soul grants direct access to the entire Cleric spell catalog, and Aberrant Mind unleashes subtle, uncounterable psionic enchantments that tear through psychic defenses without verbal or somatic components.
+          </p>
+        </div>
+
+        <div class="class-analysis-card">
+          <h3>11. Warlock: Eldritch Pact Invocator</h3>
+          <p>
+            Warlocks operate on a completely unique spellcasting engine known as Pact Magic. Instead of accumulating dozens of low-level spell slots, Warlocks cast from a tight pool of two to four slots that are always heightened to their maximum spell level and recharge completely on a short rest. Between these high-impact casts, Warlocks command Eldritch Blast, the premier ranged damage cantrip in 5e, augmented by the Agonizing Blast invocation to add Charisma modifiers to every beam.
+          </p>
+          <p>
+            Eldritch Invocations permit granular customization, unlocking at-will disguise self, magical sight that pierces supernatural darkness, or levitation without expending resources. The Hexblade patron enables weapon attacks using Charisma and adds medium armor, making it a legendary martial-caster hybrid, while the Genie patron adds elemental damage and a portable extradimensional sanctuary.
+          </p>
+        </div>
+
+        <div class="class-analysis-card">
+          <h3>12. Wizard: Master of the Arcane Library</h3>
+          <p>
+            Wizards are the undisputed masters of magical breadth and tactical versatility. Through their cherished spellbooks, Wizards learn hundreds of spells across their adventuring careers, preparing bespoke loadouts each morning to counter anticipated dungeon hazards. Crucially, Wizards can cast ritual spells directly from their spellbook without preparing them, providing unmatched exploration utility with Detect Magic, Leomund Tiny Hut, and Water Breathing at zero slot cost.
+          </p>
+          <p>
+            Each Arcane Tradition refines a school of magic. School of Evocation sculpts destructive fireballs safely around allies, School of Divination manipulates fate itself through Portent dice rolled at the start of each morning, and School of Chronurgy bends time to freeze enemy monsters in stasis or force rerolls on saving throws. If knowledge is power, the Wizard is an army unto themselves.
+          </p>
+        </div>
+
+        <div class="class-analysis-card">
+          <h3>13. Artificer: Master of Magical Engineering</h3>
+          <p>
+            Artificers treat magic as a craft of precise scientific inquiry, imbuing mundane items with wondrous magical properties through Infusions. An Artificer can equip themselves and their companions with enhanced weapons, protective armor, or replicating magic items like Bags of Holding and Goggles of Night directly from the adventuring kit. At mid levels, Flash of Genius allows them to add their Intelligence modifier to allied saving throws within thirty feet.
+          </p>
+          <p>
+            Their subclasses dramatically pivot their tactical role. The Armorer forges powered guardian plate suits that taunt foes or silent infiltrator armor for stealth runs. The Battle Smith commands a mechanical Steel Defender pet while attacking with martial weapons using Intelligence, and the Artillerist summons walking eldritch cannons that lay down continuous flamethrower fire or temporary hit point shields.
+          </p>
+        </div>
+
+        <div class="class-analysis-card">
+          <h3>14. Blood Hunter: Hemocraft Monster Slayer</h3>
+          <p>
+            Created by Matt Mercer and widely adopted across tabletop circles, the Blood Hunter walks a dark, sacrificial path, wielding hemocraft magic by sacrificing their own hit points to imbue weapons with elemental Crimson Rites. They specialize in tracking fiends, undead, and aberrations, turning their adversary supernatural strengths into catastrophic liabilities during tactical confrontations.
+          </p>
+          <p>
+            Through Blood Maledict, Blood Hunters invoke potent curses that blind, weaken, or redirect damage from monsters across the field. Subclasses such as the Order of the Ghostslayer channel radiant power against ethereal beings, the Order of the Lycan unleashes primal werewolf transformations with claw resistance, and the Order of the Mutant consumes alchemical concoctions that temporarily mutate physical capabilities beyond natural limits.
+          </p>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>Multiclassing Strategy: Prerequisites, Synergies, and Pitfalls</h2>
+        <p>
+          Multiclassing in fifth edition allows you to blend the strengths of multiple classes into a specialized character archetype, such as a holy paladin who wields warlock pact magic or a rogue who supplements stealth with fighter maneuvers. However, multiclassing comes with substantial risks that can weaken your character if executed without a coherent mechanical goal.
+        </p>
+        <p>
+          To multiclass legally under standard rules, you must satisfy the ability score minimums of at least 13 in the key stats for both your original class and your target class. For example, a Fighter multiclassing into Wizard requires at least 13 in Strength or Dexterity, plus a 13 in Intelligence. Failing to plan ability score point buy distributions during character creation can lock you out of desired combinations.
+        </p>
+        <p>
+          The most dangerous trap in multiclassing is delaying the Level 5 power spike. At level 5, pure martial classes gain Extra Attack, effectively doubling their damage output, while full casters unlock 3rd-level spells like Fireball, Hypnotic Pattern, and Revivify. Splitting your character three levels into Fighter and two levels into Rogue leaves you at level 5 without Extra Attack, lagging far behind single-class party members when encountering tier 2 threats.
+        </p>
+        <p>
+          When planned with precision, however, key multiclass dips yield legendary synergies:
+        </p>
+        <ul class="styled-list">
+          <li><strong>The Hexadin (Paladin + Warlock):</strong> Taking one or two levels of Hexblade Warlock allows a Paladin to make weapon attacks using Charisma instead of Strength, consolidating spellcasting, aura potency, and melee accuracy onto a single primary attribute while providing short-rest spell slots for Divine Smite.</li>
+          <li><strong>The Sorcadin (Paladin + Sorcerer):</strong> Progressing six levels in Paladin to secure Aura of Protection and Extra Attack, then taking remaining levels in Sorcerer to gain abundant high-level spell slots to fuel smites alongside Quickened Spell versatility.</li>
+          <li><strong>The Action Surge Wizard (Fighter 2 + Wizard X):</strong> Starting level 1 in Fighter provides heavy armor and shield proficiencies plus Constitution saving throw proficiency for unbreakable spell concentration, followed by Action Surge to cast two leveled action spells in a single devastating round.</li>
+          <li><strong>The Stealth Assassin (Rogue + Ranger):</strong> Combining Gloom Stalker first-round initiative bonuses and extra attacks with Assassin guaranteed critical hits on surprised enemies for jaw-dropping ambush burst damage.</li>
+        </ul>
+      </section>
+
+      <section class="article-section">
+        <h2>Beginner Recommendations and Progression Roadmaps</h2>
+        <p>
+          If you are sitting down at a tabletop campaign for the very first time, the sheer volume of rules, spell slots, and action economy terms can feel intimidating. Choosing a beginner-friendly class allows you to focus on learning roleplay etiquette, dice mechanics, and tactical movement before diving into complex resource spreadsheets.
+        </p>
+        <div class="beginner-cards-grid">
+          <div class="beginner-card">
+            <h3>For Martial Players: Champion Fighter</h3>
+            <p>
+              The Champion Fighter is the gold standard of straightforward, rewarding gameplay. You wear heavy armor, swing reliable martial weapons, and double your critical hit threshold to 19-20. You have zero spell slots to track and recover Second Wind and Action Surge after a simple short rest.
+            </p>
+          </div>
+          <div class="beginner-card">
+            <h3>For Tank Players: Totem Warrior Barbarian</h3>
+            <p>
+              The Barbarian offers huge health pools that forgive positioning errors. Choosing Path of the Totem Warrior with the Bear totem grants resistance to all damage types except psychic while raging, making your character virtually unkillable throughout early levels.
+            </p>
+          </div>
+          <div class="beginner-card">
+            <h3>For Caster Players: Life or Light Domain Cleric</h3>
+            <p>
+              Clerics are durable full casters clad in medium or heavy armor with shields. Unlike Wizards, Clerics prepare spells from their complete list after every long rest, allowing beginners to experiment with different spells daily without permanent penalties for poor spell choices.
+            </p>
+          </div>
+          <div class="beginner-card">
+            <h3>For Agility Players: Swashbuckler Rogue</h3>
+            <p>
+              Rogues do not manage spell slots or rest mechanics. The Swashbuckler subclass simplifies Sneak Attack positioning by triggering bonus damage in one-on-one melee combat while automatically preventing enemy opportunity attacks when moving away.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>Ancestry Synergies and Thematic Naming Identity</h2>
+        <p>
+          A memorable character emerges when mechanical strengths intertwine with rich roleplay identity. Pairing complementary ancestries with your class choices unlocks powerful synergy. For instance, Half-Orcs combine Relentless Endurance and Savage Attacks with Barbarian Rage to survive fatal strikes and roll crushing critical hits. Elves bring Fey Ancestry, perception proficiencies, and meditation trances that harmonize naturally with Rangers and Rogues. Tieflings offer natural Charisma bonuses and hellish thaumaturgy that empower Warlocks, Bards, and Sorcerers.
+        </p>
+        <p>
+          Beyond ability scores, your character name and background anchor their presence in your tabletop world. A grim dwarf cleric carrying an ancient clan patronymic evokes immediate gravitas, while a roguish halfling with an ironic moniker hints at a storied history of tavern escapades. Use our dedicated ancestry and fantasy name generators to discover evocative, lore-accurate names that inspire you each time you roll initiative.
+        </p>
+      </section>
+
+      <section class="page-section" aria-labelledby="faq-heading">
+        <div class="section-topline">
+          <div>
+            <span class="eyebrow">A few quick answers</span>
+            <h2 id="faq-heading" class="section-heading">Frequently Asked Questions About DnD Classes</h2>
+          </div>
+        </div>
+        <div class="faq-grid">
+          {faqItems.map((item) => (
+            <article class="faq-item">
+              <h3>{item.question}</h3>
+              <p>{item.answer}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
+  </article>
+
+  <section class="page-section" aria-labelledby="related-heading">
+    <div class="section-topline">
+      <div>
+        <span class="eyebrow">Keep exploring</span>
+        <h2 id="related-heading" class="section-heading">Related Character & Campaign Generators</h2>
+      </div>
+    </div>
+    <ToolCards items={relatedItems} />
+  </section>
+
+  <script is:inline>
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const dossierCards = document.querySelectorAll('.class-dossier-card');
+
+    filterTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const filter = tab.dataset.filter;
+        filterTabs.forEach((t) => {
+          const isActive = t === tab;
+          t.classList.toggle('is-active', isActive);
+          t.setAttribute('aria-selected', String(isActive));
+        });
+
+        dossierCards.forEach((card) => {
+          const category = card.dataset.category;
+          const matches = filter === 'all' || category === filter;
+          if (matches) {
+            card.classList.remove('is-hidden');
+          } else {
+            card.classList.add('is-hidden');
+          }
+        });
+      });
+    });
+  </script>
+</SiteLayout>
