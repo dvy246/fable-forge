@@ -59,10 +59,30 @@ const relatedItems = [
   }),
 ];
 const faq = [
-  { question: 'Are the names copied from official DnD books?', answer: 'No. DnD Arena joins original syllable tables written for this site. Names and flavor lines are created in your browser.' },
-  { question: 'Can I save names for a later session?', answer: 'Yes. Save favorites in this browser, then export the list as a plain text file for your notes.' },
-  { question: 'How do I make a result sound more like my setting?', answer: 'Choose a style, say the name aloud, and change a syllable or family name until it fits your world.' },
-  { question: 'Does DnD Arena send generated names to a server?', answer: 'No. Name generation happens in the browser, and the names you create are not sent anywhere.' },
+  {
+    question: 'How do I choose the best DnD name for my character class and ancestry?',
+    answer: 'A great DnD character name pairs cultural phonetic roots with adventuring archetype cues. Arcane casters like wizards and sorcerers often favor Latinate syllables or volatile draconic roots, while martial fighters and paladins carry resolute trochaic meters and oath honorifics. Say candidate names aloud inside typical combat callouts to confirm the rhythm flows naturally before writing it on your 5e sheet.',
+  },
+  {
+    question: 'Can I generate names for ships, pirate vessels, and spelljamming skiffs?',
+    answer: 'Yes. Our dedicated ship name generator produces hundreds of nautical options across three vessel palettes: royal galleons flying imperial pennants, fearsome pirate corsairs and privateer sloops, and astral cutters gliding across planar voids. Each vessel title includes descriptive flavor detailing its reputation and naval lore.',
+  },
+  {
+    question: 'How do naming conventions differ across 5e ancestries like elves, dwarves, and tieflings?',
+    answer: 'Each fantasy ancestry in the 5e multiverse follows distinct linguistic traditions. Elven names favor melodic liquids and nature-inspired compound surnames like Moonshadow. Dwarven names use sturdy plosives and clan forge titles. Tieflings balance infernal cadences with aspirational virtue monikers like Reverence and Hope, while dragonborn carry honor-bound clan lineages.',
+  },
+  {
+    question: 'Can Dungeon Masters use these tools for settlements, taverns, and NPCs on the fly?',
+    answer: 'Yes. DnD Arena includes specialized campaign worldbuilding tools designed for live DM prep. You can instantly roll topographic fantasy towns, cozy tavern meeting spots, full NPC profiles with personality traits and story hooks, and adventuring party titles without breaking the flow of your session.',
+  },
+  {
+    question: 'Can I use generated fantasy names for commercial streaming, podcasts, and published homebrew?',
+    answer: 'Yes. All names produced by DnD Arena are generated procedurally from original handcrafted syllable tables in your browser. You hold complete freedom to use, modify, and publish any generated name in home games, streamed actual-play podcasts, novels, and commercial tabletop modules with zero royalties or attribution required.',
+  },
+  {
+    question: 'Does DnD Arena send generated names to a server or require an account?',
+    answer: 'No. DnD Arena runs 100% locally in your web browser. There are no user accounts, no login walls, and no network requests transmitting your campaign notes or character discoveries. You can favorite promising names locally on your device and export them anytime as a clean text file.',
+  },
 ];
 const faqSchema = faqPageSchema(faq);
 const homeStorySections = [
@@ -309,6 +329,7 @@ const schema = [
         >
           <span class="eyebrow">Table Play Guidelines</span>
           <h2 id="tabletop-heading" class="section-heading">Practical naming tips for live tabletop sessions</h2>
+          <p>In Dungeons & Dragons fifth edition, authentic character names reflect a balance between ancestral linguistic heritage, character class archetypes, and table communication practicality. Fantasy ancestries rely on distinct phonetic structures: elves favor elongated liquids and compound nature surnames, dwarves employ stout consonant plosives and forge titles, tieflings balance infernal cadences with moral virtue monikers, and dragonborn emphasize trisyllabic honor lineages. Meanwhile, class vocations shape social titles and adventuring epithets, ranging from scholarly Latinate monikers for arcane wizards to raw deed descriptors for frontier barbarians. When selecting a moniker at session zero, Dungeon Masters and players should prioritize phonetic clarity by choosing names with distinct opening syllables from other party companions and testing conversational callouts aloud. A memorable character title provides an immediate roleplay anchor that enriches campaign storytelling while remaining easy for table companions to track across combat initiative encounters.</p>
           <p>To make the most of your generated names during live gameplay, consider how the name sounds aloud before writing it onto your character sheet. Say the full name three times in succession and test how easily other players can pronounce its nickname. Avoid selecting names with opening sounds identical to other active party members to prevent confusion during fast-paced combat rounds. Remember that every generated result is an adaptable creative foundation: alter a vowel, append an honorific title, or blend two family traditions together to seamlessly match your homebrew campaign setting.</p>
           <p>Every roll on DnD Arena takes place directly in your browser. There are no account sign-ups, no tracking cookies, and no server requests logging your session notes. You can roll unlimited results, lock your favorite discoveries on your device, and export your curated shortlist to a clean text file for immediate prep.</p>
         </section>

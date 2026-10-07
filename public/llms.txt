@@ -1,0 +1,85 @@
+# DnD Arena
+
+> DnD Arena is an independent, free, browser-based fantasy naming workshop and tabletop reference catalog. It provides deterministic, procedural name generators and in-depth cultural naming guides for fifth edition Dungeons & Dragons, Pathfinder, tabletop roleplaying games, and fantasy fiction writing.
+
+## Overview
+
+- **Website:** https://dndarena.com
+- **Architecture:** 100% pre-rendered static HTML, zero client tracking, zero user accounts, zero server APIs.
+- **Licensing:** All generated names and phonetic combinations are completely royalty-free for personal campaigns, streamed actual-play shows, published tabletop modules, and commercial fantasy novels.
+
+## 5e Character Class Generators
+
+- [Wizard Name Generator](https://dndarena.com/wizard-name-generator/): Academic, Latinate, and planar arcane names for spellbook scholars.
+- [Sorcerer Name Generator](https://dndarena.com/sorcerer-name-generator/): Primal, draconic, and wild magic monikers born of innate power.
+- [Warlock Name Generator](https://dndarena.com/warlock-name-generator/): Eldritch, fiendish, and void pact titles bound to otherworldly patrons.
+- [Rogue Name Generator](https://dndarena.com/rogue-name-generator/): Shadow aliases, street nicknames, and syndicate titles for scoundrels.
+- [Bard Name Generator](https://dndarena.com/bard-name-generator/): Troubadour, skald, and lyrical heroic names for colleges of lore and swords.
+- [Cleric Name Generator](https://dndarena.com/cleric-name-generator/): Holy invocations, war priest epithets, and radiant titles across 5e domains.
+- [Paladin Name Generator](https://dndarena.com/paladin-name-generator/): Resolute oath titles, righteous crusader names, and sacred battle monikers.
+- [Barbarian Name Generator](https://dndarena.com/barbarian-name-generator/): Primal war cries, totem warrior epithets, and fury-born clan titles.
+- [Druid Name Generator](https://dndarena.com/druid-name-generator/): Sylvan grove titles, predator nicknames, and ancient nature monikers.
+- [Ranger Name Generator](https://dndarena.com/ranger-name-generator/): Deepwood scout titles, boundary tracker monikers, and wilderness epithets.
+- [Fighter Name Generator](https://dndarena.com/fighter-name-generator/): Martial tournament titles, disciplined mercenary names, and champion monikers.
+- [Monk Name Generator](https://dndarena.com/monk-name-generator/): Ki adept names, monastery titles, and meditative ascetics.
+- [Artificer Name Generator](https://dndarena.com/artificer-name-generator/): Clockwork inventors, runesmith titles, and arcane alchemist monikers.
+
+## Fantasy Ancestry & Lineage Generators
+
+- [Elf Name Generator](https://dndarena.com/elf-name-generator/): High, Wood, and Sun elf melodic titles with nature compound surnames.
+- [Drow Name Generator](https://dndarena.com/drow-name-generator/): Underdark noble houses, Matron titles, and subterranean sibilant names.
+- [Dwarf Name Generator](https://dndarena.com/dwarf-name-generator/): Sturdy plosives, clan fortress titles, and ancestral forge surnames.
+- [Tiefling Name Generator](https://dndarena.com/tiefling-name-generator/): Infernal ancestral names and aspirational moral virtue monikers.
+- [Dragonborn Name Generator](https://dndarena.com/dragonborn-name-generator/): Honor-bound clan lineages and draconic consonant clusters.
+- [Human Fantasy Name Generator](https://dndarena.com/human-name-generator/): Feudal noble houses, frontier pioneer names, and cosmopolitan trade titles.
+- [Halfling Name Generator](https://dndarena.com/halfling-name-generator/): Warm pastoral syllables and domestic family surnames.
+- [Gnome Name Generator](https://dndarena.com/gnome-name-generator/): Playful compound inventions, clan titles, and tinkering nicknames.
+- [Orc Name Generator](https://dndarena.com/orc-name-generator/): Guttural battle names, warband titles, and bloodline honorifics.
+- [Half-Elf Name Generator](https://dndarena.com/half-elf-name-generator/): Harmonious blends of elven melody and human frontier cadences.
+- [Half-Orc Name Generator](https://dndarena.com/half-orc-name-generator/): Resilient bridge names uniting civil titles and primal origins.
+- [Goblin Name Generator](https://dndarena.com/goblin-name-generator/): Snappy, sharp plosives, scavenger epithets, and mischievous clan monikers.
+- [Kobold Name Generator](https://dndarena.com/kobold-name-generator/): Sharp reptilian clicks and trap-making clan titles.
+- [Dragon Name Generator](https://dndarena.com/dragon-name-generator/): Ancient majestic wyrm titles spanning chromatic and metallic flights.
+- [Aasimar Name Generator](https://dndarena.com/aasimar-name-generator/): Luminous celestial titles and angelic phonetic harmonies.
+- [Genasi Name Generator](https://dndarena.com/genasi-name-generator/): Elemental names for Air, Earth, Fire, and Water planar lineages.
+- [Warforged Name Generator](https://dndarena.com/warforged-name-generator/): Military designations, numerical monikers, and chosen civilian identities.
+- [Goliath Name Generator](https://dndarena.com/goliath-name-generator/): Mountain clan patronymics, birth names, and athletic deed nicknames.
+- [Tabaxi Name Generator](https://dndarena.com/tabaxi-name-generator/): Poetic compound titles, clan identities, and curiosity nicknames.
+- [Firbolg Name Generator](https://dndarena.com/firbolg-name-generator/): Sylvan caretaker names grounded in natural landmarks and forest lore.
+- [Kenku Name Generator](https://dndarena.com/kenku-name-generator/): Mimicked environmental sound descriptions and physical behavior nicknames.
+- [Changeling Name Generator](https://dndarena.com/changeling-name-generator/): Fluid personal monosyllables and layered public persona masks.
+- [Lizardfolk Name Generator](https://dndarena.com/lizardfolk-name-generator/): Primal swamp hunter descriptors and cold-blooded physical traits.
+- [Fairy Name Generator](https://dndarena.com/fairy-name-generator/): Whimsical Feywild titles, seasonal courts, and gossamer compound names.
+- [Vampire Name Generator](https://dndarena.com/vampire-name-generator/): Aristocratic Gothic lineages, dread titles, and immortal monikers.
+- [Demon Name Generator](https://dndarena.com/demon-name-generator/): Abyssal chaotic horrors, fiendish lords, and unholy titles.
+- [Githyanki Name Generator](https://dndarena.com/githyanki-name-generator/): Astral plane militaristic titles, silver blade titles, and martial crèche names.
+
+## Worldbuilding & Campaign Utilities
+
+- [Fantasy Town Name Generator](https://dndarena.com/fantasy-town-name-generator/): Settlements, harbors, highland villages, and frontier hamlets.
+- [Tavern Name Generator](https://dndarena.com/tavern-name-generator/): Cozy inns, rowdy harbor alehouses, and mysterious roadside stops.
+- [DnD Party Name Generator](https://dndarena.com/party-name-generator/): Adventuring company titles, mercenary banners, and heroic fellowships.
+- [DnD NPC Name Generator](https://dndarena.com/npc-name-generator/): Quick NPC profiles complete with name, personality trait, quirk, and adventure hook.
+- [Fantasy Kingdom Name Generator](https://dndarena.com/kingdom-name-generator/): Feudal realms, planar empires, and sovereign territories.
+- [Fantasy World Name Generator](https://dndarena.com/world-name-generator/): Cosmology realms, continents, and overarching setting titles.
+- [DnD Last Name Generator](https://dndarena.com/last-name-generator/): Dedicated fantasy surnames across noble, trade, and wilderness styles.
+- [Ship Name Generator](https://dndarena.com/ship-name-generator/): Galleons, pirate privateers, and spelljamming astral skiffs.
+- [Villain Name Generator](https://dndarena.com/villain-name-generator/): Menacing overlords, lich titles, and campaign antagonists.
+- [Guild Name Generator](https://dndarena.com/guild-name-generator/): Shadow syndicates, arcane colleges, and merchant cartels.
+- [Deity Name Generator](https://dndarena.com/deity-name-generator/): Pantheon sovereigns, forgotten gods, and holy titles.
+- [Weapon Name Generator](https://dndarena.com/weapon-name-generator/): Legendary blades, cursed relics, and heirloom firearms.
+- [Island Name Generator](https://dndarena.com/island-name-generator/): Pirate atolls, misty archipelagoes, and volcanic reefs.
+
+## Guides & Tabletop Lore
+
+- [DnD Classes Guide](https://dndarena.com/dnd-classes/): Complete 14-class hub connecting combat roles, spellcasting, and naming conventions.
+- [How to Name Your DnD Character](https://dndarena.com/blog/how-to-name-your-dnd-character/): Phonetic rules, ancestry traditions, and table tips.
+- [Best Elf Names for 5e](https://dndarena.com/blog/best-elf-names-for-dnd-5e/): High, Wood, and Drow naming lore.
+- [Dwarf Clan Names & Meanings](https://dndarena.com/blog/dwarf-clan-names-and-meanings/): Clan fortresses, runic surnames, and dwarven cultural honors.
+- [Tiefling Naming Conventions](https://dndarena.com/blog/tiefling-naming-conventions-5e/): Virtue monikers and infernal bloodlines.
+- [Chthonic Tiefling Guide](https://dndarena.com/blog/chthonic-tiefling-naming-guide/): Underworld lineages and 2024 core rules evolution.
+- [Fantasy Town Naming Guide](https://dndarena.com/blog/fantasy-town-naming-guide/): Topographic suffixes, trade crossroads, and regional history.
+- [DnD Dragon Names Guide](https://dndarena.com/blog/dnd-dragon-names-guide/): Chromatic and metallic wyrm naming formulas.
+- [DnD Character Names Guide](https://dndarena.com/blog/dnd-character-names/): Complete class archetypes and naming lists.
+- [Fantasy Ship Names Guide](https://dndarena.com/blog/dnd-ship-names-guide/): Naval heraldry, privateers, and planar vessels.
+- [Na'vi Naming Conventions](https://dndarena.com/blog/how-navi-names-work/): Linguistic analysis of alien and fantasy compound naming.

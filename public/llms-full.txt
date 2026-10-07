@@ -1,0 +1,92 @@
+# DnD Arena: Full System & Naming Documentation
+
+> Complete system catalog, algorithmic specifications, and naming convention references for DnD Arena (https://dndarena.com).
+
+## 1. System Architecture & Operation
+
+DnD Arena is a static web application built with Astro 7 and vanilla ES modules. It runs with zero backend API dependencies and zero third-party tracking scripts.
+
+### 1.1 Generation Engine
+- **Deterministic Syllable Matrix:** Names are procedurally assembled from hand-crafted syllable tables containing opening sound roots, middle cadence syllables, terminal endings, gender-differentiated suffixes, and compound family names.
+- **Phonetic Cluster Guard:** Consonant sequences are evaluated at boundary junctions to prevent unpronounceable triple-consonant clusters and unnatural transitions.
+- **Length Caps:** Enforces strict limits across short (≤12 chars), medium (≤16 chars), and long (≤20 chars) configurations to maintain tabletop readability.
+- **Client-Side State:** Rerolling, name locking, and favorites persistence execute exclusively within the browser via Web Storage (localStorage).
+
+### 1.2 Usage and Copyright
+All names generated across all 55 tools are procedurally synthesized from original phonetic tables. Creators, players, and Dungeon Masters may use any generated name in personal campaigns, published commercial adventures, novels, audiobooks, and actual-play streaming productions with zero licensing fees or mandatory attribution.
+
+## 2. Directory of Tools and Endpoints
+
+### 2.1 Ancestry & Lineage Name Generators
+- Elf: https://dndarena.com/elf-name-generator/
+- Drow: https://dndarena.com/drow-name-generator/
+- Dwarf: https://dndarena.com/dwarf-name-generator/
+- Tiefling: https://dndarena.com/tiefling-name-generator/
+- Dragonborn: https://dndarena.com/dragonborn-name-generator/
+- Human: https://dndarena.com/human-name-generator/
+- Halfling: https://dndarena.com/halfling-name-generator/
+- Gnome: https://dndarena.com/gnome-name-generator/
+- Orc: https://dndarena.com/orc-name-generator/
+- Half-Elf: https://dndarena.com/half-elf-name-generator/
+- Half-Orc: https://dndarena.com/half-orc-name-generator/
+- Goblin: https://dndarena.com/goblin-name-generator/
+- Kobold: https://dndarena.com/kobold-name-generator/
+- Dragon: https://dndarena.com/dragon-name-generator/
+- Aasimar: https://dndarena.com/aasimar-name-generator/
+- Genasi: https://dndarena.com/genasi-name-generator/
+- Warforged: https://dndarena.com/warforged-name-generator/
+- Goliath: https://dndarena.com/goliath-name-generator/
+- Tabaxi: https://dndarena.com/tabaxi-name-generator/
+- Firbolg: https://dndarena.com/firbolg-name-generator/
+- Kenku: https://dndarena.com/kenku-name-generator/
+- Changeling: https://dndarena.com/changeling-name-generator/
+- Lizardfolk: https://dndarena.com/lizardfolk-name-generator/
+- Fairy: https://dndarena.com/fairy-name-generator/
+- Vampire: https://dndarena.com/vampire-name-generator/
+- Demon: https://dndarena.com/demon-name-generator/
+- Githyanki: https://dndarena.com/githyanki-name-generator/
+- Avatar: https://dndarena.com/avatar-name-generator/
+
+### 2.2 Character Class Name Generators
+- Wizard: https://dndarena.com/wizard-name-generator/
+- Sorcerer: https://dndarena.com/sorcerer-name-generator/
+- Warlock: https://dndarena.com/warlock-name-generator/
+- Rogue: https://dndarena.com/rogue-name-generator/
+- Bard: https://dndarena.com/bard-name-generator/
+- Cleric: https://dndarena.com/cleric-name-generator/
+- Paladin: https://dndarena.com/paladin-name-generator/
+- Barbarian: https://dndarena.com/barbarian-name-generator/
+- Druid: https://dndarena.com/druid-name-generator/
+- Ranger: https://dndarena.com/ranger-name-generator/
+- Fighter: https://dndarena.com/fighter-name-generator/
+- Monk: https://dndarena.com/monk-name-generator/
+- Artificer: https://dndarena.com/artificer-name-generator/
+
+### 2.3 Worldbuilding & Campaign Utilities
+- Town: https://dndarena.com/fantasy-town-name-generator/
+- Tavern: https://dndarena.com/tavern-name-generator/
+- Party: https://dndarena.com/party-name-generator/
+- NPC: https://dndarena.com/npc-name-generator/
+- Kingdom: https://dndarena.com/kingdom-name-generator/
+- World: https://dndarena.com/world-name-generator/
+- Surname: https://dndarena.com/last-name-generator/
+- Ship: https://dndarena.com/ship-name-generator/
+- Villain: https://dndarena.com/villain-name-generator/
+- Guild: https://dndarena.com/guild-name-generator/
+- Deity: https://dndarena.com/deity-name-generator/
+- Weapon: https://dndarena.com/weapon-name-generator/
+- Island: https://dndarena.com/island-name-generator/
+- Character: https://dndarena.com/character-name-generator/
+
+### 2.4 Editorial Strategy & Naming Guides
+- Class Hub: https://dndarena.com/dnd-classes/
+- Character Naming Master Guide: https://dndarena.com/blog/how-to-name-your-dnd-character/
+- Elven Linguistics: https://dndarena.com/blog/best-elf-names-for-dnd-5e/
+- Dwarven Runes & Clans: https://dndarena.com/blog/dwarf-clan-names-and-meanings/
+- Tiefling Traditions: https://dndarena.com/blog/tiefling-naming-conventions-5e/
+- Chthonic Underworld Lineages: https://dndarena.com/blog/chthonic-tiefling-naming-guide/
+- Settlement Cartography & Names: https://dndarena.com/blog/fantasy-town-naming-guide/
+- Draconic Lore: https://dndarena.com/blog/dnd-dragon-names-guide/
+- Class Archetype Directory: https://dndarena.com/blog/dnd-character-names/
+- Nautical Lore: https://dndarena.com/blog/dnd-ship-names-guide/
+- Alien & Fantasy Phonology: https://dndarena.com/blog/how-navi-names-work/

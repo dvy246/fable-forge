@@ -26,7 +26,23 @@ function escapeXml(value) {
 }
 
 await fs.mkdir(distRoot, { recursive: true });
-const robotsLines = ['User-agent: *', 'Allow: /'];
+const robotsLines = [
+  'User-agent: *',
+  'Allow: /',
+  '',
+  '# AI Search Crawlers',
+  'User-agent: GPTBot',
+  'Allow: /',
+  '',
+  'User-agent: OAI-SearchBot',
+  'Allow: /',
+  '',
+  'User-agent: ClaudeBot',
+  'Allow: /',
+  '',
+  'User-agent: PerplexityBot',
+  'Allow: /',
+];
 
 if (!configuredSite) {
   await fs.rm(path.join(distRoot, 'sitemap.xml'), { force: true });

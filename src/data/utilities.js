@@ -328,7 +328,260 @@ export const utilityPages = [
       { question: 'How do I save generated world names?', answer: 'Click the star icon next to any name to save it to your local browser favorites, which can be downloaded as a text file at any time.' }
     ],
     related: ['kingdom-name-generator', 'fantasy-town-name-generator', 'party-name-generator']
+  },
+  {
+    slug: 'ship-name-generator',
+    label: 'Ship names',
+    keyword: 'ship name generator',
+    title: 'Ship Name Generator: Fantasy & Pirate Vessel Names',
+    description: 'Ship name generator for pirate galleons, royal flagships, and astral skiffs. Roll ten nautical titles, choose sea styles, and save campaign favorites.',
+    toolType: 'ship',
+    intro: [
+      'This ship name generator creates evocative vessel titles for high-seas galleons, daring pirate sloops, spelljammer astral skiffs, and eerie ghost ships drifting through nocturnal fog.',
+      'Whether your tabletop crew is commandeering a royal flagship, christening a merchant caravel, or charting ethereal sea lanes, generate memorable nautical titles with custom maritime flavor.'
+    ],
+    sections: [
+      {
+        heading: 'Galleons, privateers, and royal naval flagships',
+        paragraphs: [
+          'A seafaring ship is more than timber and canvas; to its crew, the vessel is a living sanctuary and a sovereign home across perilous salt waters. Naming traditions among royal navies and coastal merchant leagues favor proud, commanding titles that invoke fortune, sovereignty, storm defiance, and steadfast loyalty.',
+          'When naming a naval flagship or privateer galleon, pair strong maritime nouns like Venture, Hound, Serpent, or Fortune with natural forces. Names like The Storm Venture or Sea Hound command respect in coastal harbors and signal martial authority across contested trade routes.'
+        ]
+      },
+      {
+        heading: 'Astral skiffs, spelljammers, and planar cruisers',
+        paragraphs: [
+          'Vessels that navigate planar rifts, silver astral currents, or wildspace require a very different naming aesthetic than surface sloops. These ethereal crafts harness starlight sails, crystalline rudders, and arcane helms to glide through airless expanses and gravity wells.',
+          'Planar explorers and githyanki raiders favor celestial imagery, naming their craft after comets, nebular drifts, solar winds, and silver horizons. A skiff titled The Silver Comet or Astral Drifter evokes the wonder and isolation of void navigation.'
+        ]
+      },
+      {
+        heading: 'Ghost ships, cursed derelicts, and phantom sloops',
+        paragraphs: [
+          'Tabletop campaigns frequently pit adventurers against supernatural hazards, including phantom ships crewed by restless spirits or ancient liches. These vessels emerge without warning from unnatural sea mists, their blackened hulls glowing with pale witchfire.',
+          'Evoke chilling dread at your table by choosing titles centered on grief, omens, shadows, and grave quiet. Names such as The Pale Banshee or Night Omen immediately alert your players that the approaching craft carries curses rather than peaceful harbor trade.'
+        ]
+      }
+    ],
+    faq: [
+      { question: 'What types of ships can I generate with this tool?', answer: 'You can generate names for high-seas galleons and privateers, planar spelljammer skiffs, and supernatural ghost derelicts.' },
+      { question: 'Can I use these ship names for pirate campaigns?', answer: 'Yes. The galleon style includes bold privateer and pirate monikers ideal for swashbuckling adventures and seafaring crews.' },
+      { question: 'Are these ship names suitable for official 5e spelljammer games?', answer: 'Yes. The astral skiff palette is tailored specifically for ethereal navigation, wildspace barques, and planar exploration.' },
+      { question: 'Can I save and export my favorite ship names?', answer: 'Yes. Click the favorite star next to any vessel name to save it locally in your browser and export your fleet list as a text file.' }
+    ],
+    related: ['fantasy-town-name-generator', 'tavern-name-generator', 'party-name-generator']
+  },
+  {
+    slug: 'villain-name-generator',
+    label: 'Villain names',
+    keyword: 'villain name generator',
+    title: 'Villain Name Generator: Dark Overlords & Liches',
+    description: 'Villain name generator for dark overlords, cunning liches, and cruel tyrants. Roll ten villainous titles, choose sinister styles, and save campaign favorites.',
+    toolType: 'villain',
+    intro: [
+      'This villain name generator creates menacing, authoritative monikers for dark conquerors, immortal necrotic liches, and treacherous political tyrants.',
+      'A memorable antagonist gives your tabletop campaign direction, urgency, and moral weight. Generate names that command dread before session prep ends.'
+    ],
+    sections: [
+      {
+        heading: 'Warlords, dread conquerors, and brutal despots',
+        paragraphs: [
+          'Martial villains rely on fear, iron discipline, and overwhelming legion strength to crush surrounding realms. Their names frequently carry heavy percussive consonants, titles forged in conquest, and grim monikers bestowed by trembling peasants.',
+          'When naming a conqueror, pair hard syllables like Vrak, Malor, or Khor with brutal honorifics like Iron Hand or the Defiler. These monikers communicate that diplomacy has failed and only martial defiance can preserve the realm.'
+        ]
+      },
+      {
+        heading: 'Undead liches, death cultists, and necrotic archmages',
+        paragraphs: [
+          'Ancient spellcasters who sacrifice their mortality to conquer death wield patient, cosmic malice. Having studied forbidden rituals across centuries, their names often survive only in suppressed library fragments or dusty tomb inscriptions.',
+          'Necrotic titles emphasize longevity, silence, and planar cold. Pairing ancient sibilant roots like Mor, Zul, or Nyx with epithets like the Undying or Grave Lord signals to your party that this foe has outlived empires and planned for every mortal tactic.'
+        ]
+      },
+      {
+        heading: 'Courtly schemers, corrupt nobles, and shadow rulers',
+        paragraphs: [
+          'Not every campaign nemesis commands an army of ghouls or dragons. Urban villains often hold high office, controlling civic gold, judicial decrees, and merchant cartels from gilded manors.',
+          'For aristocratic manipulators, choose refined civic titles paired with poisonous epithets like the Vain or Coin Master. These subtle names remind players that public respectability often conceals ruthless private corruption.'
+        ]
+      }
+    ],
+    faq: [
+      { question: 'What styles of villains can I generate?', answer: 'You can generate martial conquerors, ancient undead liches, and manipulative aristocratic tyrants.' },
+      { question: 'Can I use these villain names in D&D 5e campaigns?', answer: 'Yes. They are designed specifically for tabletop campaigns, boss encounters, and homebrew fantasy fiction.' },
+      { question: 'How do I make a villain name feel earned in play?', answer: 'Introduce their reputation through rumors, wanted posters, and devastated villages before the party meets them in person.' },
+      { question: 'Can I save and export my favorite villain names?', answer: 'Yes. Click the favorite button on any result card to save it locally and export your full roster as a text file.' }
+    ],
+    related: ['npc-name-generator', 'kingdom-name-generator', 'guild-name-generator']
+  },
+  {
+    slug: 'guild-name-generator',
+    label: 'Guild names',
+    keyword: 'guild name generator',
+    title: 'Guild Name Generator: Fantasy Factions & Syndicates',
+    description: 'Guild name generator for shadowy thieves guilds, arcane academies, and merchant syndicates. Roll ten faction names, pick guild styles, and save favorites.',
+    toolType: 'guild',
+    intro: [
+      'This guild name generator creates evocative faction titles for shadowy thieves guilds, prestigious wizard academies, and wealthy mercantile cartels.',
+      'Organized factions provide rivalries, patrons, and underworld contacts that make fantasy cities feel bustling, dynamic, and dangerous.'
+    ],
+    sections: [
+      {
+        heading: 'Thieves syndicates, assassins, and rooftop brotherhoods',
+        paragraphs: [
+          'Underworld guilds operate in the narrow alleys, sewers, and taprooms of great cities. Their titles blend silence, nocturnal creatures, and veiled promises of mutual protection.',
+          'Names like The Silent Knives Syndicate or The Black Hoods Brotherhood establish immediate street reputation. Use these factions when players seek black market fences, poison ingredients, or stolen city maps.'
+        ]
+      },
+      {
+        heading: 'Arcane academies, secret synods, and mage colleges',
+        paragraphs: [
+          'Colleges of magic guard ancient libraries, regulate planar experiments, and train court advisors. Their designations evoke celestial bodies, cosmic order, and high scholastic tradition.',
+          'Naming traditions among spellcasting orders favor lofty nouns like Spire, Synod, or Weavers paired with luminous prefixes. A title like The Silver Synod Academy communicates high magical pedigree and strict academic protocol.'
+        ]
+      },
+      {
+        heading: 'Merchant cartels, trading syndicates, and maritime leagues',
+        paragraphs: [
+          'Gold moves fantasy empires just as surely as magic. Merchant syndicates pool caravan guards, purchase harbor wharves, and finance distant mining colonies.',
+          'Mercantile names combine valuable trade goods like Amber, Ruby, or Coin with civic institutions like League or Cartel. These organizations make fantastic patron groups when players need maritime passage or letters of credit.'
+        ]
+      }
+    ],
+    faq: [
+      { question: 'What kinds of fantasy guilds can I generate?', answer: 'You can generate underworld thieves guilds, prestigious arcane academies, and wealthy merchant leagues.' },
+      { question: 'How can factions enrich a campaign city?', answer: 'Guilds give players competing quest givers, safehouses, market contacts, and localized political intrigue.' },
+      { question: 'Are these guild names compatible with D&D 5e settings?', answer: 'Yes. They fit seamlessly into Waterdeep, Baldurs Gate, Ravnica, or any original homebrew city setting.' },
+      { question: 'Can I export my favorite faction names?', answer: 'Yes. Save your favorite guild names with the star icon and download them as a plain text file at any time.' }
+    ],
+    related: ['party-name-generator', 'fantasy-town-name-generator', 'villain-name-generator']
+  },
+  {
+    slug: 'deity-name-generator',
+    label: 'Deity names',
+    keyword: 'deity name generator',
+    title: 'Deity Name Generator: Pantheon Gods & Divine Titles',
+    description: 'Deity name generator for mythic pantheon gods, creation lords, and cosmic storm rulers. Roll ten divine titles, choose celestial styles, and save favorites.',
+    toolType: 'deity',
+    intro: [
+      'This deity name generator crafts holy titles, pantheon sovereigns, and immortal celestial patrons for tabletop religions and worldbuilding cosmologies.',
+      'Whether you are constructing a high fantasy pantheon from scratch or choosing a patron deity for a cleric or paladin, generate original divine titles with mythic weight.'
+    ],
+    sections: [
+      {
+        heading: 'Creation gods, solar lords, and pantheon sovereigns',
+        paragraphs: [
+          'Every mythic cosmology begins with prime deities of light, order, and life. These gods watch over agrarian harvests, crown lawful monarchs, and command celestial legions against primordial chaos.',
+          'Solar and creation deities carry noble classical cadences like Sol, Aethel, and Oron, paired with majestic titles like Lord of Dawn or High King. These monikers resonate across temple cathedrals and coronation oaths.'
+        ]
+      },
+      {
+        heading: 'Trickster spirits, fey wanderers, and coin spinners',
+        paragraphs: [
+          'Unpredictable deities govern roadside crossroads, theatrical players, thieves, and sudden fortune. They rarely demand grand stone monuments, preferring offerings left at moonlit wells or whispered before a high stakes dice roll.',
+          'Trickster titles favor nimble, playful sounds and capricious epithets like Moon Fox or Coin Spinner. They serve as memorable divine patrons for bards, rogues, and chaotic adventurers.'
+        ]
+      },
+      {
+        heading: 'Nether rulers, grave keepers, and silent judges',
+        paragraphs: [
+          'Gods of the departed guide mortal spirits across the veil of death and preserve the sanctity of tombs against necromancers. Unlike evil fiends, true deities of the grave represent the solemn necessity of endings and eternal peace.',
+          'Choose resonant subterranean roots like Mor, Nyx, or Than paired with titles like Grave Keeper or Dusk Sovereign to give your underworld mythology quiet, dignified authority.'
+        ]
+      }
+    ],
+    faq: [
+      { question: 'What deity archetypes are available?', answer: 'You can generate creation and solar sovereigns, whimsical trickster spirits, and solemn guardians of the grave.' },
+      { question: 'Can clerics and paladins use these gods for oaths?', answer: 'Yes. Every generated deity includes an evocative title that fits divine domains like Life, Light, Trickery, or Death.' },
+      { question: 'Are these names tied to official D&D lore?', answer: 'No. All deity names are original creations designed to enrich homebrew pantheons and fantasy settings.' },
+      { question: 'How do I save my generated pantheon?', answer: 'Click the favorite icon next to any deity to save it to your local storage and export your campaign pantheon as a text file.' }
+    ],
+    related: ['world-name-generator', 'kingdom-name-generator', 'cleric-name-generator']
+  },
+  {
+    slug: 'weapon-name-generator',
+    label: 'Weapon names',
+    keyword: 'weapon name generator',
+    title: 'Weapon Name Generator: Fantasy Blades & Relic Swords',
+    description: 'Weapon name generator for legendary fantasy swords, cursed daggers, and holy relic blades. Roll ten mythic armory titles, pick styles, and save favorites.',
+    toolType: 'weapon',
+    intro: [
+      'This weapon name generator creates storied titles for masterwork heirloom swords, sinister cursed daggers, and consecrated temple war relics.',
+      'A legendary weapon is more than a damage die; it carries historical lineage, fallen wielders, and tabletop drama that turns standard loot into campaign treasure.'
+    ],
+    sections: [
+      {
+        heading: 'Heirloom swords, royal blades, and champions arms',
+        paragraphs: [
+          'Swords carried by royal dynasties or ancient dragon slayers represent justice, victory, and legitimate martial authority. They often bear runic inscriptions along the fuller and gleam with dawn light when drawn in righteous fury.',
+          'Classical blade titles unite noble nouns like Saber, Reaver, or Cleaver with virtues like Honor or Sol. When players discover such a blade in a barrow, the weapon instantly connects them to lost kingdoms.'
+        ]
+      },
+      {
+        heading: 'Cursed blades, void daggers, and bloodthirsty spikes',
+        paragraphs: [
+          'Sinister armaments forged in subterranean furnaces or dipped in demonic ichor demand steep costs from their bearers. They whisper treacherous promises into sleeping minds and hunger for violence during quiet negotiations.',
+          'Cursed armaments carry harsh consonant stabs like Spike, Gouge, or Shard paired with grim nouns like Agony or Spite. These weapons create intense moral quandaries for martial adventurers who crave their dark power.'
+        ]
+      },
+      {
+        heading: 'Consecrated war hammers, celestial spears, and sun maces',
+        paragraphs: [
+          'Weapons blessed on temple altars channel divine wrath against fiends and undead monstrosities. Their strikes produce resonant bells of thunder, and their hilts radiate comforting warmth in cold subterranean tombs.',
+          'Divine armaments combine sacred symbols with nouns like Hammer, Spear, or Halberd. Handing a paladin or cleric a weapon titled The Spear of Grace transforms routine combat encounters into holy crusades.'
+        ]
+      }
+    ],
+    faq: [
+      { question: 'What weapon styles can I generate?', answer: 'You can generate legendary heirloom swords, cursed sinister daggers, and consecrated divine armaments.' },
+      { question: 'How can I make a magic weapon feel special to players?', answer: 'Give the weapon a visible maker mark, a unique sensory effect upon drawing, and a brief legend regarding its last wielder.' },
+      { question: 'Can I use these names for artifact-tier equipment?', answer: 'Yes. The titles are designed to sound ancient and prestigious enough for campaign-defining artifacts.' },
+      { question: 'Can I save my favorite weapon names?', answer: 'Yes. Use the star icon on any result card to save weapons locally and download your armory list as a text file.' }
+    ],
+    related: ['ship-name-generator', 'party-name-generator', 'fantasy-town-name-generator']
+  },
+  {
+    slug: 'island-name-generator',
+    label: 'Island names',
+    keyword: 'island name generator',
+    title: 'Island Name Generator: Fantasy Atolls & Pirate Havens',
+    description: 'Island name generator for uncharted pirate atolls, misty archipelagoes, and ancient reefs. Roll ten nautical place names, pick styles, and save favorites.',
+    toolType: 'island',
+    intro: [
+      'This island name generator produces nautical place names for pirate coves, fog shrouded ghost isles, and vibrant coral archipelagoes.',
+      'Whether your adventurers are boarding a caravel to cross uncharted oceans or hunting buried treasure along coastal shoals, generate evocative island names for your campaign map.'
+    ],
+    sections: [
+      {
+        heading: 'Pirate coves, smuggler shoals, and lawless havens',
+        paragraphs: [
+          'Nautical frontiers are peppered with jagged islets where corsairs hide stolen bullion, careen hulls, and trade illicit goods outside naval jurisdiction. These places earn rough, descriptive names from sea dogs who know the dangerous shallow reefs.',
+          'Pirate titles combine seafaring implements like Cutlass, Raider, or Shark with topographic features like Cay or Inlet. Marking Cutlass Bay on a treasure map gives players an immediate target for maritime adventure.'
+        ]
+      },
+      {
+        heading: 'Ghost isles, haunted rocks, and fog shrouded atolls',
+        paragraphs: [
+          'Oceans conceal cursed archipelagoes veiled in permanent sea smoke, where rotting galleons drift silently and eerie spectral lanterns flicker above the waves. Navigators steer well clear of these treacherous shallows.',
+          'Misty island titles favor solemn tones like Pale, Dusk, or Wraith paired with mournful epithets like Isle of Haze or Reef of Spirits. These locations make chilling settings for maritime mystery adventures.'
+        ]
+      },
+      {
+        heading: 'Tropical atolls, azure lagoons, and coral barriers',
+        paragraphs: [
+          'Warm southern waters host emerald atolls surrounded by turquoise waters and thriving marine reefs. These islands provide fresh spring water, exotic fruits, and safe anchorage for weary merchant crews.',
+          'Coral styles use vibrant color imagery like Cerulean, Beryl, or Sunlit combined with Lagoon, Isles, or Cay. They evoke tranquil paradise before unexpected jungle hazards disrupt the crew peace.'
+        ]
+      }
+    ],
+    faq: [
+      { question: 'What island styles can I generate?', answer: 'You can generate lawless pirate coves, haunted ghost isles, and vibrant tropical coral archipelagoes.' },
+      { question: 'Can I use these island names alongside the ship name generator?', answer: 'Yes. These island names directly complement our ship name generator for complete high seas campaigns.' },
+      { question: 'Are these island names suitable for published maps?', answer: 'Yes. All names and syllable sets are original fantasy creations that can be used freely in tabletop games and fantasy cartography.' },
+      { question: 'Can I save my favorite island names?', answer: 'Yes. Click the star button to save any island to your local favorites and export your sea chart as a text file.' }
+    ],
+    related: ['ship-name-generator', 'fantasy-town-name-generator', 'tavern-name-generator']
   }
 ];
 
 export const utilityBySlug = new Map(utilityPages.map((page) => [page.slug, page]));
+

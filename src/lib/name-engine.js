@@ -170,6 +170,191 @@ export function buildUtilityResult(toolType, profile, options, seed) {
     return { name, flavor: palette.flavor };
   }
 
+  if (toolType === 'ship') {
+    const palettes = {
+      galleon: {
+        prefixes: ['Sea', 'Storm', 'Wave', 'Ocean', 'Fortune', 'Tide', 'Iron', 'Salt'],
+        nouns: ['Hound', 'Daughter', 'Venture', 'Serpent', 'Wanderer', 'Fortune', 'Revenge', 'Pearl'],
+        flavor: 'A weathered galleon or privateer vessel that commands the open trade routes.',
+      },
+      astral: {
+        prefixes: ['Star', 'Astral', 'Silver', 'Cosmic', 'Solar', 'Void', 'Nebular', 'Aether'],
+        nouns: ['Skiff', 'Drifter', 'Ray', 'Comet', 'Sailor', 'Wind', 'Arrow', 'Crown'],
+        flavor: 'A luminous spelljammer skiff skimming ethereal currents between planar spheres.',
+      },
+      ghost: {
+        prefixes: ['Dusk', 'Pale', 'Shadow', 'Silent', 'Night', 'Grave', 'Wraith', 'Cursed'],
+        nouns: ['Banshee', 'Specter', 'Mariner', 'Omen', 'Mist', 'Gull', 'Tide', 'Haunt'],
+        flavor: 'An eerie, phantom vessel emerging from sea fog with blackened timber and glowing lanterns.',
+      },
+    };
+    const palette = palettes[options.placeStyle] ?? palettes.galleon;
+    const format = Math.abs(Math.floor(seed * 37 + 5)) % 3;
+    let name;
+    if (format === 0) {
+      name = `The ${pick(palette.prefixes, seed, 41)} ${pick(palette.nouns, seed, 42)}`;
+    } else if (format === 1) {
+      name = `${pick(palette.prefixes, seed, 43)}'s ${pick(palette.nouns, seed, 44)}`;
+    } else {
+      name = `The ${pick(palette.nouns, seed, 45)} of the ${pick(palette.prefixes, seed, 46)}`;
+    }
+    return { name, flavor: palette.flavor };
+  }
+
+  if (toolType === 'villain') {
+    const palettes = {
+      overlord: {
+        prefixes: ['Dread', 'Iron', 'Malor', 'Vrak', 'Bane', 'Gore', 'Grim', 'Void', 'Khor', 'Rav'],
+        roots: ['kor', 'gath', 'mora', 'than', 'vash', 'drak', 'kan', 'zar', 'vorn', 'rak'],
+        titles: ['the Cruel', 'Iron Hand', 'the Defiler', 'Blood Sovereign', 'the Merciless', 'Bone Carver', 'the Dire', 'Void Lord'],
+        flavor: 'An imposing warlord or conqueror who subjugates kingdoms through raw force.',
+      },
+      lich: {
+        prefixes: ['Mor', 'Necro', 'Nyx', 'Mal', 'Vile', 'Grave', 'Zul', 'Ruin', 'Dusk', 'Xan'],
+        roots: ['thas', 'vorn', 'azar', 'lith', 'mora', 'zel', 'khal', 'orim', 'rakis', 'dal'],
+        titles: ['the Undying', 'Soul Eater', 'Grave Lord', 'the Eternal', 'Bone Binder', 'Dusk Walker', 'the Silent', 'Void Seer'],
+        flavor: 'An immortal spellcaster whose arcane studies conquered death itself.',
+      },
+      tyrant: {
+        prefixes: ['Baron', 'Lord', 'Duke', 'Judge', 'Czar', 'Sire', 'Bane', 'Iron'],
+        roots: ['vane', 'kane', 'morel', 'gale', 'valen', 'corin', 'taven', 'rakor'],
+        titles: ['the Vain', 'Gold Talon', 'the Bitter', 'Coin Master', 'the Hollow', 'Iron Smile', 'the Cold', 'Pale Regent'],
+        flavor: 'A corrupt noble or shadow ruler who manipulates court politics and syndicates.',
+      },
+    };
+    const palette = palettes[options.placeStyle] ?? palettes.overlord;
+    const format = Math.abs(Math.floor(seed * 41 + 7)) % 2;
+    let name;
+    if (format === 0) {
+      name = `${pick(palette.prefixes, seed, 51)}${pick(palette.roots, seed, 52)} ${pick(palette.titles, seed, 53)}`;
+    } else {
+      name = `${pick(palette.prefixes, seed, 54)} ${pick(palette.titles, seed, 56)}`;
+    }
+    return { name, flavor: palette.flavor };
+  }
+
+  if (toolType === 'guild') {
+    const palettes = {
+      thieves: {
+        prefixes: ['Shadow', 'Silent', 'Dusk', 'Grave', 'Dagger', 'Cloak', 'Black', 'Raven'],
+        nouns: ['Blades', 'Knives', 'Hoods', 'Ravens', 'Vipers', 'Claws', 'Rogues', 'Shadows'],
+        titles: ['Syndicate', 'Guild', 'Fraternity', 'Brotherhood', 'Ring', 'Coven', 'Compact', 'League'],
+        flavor: 'A secretive criminal brotherhood operating through rooftop alleys and backrooms.',
+      },
+      arcane: {
+        prefixes: ['Silver', 'Solar', 'Aether', 'Golden', 'Arcane', 'Mystic', 'Cosmic', 'Sunbeam'],
+        nouns: ['Spire', 'Tome', 'Synod', 'Sages', 'Runes', 'Weavers', 'Flames', 'Visions'],
+        titles: ['Academy', 'Order', 'Synod', 'College', 'Society', 'Union', 'Alliance', 'Cabal'],
+        flavor: 'A prestigious scholarly guild dedicated to arcane research and magical craft.',
+      },
+      merchant: {
+        prefixes: ['Golden', 'Iron', 'Ocean', 'Amber', 'Ruby', 'Silver', 'Crown', 'Gilded'],
+        nouns: ['Coin', 'Compass', 'Caravan', 'Harbor', 'Scales', 'Flotilla', 'Haven', 'Venture'],
+        titles: ['Company', 'League', 'Cartel', 'Syndicate', 'Consortium', 'Market', 'Guild', 'Pact'],
+        flavor: 'A wealthy mercantile league controlling sea lanes, spice routes, and bank loans.',
+      },
+    };
+    const palette = palettes[options.placeStyle] ?? palettes.thieves;
+    const format = Math.abs(Math.floor(seed * 43 + 3)) % 2;
+    let name;
+    if (format === 0) {
+      name = `The ${pick(palette.prefixes, seed, 61)} ${pick(palette.nouns, seed, 62)} ${pick(palette.titles, seed, 63)}`;
+    } else {
+      name = `The ${pick(palette.nouns, seed, 64)} of the ${pick(palette.prefixes, seed, 65)}`;
+    }
+    return { name, flavor: palette.flavor };
+  }
+
+  if (toolType === 'deity') {
+    const palettes = {
+      pantheon: {
+        prefixes: ['Sol', 'Aethel', 'Oron', 'Balar', 'Kael', 'Theron', 'Vala', 'Zoran'],
+        roots: ['dor', 'mar', 'us', 'ian', 'on', 'ar', 'iel', 'or'],
+        titles: ['Lord of Dawn', 'the Creator', 'All Father', 'Sun Sovereign', 'the Eternal', 'Sky Ruler', 'Golden Judge', 'High King'],
+        flavor: 'A primary creation deity revered across grand temple cathedrals and city capitals.',
+      },
+      trickster: {
+        prefixes: ['Loki', 'Fey', 'Raza', 'Miri', 'Jox', 'Kip', 'Zul', 'Vex'],
+        roots: ['an', 'iel', 'is', 'on', 'or', 'in', 'ar', 'ik'],
+        titles: ['the Laughing', 'Moon Fox', 'Shadow Weaver', 'the Unseen', 'Coin Spinner', 'Fey Prince', 'the Errant', 'Silver Jester'],
+        flavor: 'An elusive, unpredictable god of fortune, laughter, crossroad tests, and illusions.',
+      },
+      nether: {
+        prefixes: ['Mor', 'Nyx', 'Vor', 'Than', 'Hades', 'Zul', 'Khor', 'Dusk'],
+        roots: ['gath', 'ath', 'on', 'or', 'ax', 'is', 'orim', 'ar'],
+        titles: ['Grave Keeper', 'the Silent', 'Lord of Shades', 'Void King', 'the Reaper', 'Dusk Sovereign', 'Pale Judge', 'Bone Warden'],
+        flavor: 'A solemn ruler of subterranean halls, departing souls, and silent tombs.',
+      },
+    };
+    const palette = palettes[options.placeStyle] ?? palettes.pantheon;
+    const name = `${pick(palette.prefixes, seed, 71)}${pick(palette.roots, seed, 72)}, ${pick(palette.titles, seed, 73)}`;
+    return { name, flavor: palette.flavor };
+  }
+
+  if (toolType === 'weapon') {
+    const palettes = {
+      blade: {
+        prefixes: ['Sun', 'Dawn', 'Star', 'Silver', 'Iron', 'Radiant', 'Golden', 'Valiant'],
+        nouns: ['Blade', 'Saber', 'Edge', 'Reaver', 'Fang', 'Cleaver', 'Spur', 'Razor'],
+        suffixes: ['of Dawn', 'of Steel', 'of Honor', 'of Sol', 'of Glory', 'of Valor', 'of the Sun', 'of Justice'],
+        flavor: 'A masterwork relic blade forged by ancient smiths to slay monsters and tyrants.',
+      },
+      curse: {
+        prefixes: ['Dread', 'Grave', 'Void', 'Soul', 'Shadow', 'Pale', 'Bile', 'Ruin'],
+        nouns: ['Dagger', 'Spike', 'Shard', 'Fang', 'Bane', 'Gouge', 'Sting', 'Barb'],
+        suffixes: ['of Agony', 'of Spite', 'of Ruin', 'of Graves', 'of Sorrow', 'of Curses', 'of Despair', 'of Woe'],
+        flavor: 'A sinister blade that whispers dark urges into the mind of whoever carries it.',
+      },
+      divine: {
+        prefixes: ['Holy', 'Solar', 'Sacred', 'Noble', 'Pure', 'Celestial', 'Aura', 'Seraph'],
+        nouns: ['Hammer', 'Mace', 'Spear', 'Halberd', 'Flail', 'Pike', 'Baton', 'Staff'],
+        suffixes: ['of Grace', 'of Angels', 'of Truth', 'of Purity', 'of Peace', 'of the Sky', 'of Mercy', 'of Devotion'],
+        flavor: 'A consecrated armament blessed in temple fires to vanquish fiends and the undead.',
+      },
+    };
+    const palette = palettes[options.placeStyle] ?? palettes.blade;
+    const format = Math.abs(Math.floor(seed * 47 + 1)) % 2;
+    let name;
+    if (format === 0) {
+      name = `${pick(palette.prefixes, seed, 81)} ${pick(palette.nouns, seed, 82)}`;
+    } else {
+      name = `The ${pick(palette.nouns, seed, 83)} ${pick(palette.suffixes, seed, 84)}`;
+    }
+    return { name, flavor: palette.flavor };
+  }
+
+  if (toolType === 'island') {
+    const palettes = {
+      pirate: {
+        prefixes: ['Cutlass', 'Raider', 'Dead Man', 'Black', 'Corsair', 'Shark', 'Reef', 'Rum'],
+        nouns: ['Cove', 'Cay', 'Haven', 'Shoal', 'Isle', 'Point', 'Harbor', 'Inlet'],
+        suffixes: ['Bay', 'Isle', 'Reef', 'Spit', 'Key', 'Haven', 'Rock', 'Point'],
+        flavor: 'A lawless hideout sheltered behind jagged rocks and treacherous breakers.',
+      },
+      mist: {
+        prefixes: ['Pale', 'Ghost', 'Wraith', 'Silent', 'Dusk', 'Fog', 'Shadow', 'Lost'],
+        nouns: ['Atoll', 'Isle', 'Refuge', 'Shoal', 'Reef', 'Spire', 'Rock', 'Bar'],
+        suffixes: ['of Tears', 'of Haze', 'of Spirits', 'of Sorrows', 'of Shadows', 'of Silence', 'of Echoes', 'of Phantoms'],
+        flavor: 'A desolate island cloaked in eternal sea fog where old shipwrecks rot in silence.',
+      },
+      coral: {
+        prefixes: ['Emerald', 'Golden', 'Azure', 'Sunlit', 'Coral', 'Cerulean', 'Beryl', 'Opal'],
+        nouns: ['Atoll', 'Lagoon', 'Isles', 'Reef', 'Cay', 'Shoal', 'Haven', 'Key'],
+        suffixes: ['of Pines', 'of Gems', 'of Sun', 'of Waves', 'of Tides', 'of Shores', 'of Azure', 'of Breeze'],
+        flavor: 'A vibrant coral reef and lagoon teeming with warm winds and clear blue waters.',
+      },
+    };
+    const palette = palettes[options.placeStyle] ?? palettes.pirate;
+    const format = Math.abs(Math.floor(seed * 53 + 9)) % 2;
+    let name;
+    if (format === 0) {
+      name = `${pick(palette.prefixes, seed, 91)} ${pick(palette.suffixes, seed, 92)}`;
+    } else {
+      name = `${pick(palette.nouns, seed, 93)} ${pick(palette.suffixes, seed, 94)}`;
+    }
+    return { name, flavor: palette.flavor };
+  }
+
   const traits = ['keeps careful promises', 'collects maps with missing corners', 'never turns down a shared meal', 'speaks softly in a crisis', 'remembers every debt', 'asks one question too many', 'knows the old roads', 'laughs before the punchline', 'is always mending something', 'never gives the same answer twice'];
   const quirks = ['labels every key', 'counts steps when nervous', 'keeps a pocket full of string', 'hums the wrong tune', 'writes with a green pencil', 'names each travel cup', 'arrives with a spare button', 'folds notes into tiny boats', 'carries a smooth stone', 'polishes an already clean buckle'];
   const hooks = ['has a letter that was never opened', 'is looking for a missing cartographer', 'owes a favor to a quiet stranger', 'heard a familiar name in a distant port', 'found a mark on an old door', 'needs help choosing a new home', 'is guarding a small but urgent secret', 'offers a map with one blank road', 'is waiting for a traveler who is late', 'knows where a lost bell was last heard'];

@@ -10,6 +10,12 @@ const sections = [
     ]
   },
   {
+    heading: 'Deterministic phonetic algorithm and generation architecture',
+    paragraphs: [
+      'The DnD Arena generation architecture synthesizes fantasy names through a deterministic procedural pipeline designed to produce articulate, roleplay-ready character identities without server computation. Each ancestry and utility profile contains dedicated phonetic matrices divided into opening onsets, middle cadences, terminal suffixes, and compound family lineages tailored to specific tabletop lore archetypes. When a user requests a name roll, the client-side engine selects an opening root, appends middle syllabic beats based on the chosen length limit (short up to twelve characters, medium up to sixteen, or long up to twenty), and matches a phonetic ending appropriate to the selected cultural style. An integrated consonant cluster validator inspects syllabic boundaries to eliminate unpronounceable triple-consonant sequences and awkward phonetic collisions before the moniker is presented in the browser. Because all calculations execute locally within browser memory using pseudo-random seeds, the entire suite remains lightning-fast, private, and fully functional offline.'
+    ]
+  },
+  {
     heading: 'Join sounds, then check the result',
     paragraphs: [
       'The generator chooses an opening, adds a middle beat based on the selected length, and finishes with an ending that fits the chosen name style. The optional gender setting changes only a small set of endings. The neutral option remains available, and no option decides a character’s identity.',

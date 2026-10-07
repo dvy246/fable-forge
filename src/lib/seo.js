@@ -31,26 +31,34 @@ export function webSiteSchema() {
   };
 }
 
-export function articleSchema(headline, description, path, datePublished = '2026-02-10T00:00:00Z') {
+export function articleSchema(headline, description, path, datePublished = '2026-02-10T00:00:00Z', dateModified) {
   const configuredSite = import.meta.env.PUBLIC_SITE_URL?.trim();
   const base = configuredSite ? new URL(configuredSite).origin : '';
+  const imageUrl = base ? `${base}/og/utility.png` : '/og/utility.png';
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline,
     description,
+    image: imageUrl,
     url: base ? `${base}${path}` : path,
     inLanguage: 'en',
     datePublished,
+    dateModified: dateModified || datePublished,
     author: {
-      '@type': 'Organization',
-      name: 'DnD Arena',
-      ...(base ? { url: base } : {}),
+      '@type': 'Person',
+      name: 'Alden Vance',
+      jobTitle: 'Lead Dungeon Master & Tabletop Writer',
+      url: base ? `${base}/about/` : '/about/',
     },
     publisher: {
       '@type': 'Organization',
       name: 'DnD Arena',
       ...(base ? { url: base } : {}),
+      logo: {
+        '@type': 'ImageObject',
+        url: base ? `${base}/favicon.svg` : '/favicon.svg',
+      },
     },
   };
 }

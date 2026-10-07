@@ -102,17 +102,28 @@ const initialSectionLabel = race ? 'Naming Style Options' : 'Tool Guide';
 const directGuideMatches = blogPosts.filter((post) =>
   post.relatedTools?.includes(page.slug) ||
   post.relatedRaces?.includes(page.slug) ||
-  (['kingdom-name-generator', 'world-name-generator'].includes(page.slug) && post.category === 'Worldbuilding')
+  (['kingdom-name-generator', 'world-name-generator', 'guild-name-generator', 'deity-name-generator'].includes(page.slug) && post.category === 'Worldbuilding')
 );
-const generalGuide = blogPosts.find((post) => post.slug === 'how-to-name-your-dnd-character');
-const secondaryGuide = blogPosts.find((post) => post.slug === 'fantasy-town-naming-guide');
+
+const isClassOrHero = ['wizard', 'sorcerer', 'warlock', 'rogue', 'bard', 'cleric', 'barbarian', 'ranger', 'fighter', 'monk', 'artificer', 'paladin', 'character', 'npc', 'villain'].some((k) => page.slug.includes(k));
+const isNauticalOrIsland = ['ship-name-generator', 'island-name-generator'].includes(page.slug);
+const isSettlementOrPlace = ['fantasy-town-name-generator', 'tavern-name-generator', 'kingdom-name-generator', 'world-name-generator'].includes(page.slug);
+
+const preferredBackups = isNauticalOrIsland
+  ? ['dnd-ship-names-guide', 'fantasy-town-naming-guide', 'how-to-name-your-dnd-character']
+  : isSettlementOrPlace
+    ? ['fantasy-town-naming-guide', 'how-navi-names-work', 'how-to-name-your-dnd-character']
+    : isClassOrHero
+      ? ['dnd-character-names', 'how-to-name-your-dnd-character']
+      : ['how-to-name-your-dnd-character', 'dnd-character-names', 'fantasy-town-naming-guide'];
 
 const matchedGuides = [...directGuideMatches];
-if (generalGuide && !matchedGuides.some((g) => g.slug === generalGuide.slug)) {
-  matchedGuides.push(generalGuide);
-}
-if (secondaryGuide && !matchedGuides.some((g) => g.slug === secondaryGuide.slug)) {
-  matchedGuides.push(secondaryGuide);
+for (const backupSlug of preferredBackups) {
+  if (matchedGuides.length >= 2) break;
+  const found = blogPosts.find((p) => p.slug === backupSlug);
+  if (found && !matchedGuides.some((g) => g.slug === found.slug)) {
+    matchedGuides.push(found);
+  }
 }
 const relatedGuides = matchedGuides.slice(0, 2);
 ---

@@ -34,6 +34,36 @@ const placeStyles = {
     { value: 'elemental', label: 'Elemental sphere' },
     { value: 'astral', label: 'Astral expanse' },
   ],
+  ship: [
+    { value: 'galleon', label: 'Galleon & flagship' },
+    { value: 'astral', label: 'Astral skiff' },
+    { value: 'ghost', label: 'Phantom derelict' },
+  ],
+  villain: [
+    { value: 'overlord', label: 'Dark overlord' },
+    { value: 'lich', label: 'Eldritch archmage' },
+    { value: 'tyrant', label: 'Cruel tyrant' },
+  ],
+  guild: [
+    { value: 'thieves', label: 'Thieves syndicate' },
+    { value: 'arcane', label: 'Arcane academy' },
+    { value: 'merchant', label: 'Merchant league' },
+  ],
+  deity: [
+    { value: 'pantheon', label: 'Creation god' },
+    { value: 'trickster', label: 'Fey & trickster' },
+    { value: 'nether', label: 'Underworld & shadow' },
+  ],
+  weapon: [
+    { value: 'blade', label: 'Relic sword' },
+    { value: 'curse', label: 'Cursed dagger' },
+    { value: 'divine', label: 'Holy smite blade' },
+  ],
+  island: [
+    { value: 'pirate', label: 'Pirate cove' },
+    { value: 'mist', label: 'Phantom isle' },
+    { value: 'coral', label: 'Tropical reef' },
+  ],
 };
 const placeOptions = placeStyles[toolType] ?? [];
 const defaultOptions = {
@@ -47,7 +77,7 @@ const defaultOptions = {
 const initialResults = Array.from({ length: 10 }, (_, index) => {
   const seed = index + 5.31;
   if (toolType === 'surname') return buildSurname(initialProfile, initialStyle, seed);
-  if (['town', 'tavern', 'party', 'npc', 'kingdom', 'world'].includes(toolType)) {
+  if (['town', 'tavern', 'party', 'npc', 'kingdom', 'world', 'ship', 'villain', 'guild', 'deity', 'weapon', 'island'].includes(toolType)) {
     return buildUtilityResult(toolType, initialProfile, defaultOptions, seed);
   }
   return buildRaceName(initialProfile, defaultOptions, seed);
@@ -412,7 +442,7 @@ const wheelSegments = profiles.map((profile, i) => {
       const options = currentOptions();
       if (!profile) return { name: 'Wayfarer', flavor: 'A new name is ready for your story.' };
       if (toolType === 'surname') return buildSurname(profile, options.style, seed);
-      if (['town', 'tavern', 'party', 'npc', 'kingdom', 'world'].includes(toolType)) {
+      if (['town', 'tavern', 'party', 'npc', 'kingdom', 'world', 'ship', 'villain', 'guild', 'deity', 'weapon', 'island'].includes(toolType)) {
         return buildUtilityResult(toolType, profile, options, seed);
       }
       return buildRaceName(profile, options, seed);

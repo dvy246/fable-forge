@@ -21,6 +21,34 @@ const raceKeywords = {
   '/dwarf-name-generator/': 'dwarf name generator',
   '/human-name-generator/': 'human fantasy name generator',
   '/kobold-name-generator/': 'kobold name generator',
+  '/dragon-name-generator/': 'dragon name generator',
+  '/avatar-name-generator/': 'avatar name generator',
+  '/demon-name-generator/': 'demon name generator',
+  '/vampire-name-generator/': 'vampire name generator',
+  '/fairy-name-generator/': 'fairy name generator',
+  '/githyanki-name-generator/': 'githyanki name generator',
+  '/aasimar-name-generator/': 'aasimar name generator',
+  '/goliath-name-generator/': 'goliath name generator',
+  '/tabaxi-name-generator/': 'tabaxi name generator',
+  '/wizard-name-generator/': 'wizard name generator',
+  '/sorcerer-name-generator/': 'sorcerer name generator',
+  '/druid-name-generator/': 'druid name generator',
+  '/paladin-name-generator/': 'paladin name generator',
+  '/warlock-name-generator/': 'warlock name generator',
+  '/rogue-name-generator/': 'rogue name generator',
+  '/bard-name-generator/': 'bard name generator',
+  '/cleric-name-generator/': 'cleric name generator',
+  '/barbarian-name-generator/': 'barbarian name generator',
+  '/ranger-name-generator/': 'ranger name generator',
+  '/fighter-name-generator/': 'fighter name generator',
+  '/monk-name-generator/': 'monk name generator',
+  '/artificer-name-generator/': 'artificer name generator',
+  '/warforged-name-generator/': 'warforged name generator',
+  '/genasi-name-generator/': 'genasi name generator',
+  '/firbolg-name-generator/': 'firbolg name generator',
+  '/kenku-name-generator/': 'kenku name generator',
+  '/changeling-name-generator/': 'changeling name generator',
+  '/lizardfolk-name-generator/': 'lizardfolk name generator',
 };
 const utilityKeywords = {
   '/character-name-generator/': 'dnd character name generator',
@@ -31,6 +59,12 @@ const utilityKeywords = {
   '/last-name-generator/': 'dnd last name generator',
   '/kingdom-name-generator/': 'fantasy kingdom name generator',
   '/world-name-generator/': 'fantasy world name generator',
+  '/ship-name-generator/': 'ship name generator',
+  '/villain-name-generator/': 'villain name generator',
+  '/guild-name-generator/': 'guild name generator',
+  '/deity-name-generator/': 'deity name generator',
+  '/weapon-name-generator/': 'weapon name generator',
+  '/island-name-generator/': 'island name generator',
 };
 const blogKeywords = {
   '/blog/how-to-name-your-dnd-character/': 'how to name your dnd character',
@@ -38,6 +72,11 @@ const blogKeywords = {
   '/blog/dwarf-clan-names-and-meanings/': 'dwarf clan names',
   '/blog/tiefling-naming-conventions-5e/': 'tiefling naming conventions',
   '/blog/fantasy-town-naming-guide/': 'how to name a fantasy town',
+  '/blog/how-navi-names-work/': 'na vi names',
+  '/blog/dnd-dragon-names-guide/': 'female dragon names',
+  '/blog/chthonic-tiefling-naming-guide/': 'chthonic tiefling',
+  '/blog/dnd-character-names/': 'dnd character names',
+  '/blog/dnd-ship-names-guide/': 'fantasy ship names',
 };
 const blogPaths = ['/blog/', ...Object.keys(blogKeywords)];
 const guideKeywords = {
@@ -140,7 +179,8 @@ async function verifyPage(pagePath, keyword) {
 
   if (title.length === 0 || title.length >= 60) fail(`${pagePath}: title must be unique and under 60 characters (found ${title.length}).`);
   if (!descriptionTag) fail(`${pagePath}: meta description is missing.`);
-  const description = stripHtml(descriptionTag.replace(/^<meta\s+[^>]*content=["']|["'][^>]*>$/gi, ''));
+  const descriptionMatch = descriptionTag.match(/content=(["'])([\s\S]*?)\1/i);
+  const description = stripHtml(descriptionMatch ? descriptionMatch[2] : descriptionTag.replace(/^<meta\s+[^>]*content=["']|["'][^>]*>$/gi, ''));
   if (description.length < 150 || description.length > 160) fail(`${pagePath}: meta description must be 150 to 160 characters (found ${description.length}).`);
   if (h1s.length !== 1) fail(`${pagePath}: expected exactly one H1 (found ${h1s.length}).`);
   const h1 = stripHtml(h1s[0]?.[1] ?? '');
@@ -168,6 +208,7 @@ async function verifyPage(pagePath, keyword) {
 
   const entries = jsonLdEntries(html, pagePath);
   if (isIndexable) {
+    const isGenerator = pagePath === '/' || Object.hasOwn(raceKeywords, pagePath) || Object.hasOwn(utilityKeywords, pagePath);
     if (Object.hasOwn(blogKeywords, pagePath) || Object.hasOwn(guideKeywords, pagePath)) {
       const article = entries.find((entry) => entry['@type'] === 'Article');
       if (!article) fail(`${pagePath}: Article JSON-LD is missing.`);
@@ -176,7 +217,7 @@ async function verifyPage(pagePath, keyword) {
         if (configuredSite && !String(article.url).startsWith('https://')) fail(`${pagePath}: Article URL must use HTTPS when PUBLIC_SITE_URL is set.`);
       }
       if (entries.some((entry) => entry['@type'] === 'WebApplication')) fail(`${pagePath}: Article pages must not emit WebApplication JSON-LD.`);
-    } else {
+    } else if (isGenerator) {
       const application = entries.find((entry) => entry['@type'] === 'WebApplication');
       if (!application) fail(`${pagePath}: WebApplication JSON-LD is missing.`);
       else {
@@ -185,6 +226,10 @@ async function verifyPage(pagePath, keyword) {
         if (Number(application.offers?.price) !== 0 || application.offers?.priceCurrency !== 'USD') fail(`${pagePath}: WebApplication offers must be free and priced in USD.`);
         if (configuredSite && !String(application.url).startsWith('https://')) fail(`${pagePath}: WebApplication URL must use HTTPS when PUBLIC_SITE_URL is set.`);
       }
+    } else {
+      if (entries.some((entry) => entry['@type'] === 'WebApplication')) fail(`${pagePath}: Non-tool pages must not emit WebApplication JSON-LD.`);
+      if (pagePath === '/blog/' && !entries.some((entry) => entry['@type'] === 'CollectionPage')) fail(`${pagePath}: CollectionPage JSON-LD is required on the blog index.`);
+      if (pagePath === '/about/' && !entries.some((entry) => entry['@type'] === 'AboutPage')) fail(`${pagePath}: AboutPage JSON-LD is required on the about page.`);
     }
     const breadcrumb = entries.find((entry) => entry['@type'] === 'BreadcrumbList');
     if (!breadcrumb || !Array.isArray(breadcrumb.itemListElement) || breadcrumb.itemListElement.length === 0) fail(`${pagePath}: BreadcrumbList JSON-LD is missing or empty.`);

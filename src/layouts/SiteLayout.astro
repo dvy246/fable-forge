@@ -21,7 +21,7 @@ const contactEmail = import.meta.env.PUBLIC_CONTACT_EMAIL?.trim();
 const contactIsIndexable = path !== '/contact/' || Boolean(contactEmail);
 const isIndexable = !noindex && contactIsIndexable && path !== '/404/';
 const canonical = configuredSite && isIndexable ? `${configuredSite}${path}` : undefined;
-const imageFile = imageType === 'hub' ? 'hub.svg' : imageType === 'race' ? 'race.svg' : 'utility.svg';
+const imageFile = imageType === 'hub' ? 'hub.png' : imageType === 'race' ? 'race.png' : 'utility.png';
 const socialImage = configuredSite ? `${configuredSite}/og/${imageFile}` : `/og/${imageFile}`;
 const origin = configuredSite ?? '';
 const hasApplicationSchema = schema.some((entry) => entry['@type'] === 'WebApplication');
@@ -41,9 +41,57 @@ const applicationSchema = {
     priceCurrency: 'USD',
   },
 };
+const isGeneratorPage = path === '/' || path.endsWith('-name-generator/');
+const isBlogIndex = path === '/blog/';
+const isAboutPage = path === '/about/';
+const isContactPage = path === '/contact/';
+
+const defaultPageSchema = isGeneratorPage
+  ? (!hasApplicationSchema && !hasArticleSchema ? [applicationSchema] : [])
+  : isBlogIndex
+    ? [{
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: title,
+        description,
+        url: configuredSite ? `${configuredSite}${path}` : path,
+        inLanguage: 'en',
+      }]
+    : isAboutPage
+      ? [{
+          '@context': 'https://schema.org',
+          '@type': 'AboutPage',
+          name: title,
+          description,
+          url: configuredSite ? `${configuredSite}${path}` : path,
+          inLanguage: 'en',
+          mainEntity: {
+            '@type': 'Organization',
+            name: 'DnD Arena',
+            url: configuredSite ? `${configuredSite}/` : '/',
+            logo: configuredSite ? `${configuredSite}/favicon.svg` : '/favicon.svg',
+            founder: {
+              '@type': 'Person',
+              name: 'Alden Vance',
+              jobTitle: 'Lead Dungeon Master & Tabletop Writer',
+            },
+            description: 'Original, browser-based fantasy naming tools for tabletop stories.',
+          },
+        }]
+      : isContactPage
+        ? [{
+            '@context': 'https://schema.org',
+            '@type': 'ContactPage',
+            name: title,
+            description,
+            url: configuredSite ? `${configuredSite}${path}` : path,
+            inLanguage: 'en',
+          }]
+        : [];
+
 const allSchema = isIndexable ? [
   ...schema,
-  ...(!hasApplicationSchema && !hasArticleSchema ? [applicationSchema] : []),
+  ...defaultPageSchema,
   ...(breadcrumbs.length > 0
     ? [{
         '@context': 'https://schema.org',
@@ -82,6 +130,7 @@ const socialImageAlt = imageType === 'hub'
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={socialImage} />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:alt" content={socialImageAlt} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />

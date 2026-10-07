@@ -58,6 +58,11 @@ const relatedItems = candidateSlugs.map((relatedSlug) => {
   }
   return null;
 }).filter((item) => item !== null);
+const formattedDate = new Date(post.datePublished).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
 ---
 <SiteLayout
   title={post.title}
@@ -71,6 +76,13 @@ const relatedItems = candidateSlugs.map((relatedSlug) => {
   <section class="hero hero-blog">
     <span class="eyebrow">{post.heroKicker}</span>
     <h1>{post.h1}</h1>
+    <div class="article-byline">
+      <span class="byline-author">By <a href="/about/">Alden Vance & the DnD Arena Editorial Team</a></span>
+      <span class="byline-divider" aria-hidden="true">•</span>
+      <time datetime={post.datePublished} class="byline-date">Published {formattedDate}</time>
+      <span class="byline-divider" aria-hidden="true">•</span>
+      <span class="byline-readtime">{post.readTime}</span>
+    </div>
     <p class="hero-copy">{post.heroIntro}</p>
   </section>
 
