@@ -8,7 +8,8 @@
     "build:phase1": "PUBLIC_BUILD_PHASE_2=false astro build && PUBLIC_BUILD_PHASE_2=false node scripts/generate-seo-assets.mjs && node scripts/validate-name-engine.mjs && PUBLIC_BUILD_PHASE_2=false node scripts/validate-build.mjs",
     "build": "npm run build:phase1 && PUBLIC_BUILD_PHASE_2=true astro build && PUBLIC_BUILD_PHASE_2=true node scripts/generate-seo-assets.mjs && node scripts/validate-name-engine.mjs && PUBLIC_BUILD_PHASE_2=true node scripts/validate-build.mjs",
     "preview": "astro preview",
-    "check": "node scripts/check-project.mjs"
+    "check": "node scripts/check-project.mjs",
+    "deploy": "PUBLIC_SITE_URL=${PUBLIC_SITE_URL:-https://dndarena.com} npm run build && wrangler pages deploy dist --project-name dnd-name-generator-online --branch main --commit-dirty=true"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
@@ -17,5 +18,8 @@
   },
   "engines": {
     "node": ">=22.6.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.148.0"
   }
 }
